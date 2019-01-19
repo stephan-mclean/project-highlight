@@ -76,7 +76,7 @@ export default {
       },
       button: {
         size: "0.875rem",
-        weight: "500",
+        weight: "600",
         letterspacing: "1.25px"
       },
       caption: {
@@ -89,6 +89,7 @@ export default {
         weight: "400",
         letterspacing: "1.5px"
       }
-    }
+    },
+    defaultBorderRadius: "0.25rem"
   }
 };
