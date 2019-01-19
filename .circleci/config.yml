@@ -53,7 +53,7 @@ jobs:
     working_directory: ~/repo
     steps:
       - restore_cache: 
-        key: v1-build-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+          key: v1-build-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: 'Deploy to Firebase Hosting'
           command: './node_modules/.bin/firebase deploy --token=$FIREBASE_TOKEN' 
