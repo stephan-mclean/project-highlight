@@ -54,8 +54,8 @@ jobs:
     steps:
       - restore_cache: 
           keys:
-          - v1-dependencies-{{ checksum "package.json" }}
           - v1-build-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+          - v1-dependencies-{{ checksum "package.json" }}
       - run:
           name: 'Deploy to Firebase Hosting'
           command: './node_modules/.bin/firebase deploy --token=$FIREBASE_TOKEN' 
