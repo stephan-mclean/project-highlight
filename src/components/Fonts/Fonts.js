@@ -28,28 +28,28 @@ export const H6 = styled.h6`
   color: ${props => props.theme.colors.foreground.default};
 `;
 
-export const S1 = styled.span`
+export const S1 = styled.p`
   font-size: ${props => props.theme.fonts.s1.size};
   font-weight: ${props => props.theme.fonts.s1.weight};
   letter-spacing: ${props => props.theme.fonts.s1.letterspacing};
   color: ${props => props.theme.colors.foreground.default};
 `;
 
-export const S2 = styled.span`
+export const S2 = styled.p`
   font-size: ${props => props.theme.fonts.s2.size};
   font-weight: ${props => props.theme.fonts.s2.weight};
   letter-spacing: ${props => props.theme.fonts.s2.letterspacing};
   color: ${props => props.theme.colors.foreground.default};
 `;
 
-export const B1 = styled.span`
+export const B1 = styled.p`
   font-size: ${props => props.theme.fonts.b1.size};
   font-weight: ${props => props.theme.fonts.b1.weight};
   letter-spacing: ${props => props.theme.fonts.b1.letterspacing};
   color: ${props => props.theme.colors.foreground.default};
 `;
 
-export const B2 = styled.span`
+export const B2 = styled.p`
   font-size: ${props => props.theme.fonts.b2.size};
   font-weight: ${props => props.theme.fonts.b2.weight};
   letter-spacing: ${props => props.theme.fonts.b2.letterspacing};
