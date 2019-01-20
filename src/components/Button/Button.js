@@ -152,7 +152,8 @@ const Button = styled.button`
     props.circle ? "1.5rem" : props.theme.defaultBorderRadius};
   padding: ${props =>
     props.type === LINK_TYPE || props.circle ? "0" : "0.5rem"};
-  font-size: ${props => props.theme.fonts.button.size};
+  font-size: ${props =>
+    props.circle ? "1rem" : props.theme.fonts.button.size};
   font-weight: ${props => props.theme.fonts.button.weight};
   letter-spacing: ${props => props.theme.fonts.button.letterspacing};
   font-family: "Muli", sans-serif;
