@@ -14,6 +14,7 @@ const StyledInput = styled.input`
   font-size: ${props => props.theme.fonts.b1.size};
   font-weight: ${props => props.theme.fonts.b1.weight};
   letter-spacing: ${props => props.theme.fonts.b1.letterspacing};
+  color: ${props => props.theme.colors.background.tertiary};
   border: none;
   ::placeholder {
     color: ${props => props.theme.colors.background.secondary};
