@@ -5,9 +5,10 @@ import {
   faBook,
   faStickyNote,
   faPlus,
-  faChevronRight
+  faChevronRight,
+  faCheck
 } from "@fortawesome/free-solid-svg-icons";
-library.add(faCog, faBook, faStickyNote, faPlus, faChevronRight);
+library.add(faCog, faBook, faStickyNote, faPlus, faChevronRight, faCheck);
 import "../src/index.css";
 
 configure(() => {

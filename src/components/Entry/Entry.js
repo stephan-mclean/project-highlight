@@ -5,12 +5,10 @@ import Button, { LINK_TYPE, DANGER_STYLE } from "../Button/Button";
 import { Overline, S1, B1, B2 } from "../Fonts/Fonts";
 
 const Container = styled.div`
-  width: 100%;
   border: ${props => `1px solid ${props.theme.colors.background.default}`};
 `;
 
 const BookAndDateContainer = styled.div`
-  width: 100%;
   height: 2rem;
   display: flex;
   align-items: center;
