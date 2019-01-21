@@ -26,6 +26,8 @@ stories.add("Entry", () => (
         createdDate={mockEntry.createdDate}
         passage={mockEntry.passage}
         notes={mockEntry.notes}
+        onEdit={() => console.log("edit entry")}
+        onDelete={() => console.log("delete entry")}
       />
     </div>
   </ThemeProvider>

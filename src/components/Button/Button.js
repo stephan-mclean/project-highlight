@@ -49,7 +49,7 @@ const getPrimaryHoverColor = props => {
 
 const getBackgroundColor = props => {
   if ([OUTLINE_TYPE, LINK_TYPE].includes(props.type)) {
-    return "none";
+    return "transparent";
   }
 
   return getPrimaryColor(props);

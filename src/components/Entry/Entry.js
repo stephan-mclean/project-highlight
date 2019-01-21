@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import Button, { LINK_TYPE, DANGER_STYLE } from "../Button/Button";
 import { Overline, S1, B1, B2 } from "../Fonts/Fonts";
@@ -52,7 +53,15 @@ const NotesText = styled(B2)`
   margin-bottom: 2rem;
 `;
 
-const Entry = ({ bookTitle, page, createdDate, passage, notes }) => (
+const Entry = ({
+  bookTitle,
+  page,
+  createdDate,
+  passage,
+  notes,
+  onEdit,
+  onDelete
+}) => (
   <Container>
     <BookAndDateContainer>
       <BookText>
@@ -66,13 +75,29 @@ const Entry = ({ bookTitle, page, createdDate, passage, notes }) => (
       <NotesText>{notes}</NotesText>
 
       <ButtonsContainer>
-        <StyledEntryButton type={LINK_TYPE}>Edit</StyledEntryButton>
-        <StyledEntryButton type={LINK_TYPE} buttonStyle={DANGER_STYLE}>
+        <StyledEntryButton onClick={onEdit} type={LINK_TYPE}>
+          Edit
+        </StyledEntryButton>
+        <StyledEntryButton
+          onClick={onDelete}
+          type={LINK_TYPE}
+          buttonStyle={DANGER_STYLE}
+        >
           Delete
         </StyledEntryButton>
       </ButtonsContainer>
     </MainContainer>
   </Container>
 );
+
+Entry.propTypes = {
+  bookTitle: PropTypes.string,
+  page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  createdDate: PropTypes.string,
+  passage: PropTypes.object,
+  notes: PropTypes.string,
+  onEdit: PropTypes.func,
+  onDelete: PropTypes.func
+};
 
 export default Entry;
