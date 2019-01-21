@@ -23,15 +23,14 @@ const OptionCheckIcon = styled(FontAwesomeIcon)`
 `;
 
 const OptionContainer = styled.div`
-  width: 100%;
   height: 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   border: ${props =>
     props.isSelected
-      ? `1px solid ${props.theme.colors.background.default}`
-      : `1px solid ${props.theme.colors.background.tertiary}`};
+      ? `1px solid ${props.theme.colors.background.tertiary}`
+      : `1px solid ${props.theme.colors.background.default}`};
   margin-bottom: 0.5rem;
 `;
 
@@ -41,7 +40,7 @@ const Select = ({ label, options, input }) => (
     {options.map(option => (
       <OptionContainer
         isSelected={input.value === option}
-        onClick={() => props.onChange(option)}
+        onClick={() => input.onChange(option)}
         key={`selectOption${option}`}
       >
         <OptionLabel isSelected={input.value === option}>{option}</OptionLabel>
