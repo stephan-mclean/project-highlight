@@ -14,15 +14,16 @@ const BookAndDateContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   background-color: ${props => props.theme.colors.background.default};
-  color: ${props => props.theme.colors.background.tertiary};
 `;
 
 const BookText = styled(Overline)`
   margin-left: 0.5rem;
+  color: ${props => props.theme.colors.background.tertiary};
 `;
 
 const DateText = styled(Overline)`
   margin-right: 0.5rem;
+  color: ${props => props.theme.colors.background.tertiary};
 `;
 
 const MainContainer = styled.div`
