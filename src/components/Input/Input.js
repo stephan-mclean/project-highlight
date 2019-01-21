@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { B1 } from "../Fonts/Fonts";
 
@@ -27,5 +28,11 @@ const Input = ({ label, placeholder, input }) => (
     <StyledInput {...input} placeholder={placeholder} />
   </Fragment>
 );
+
+Input.propTypes = {
+  label: PropTypes.string,
+  placeholder: PropTypes.string,
+  input: PropTypes.object.isRequired
+};
 
 export default Input;
