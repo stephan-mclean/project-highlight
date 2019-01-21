@@ -25,20 +25,39 @@ class App extends Component {
         <ThemeProvider theme={Themes.main}>
           <AppContainer>
             <TopNav>
-              <TopNavHeader>TopNav</TopNavHeader>
-              <TopNavRightNavItem icon="cog" />
+              <TopNavHeader>
+                <Link to="/">TopNav</Link>
+              </TopNavHeader>
+              <Link to="/settings">
+                <TopNavRightNavItem icon="cog" />
+              </Link>
             </TopNav>
 
             <PageContainer>
               <Route exact path="/" component={() => <div>HOME</div>} />
+              <Route exact path="/books" component={() => <div>BOOKS</div>} />
+              <Route
+                exact
+                path="/entries"
+                component={() => <div>ENTRIES</div>}
+              />
+              <Route
+                exact
+                path="/settings"
+                component={() => <div>SETTINGS</div>}
+              />
             </PageContainer>
 
             <BottomNav>
-              <NavItem icon="book" label="Books" />
+              <Link to="/books">
+                <NavItem icon="book" label="Books" />
+              </Link>
               <Button type={OUTLINE_TYPE} buttonStyle={PRIMARY_STYLE} circle>
                 <FontAwesomeIcon icon="plus" />
               </Button>
-              <NavItem icon="sticky-note" label="Entries" />
+              <Link to="/entries">
+                <NavItem icon="sticky-note" label="Entries" />
+              </Link>
             </BottomNav>
           </AppContainer>
         </ThemeProvider>
