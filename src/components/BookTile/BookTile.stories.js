@@ -2,7 +2,7 @@ import React from "react";
 import { storiesOf } from "@storybook/react";
 import { ThemeProvider } from "styled-components";
 import Theme from "../../theme/Theme";
-import BookTile from "./BookTile";
+import BookTile, { BookTileGrid } from "./BookTile";
 
 const mockBookTile = {
   coverSrc: "https://via.placeholder.com/128x198",
@@ -22,7 +22,7 @@ const mockBookTile3 = {
 const stories = storiesOf("Components", module);
 stories.add("Book Tile", () => (
   <ThemeProvider theme={Theme.main}>
-    <div>
+    <BookTileGrid>
       <BookTile
         coverSrc={mockBookTile.coverSrc}
         numEntries={mockBookTile.numEntries}
@@ -40,6 +40,6 @@ stories.add("Book Tile", () => (
         numEntries={mockBookTile3.numEntries}
         onClick={() => console.log("Book tile 3 on click")}
       />
-    </div>
+    </BookTileGrid>
   </ThemeProvider>
 ));
