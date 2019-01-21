@@ -19,9 +19,11 @@ const ValueIcon = styled(FontAwesomeIcon)`
 `;
 
 const ValueContainer = styled.div`
+  height: 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border: ${props => `1px solid ${props.theme.colors.background.default}`};
 `;
 
 const Picker = ({ label, value, onClick }) => (
