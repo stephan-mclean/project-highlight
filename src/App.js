@@ -1,26 +1,48 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { ThemeProvider } from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Themes from "./theme/Theme";
+import AppContainer from "./components/AppContainer/AppContainer";
+import PageContainer from "./components/PageContainer/PageContainer";
+import {
+  TopNav,
+  TopNavHeader,
+  TopNavRightNavItem,
+  BottomNav,
+  NavItem
+} from "./components/Nav";
+import Button, {
+  OUTLINE_TYPE,
+  PRIMARY_STYLE
+} from "./components/Button/Button";
+import "./initFaIcons";
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <Router>
+        <ThemeProvider theme={Themes.main}>
+          <AppContainer>
+            <TopNav>
+              <TopNavHeader>TopNav</TopNavHeader>
+              <TopNavRightNavItem icon="cog" />
+            </TopNav>
+
+            <PageContainer>
+              <Route exact path="/" component={() => <div>HOME</div>} />
+            </PageContainer>
+
+            <BottomNav>
+              <NavItem icon="book" label="Books" />
+              <Button type={OUTLINE_TYPE} buttonStyle={PRIMARY_STYLE} circle>
+                <FontAwesomeIcon icon="plus" />
+              </Button>
+              <NavItem icon="sticky-note" label="Entries" />
+            </BottomNav>
+          </AppContainer>
+        </ThemeProvider>
+      </Router>
     );
   }
 }
