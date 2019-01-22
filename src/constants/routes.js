@@ -1,6 +1,10 @@
 export const ROUTES = {
   HOME: "",
-  BOOKS: "books",
-  SETTINGS: "settings",
-  ENTRIES: "entries"
+  PUBLIC: "public",
+  PRIVATE: "private",
+  LOGIN: "public/login",
+  SIGNUP: "public/signup",
+  BOOKS: "private/books",
+  SETTINGS: "private/settings",
+  ENTRIES: "private/entries"
 };
