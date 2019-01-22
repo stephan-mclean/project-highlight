@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Link from "./components/Link/Link";
 import Themes from "./theme/Theme";
 import AppContainer from "./components/AppContainer/AppContainer";
-import PageContainer from "./components/PageContainer/PageContainer";
+import MainRouter from "./components/MainRouter/MainRouter";
 import {
   TopNav,
   TopNavHeader,
@@ -16,6 +17,7 @@ import Button, {
   OUTLINE_TYPE,
   PRIMARY_STYLE
 } from "./components/Button/Button";
+import { ROUTES } from "./constants";
 import "./initFaIcons";
 
 class App extends Component {
@@ -26,36 +28,23 @@ class App extends Component {
           <AppContainer>
             <TopNav>
               <TopNavHeader>
-                <Link to="/">TopNav</Link>
+                <Link to={`/${ROUTES.HOME}`}>TopNav</Link>
               </TopNavHeader>
-              <Link to="/settings">
+              <Link to={`/${ROUTES.SETTINGS}`}>
                 <TopNavRightNavItem icon="cog" />
               </Link>
             </TopNav>
 
-            <PageContainer>
-              <Route exact path="/" component={() => <div>HOME</div>} />
-              <Route exact path="/books" component={() => <div>BOOKS</div>} />
-              <Route
-                exact
-                path="/entries"
-                component={() => <div>ENTRIES</div>}
-              />
-              <Route
-                exact
-                path="/settings"
-                component={() => <div>SETTINGS</div>}
-              />
-            </PageContainer>
+            <MainRouter />
 
             <BottomNav>
-              <Link to="/books">
+              <Link to={`/${ROUTES.BOOKS}`}>
                 <NavItem icon="book" label="Books" />
               </Link>
               <Button type={OUTLINE_TYPE} buttonStyle={PRIMARY_STYLE} circle>
                 <FontAwesomeIcon icon="plus" />
               </Button>
-              <Link to="/entries">
+              <Link to={`/${ROUTES.ENTRIES}`}>
                 <NavItem icon="sticky-note" label="Entries" />
               </Link>
             </BottomNav>
