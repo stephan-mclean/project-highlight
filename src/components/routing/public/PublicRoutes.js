@@ -11,6 +11,6 @@ export default () => (
       component={() => <div>SIGNUP</div>}
     />
 
-    <Redirect exact from={`/${ROUTES.PUBLIC}`} to="/public/login" />
+    <Redirect exact from={`/${ROUTES.PUBLIC}`} to={`/${ROUTES.LOGIN}`} />
   </Switch>
 );

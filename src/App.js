@@ -25,15 +25,15 @@ class App extends Component {
               path={`/${ROUTES.HOME}`}
               render={() =>
                 this.state.authenticated ? (
-                  <Redirect to="/private" />
+                  <Redirect to={`/${ROUTES.PRIVATE}`} />
                 ) : (
-                  <Redirect to="/public" />
+                  <Redirect to={`/${ROUTES.PUBLIC}`} />
                 )
               }
             />
 
-            <Route path="/private" component={PrivateRoutes} />
-            <Route path="/public" component={PublicRoutes} />
+            <Route path={`/${ROUTES.PRIVATE}`} component={PrivateRoutes} />
+            <Route path={`/${ROUTES.PUBLIC}`} component={PublicRoutes} />
           </Fragment>
         </ThemeProvider>
       </Router>
