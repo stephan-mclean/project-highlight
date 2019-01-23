@@ -11,7 +11,16 @@ import {
 } from "../../Nav";
 import Button, { OUTLINE_TYPE, PRIMARY_STYLE } from "../../Button/Button";
 import AppContainer from "../../AppContainer/AppContainer";
+import PageContainer from "../../PageContainer/PageContainer";
 import { ROUTES } from "../../../constants";
+import {
+  Books,
+  NewBook,
+  ViewBook,
+  Entries,
+  NewEntry,
+  Settings
+} from "../../../pages";
 
 export default ({ location, history }) => (
   <AppContainer>
@@ -24,40 +33,18 @@ export default ({ location, history }) => (
       </Link>
     </TopNav>
 
-    <Switch>
-      <Route
-        exact
-        path={`/${ROUTES.BOOKS}`}
-        component={() => <div>BOOKS</div>}
-      />
-      <Route
-        exact
-        path={`/${ROUTES.NEW_BOOK}`}
-        component={() => <div>NEW BOOK</div>}
-      />
-      <Route
-        exact
-        path={`/${ROUTES.BOOKS}/:bookId`}
-        component={({ match }) => <div>BOOK {match.params.bookId}</div>}
-      />
-      <Route
-        exact
-        path={`/${ROUTES.ENTRIES}`}
-        component={() => <div>ENTRIES</div>}
-      />
-      <Route
-        exact
-        path={`/${ROUTES.NEW_ENTRY}`}
-        component={() => <div>NEW ENTRY</div>}
-      />
-      <Route
-        exact
-        path={`/${ROUTES.SETTINGS}`}
-        component={() => <div>SETTINGS</div>}
-      />
+    <PageContainer>
+      <Switch>
+        <Route exact path={`/${ROUTES.BOOKS}`} component={Books} />
+        <Route exact path={`/${ROUTES.NEW_BOOK}`} component={NewBook} />
+        <Route exact path={`/${ROUTES.BOOKS}/:bookId`} component={ViewBook} />
+        <Route exact path={`/${ROUTES.ENTRIES}`} component={Entries} />
+        <Route exact path={`/${ROUTES.NEW_ENTRY}`} component={NewEntry} />
+        <Route exact path={`/${ROUTES.SETTINGS}`} component={Settings} />
 
-      <Redirect exact from={`/${ROUTES.PRIVATE}`} to={`/${ROUTES.BOOKS}`} />
-    </Switch>
+        <Redirect exact from={`/${ROUTES.PRIVATE}`} to={`/${ROUTES.BOOKS}`} />
+      </Switch>
+    </PageContainer>
 
     <BottomNav>
       <Link to={`/${ROUTES.BOOKS}`}>
