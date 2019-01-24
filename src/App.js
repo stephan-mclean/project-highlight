@@ -14,7 +14,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.props, "RENDERE");
     return (
       <Router>
         <ThemeProvider theme={Themes.main}>
@@ -23,8 +22,6 @@ class App extends Component {
               exact
               path={`/${ROUTES.HOME}`}
               render={() => {
-                console.log("route render", this.props);
-
                 return this.props.currentUser ? (
                   <Redirect to={`/${ROUTES.PRIVATE}`} />
                 ) : (
@@ -42,13 +39,7 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({ auth }) => {
-  return {
-    currentUser: auth.currentUser
-  };
-};
-
 export default connect(
-  mapStateToProps,
+  null,
   { getCurrentUser }
 )(App);
