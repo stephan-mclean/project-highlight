@@ -1,18 +1,16 @@
 import React, { Component, Fragment } from "react";
+import { connect } from "react-redux";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import Themes from "./theme/Theme";
 import { ROUTES } from "./constants";
 import { PublicRoutes, PrivateRoutes } from "./components/routing";
+import { getCurrentUser } from "./actions";
 import "./initFaIcons";
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      authenticated: true
-    };
+  componentWillMount() {
+    this.props.getCurrentUser();
   }
 
   render() {
@@ -23,13 +21,13 @@ class App extends Component {
             <Route
               exact
               path={`/${ROUTES.HOME}`}
-              render={() =>
-                this.state.authenticated ? (
+              render={() => {
+                return this.props.currentUser ? (
                   <Redirect to={`/${ROUTES.PRIVATE}`} />
                 ) : (
                   <Redirect to={`/${ROUTES.PUBLIC}`} />
-                )
-              }
+                );
+              }}
             />
 
             <Route path={`/${ROUTES.PRIVATE}`} component={PrivateRoutes} />
@@ -41,4 +39,7 @@ class App extends Component {
   }
 }
 
-export default App;
+export default connect(
+  null,
+  { getCurrentUser }
+)(App);
