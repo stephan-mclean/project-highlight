@@ -25,7 +25,10 @@ export const getBooks = () => dispatch => {
     snapshot => {
       const result = [];
       snapshot.forEach(doc => {
-        result.push(doc.data());
+        result.push({
+          id: doc.id,
+          ...doc.data()
+        });
       });
 
       dispatch({

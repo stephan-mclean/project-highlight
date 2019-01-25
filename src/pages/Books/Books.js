@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { getBooks } from "../../actions";
 import BookTile, { BookTileGrid } from "../../components/BookTile/BookTile";
+import { ROUTES } from "../../constants";
 
 class BooksComp extends Component {
   componentWillMount() {
@@ -19,7 +20,13 @@ class BooksComp extends Component {
         {this.props.books.list && this.props.books.list.length && (
           <BookTileGrid>
             {this.props.books.list.map(book => (
-              <BookTile {...book} />
+              <BookTile
+                key={book.id}
+                {...book}
+                onClick={() =>
+                  this.props.history.push(`/${ROUTES.BOOKS}/${book.id}`)
+                }
+              />
             ))}
           </BookTileGrid>
         )}
