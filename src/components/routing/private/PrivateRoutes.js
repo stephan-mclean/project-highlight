@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Redirect, Switch } from "react-router-dom";
+import { Redirect, Switch } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "../../Link/Link";
 import {
@@ -21,6 +21,7 @@ import {
   NewEntry,
   Settings
 } from "../../../pages";
+import PrivateRoute from "./PrivateRoute";
 
 export default ({ location, history }) => (
   <AppContainer>
@@ -35,12 +36,20 @@ export default ({ location, history }) => (
 
     <PageContainer>
       <Switch>
-        <Route exact path={`/${ROUTES.BOOKS}`} component={Books} />
-        <Route exact path={`/${ROUTES.NEW_BOOK}`} component={NewBook} />
-        <Route exact path={`/${ROUTES.BOOKS}/:bookId`} component={ViewBook} />
-        <Route exact path={`/${ROUTES.ENTRIES}`} component={Entries} />
-        <Route exact path={`/${ROUTES.NEW_ENTRY}`} component={NewEntry} />
-        <Route exact path={`/${ROUTES.SETTINGS}`} component={Settings} />
+        <PrivateRoute exact path={`/${ROUTES.BOOKS}`} component={Books} />
+        <PrivateRoute exact path={`/${ROUTES.NEW_BOOK}`} component={NewBook} />
+        <PrivateRoute
+          exact
+          path={`/${ROUTES.BOOKS}/:bookId`}
+          component={ViewBook}
+        />
+        <PrivateRoute exact path={`/${ROUTES.ENTRIES}`} component={Entries} />
+        <PrivateRoute
+          exact
+          path={`/${ROUTES.NEW_ENTRY}`}
+          component={NewEntry}
+        />
+        <PrivateRoute exact path={`/${ROUTES.SETTINGS}`} component={Settings} />
 
         <Redirect exact from={`/${ROUTES.PRIVATE}`} to={`/${ROUTES.BOOKS}`} />
       </Switch>
