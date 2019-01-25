@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { getBooks } from "../../actions";
+import BookTile, { BookTileGrid } from "../../components/BookTile/BookTile";
 
 class BooksComp extends Component {
   componentWillMount() {
@@ -13,7 +14,20 @@ class BooksComp extends Component {
   }
 
   render() {
-    return <Fragment>BOOKS</Fragment>;
+    return (
+      <Fragment>
+        {this.props.books.list && this.props.books.list.length && (
+          <BookTileGrid>
+            {this.props.books.list.map(book => (
+              <BookTile {...book} />
+            ))}
+          </BookTileGrid>
+        )}
+        {(!this.props.books.list || !this.props.books.list.length) && (
+          <div>NO BOOKS</div>
+        )}
+      </Fragment>
+    );
   }
 }
 

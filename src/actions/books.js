@@ -1,4 +1,5 @@
 import { GET_BOOKS } from "./types";
+import { authRef, dbRef } from "../firebase";
 
 const testData = [
   {
@@ -16,8 +17,22 @@ const testData = [
 ];
 
 export const getBooks = () => dispatch => {
-  dispatch({
-    type: GET_BOOKS,
-    payload: testData
-  });
+  const currentUser = authRef.currentUser;
+  const booksRef = dbRef.collection("books");
+
+  const query = booksRef.where("creator", "==", currentUser.uid);
+  query.onSnapshot(
+    snapshot => {
+      const result = [];
+      snapshot.forEach(doc => {
+        result.push(doc.data());
+      });
+
+      dispatch({
+        type: GET_BOOKS,
+        payload: result
+      });
+    },
+    error => console.error(error)
+  );
 };
