@@ -1,22 +1,39 @@
-import { GET_ENTRIES } from "./types";
-
-const mockEntry = {
-  bookTitle: "Book Title",
-  page: 323,
-  createdDate: "01/01/2019",
-  passage: {
-    text:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur a fermentum tellus. Sed tincidunt pretium eros in tempor. In commodo tellus sed augue laoreet, ut vestibulum nibh rutrum. Vivamus risus nisi, pharetra et tristique in, porta sit amet lorem. Mauris nunc sapien, finibus eu euismod et, tincidunt in leo. Ut accumsan felis eget dolor mattis placerat."
-  },
-  notes:
-    "Aliquam erat volutpat. Donec dui tellus, congue at placerat at, sollicitudin eget lorem. Proin sit amet nibh ultricies, suscipit nibh nec, fermentum odio. Suspendisse quam nibh, ullamcorper sit amet ullamcorper a, dictum ut nibh. Phasellus sed purus nec urna mollis maximus."
-};
-
-const mockEntries = [mockEntry];
+import { GET_ENTRIES, GET_ENTRIES_ERROR, GET_ENTRIES_LOADING } from "./types";
+import { authRef, dbRef } from "../firebase";
 
 export const getEntries = () => dispatch => {
-  dispatch({
-    type: GET_ENTRIES,
-    payload: mockEntries
-  });
+  dispatch({ type: GET_ENTRIES_LOADING });
+
+  const currentUser = authRef.currentUser;
+  const entriesRef = dbRef.collection("entries");
+
+  const query = entriesRef.where("creator", "==", currentUser.uid);
+  query.onSnapshot(
+    snapshot => {
+      const result = [];
+      snapshot.forEach(doc => {
+        const entry = {
+          id: doc.id,
+          ...doc.data()
+        };
+
+        entry.createdDate = entry.createdDate.toDate().toString();
+        console.log(entry);
+
+        const book = entry.book.id.get();
+        console.log(book);
+
+        result.push(entry);
+      });
+
+      dispatch({
+        type: GET_ENTRIES,
+        payload: result
+      });
+    },
+    error => {
+      console.error(error);
+      dispatch({ type: GET_ENTRIES_ERROR });
+    }
+  );
 };
