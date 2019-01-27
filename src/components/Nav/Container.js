@@ -5,6 +5,9 @@ const getNavBorder = props => {
 };
 
 export default styled.div`
+  position: sticky;
+  top: ${props => (props.top ? 0 : "auto")};
+  bottom: ${props => (props.top ? "auto" : 0)};
   display: flex;
   flex-direction: row;
   align-items: center;
