@@ -9,18 +9,9 @@ stories.add("TabSet", () => (
   <ThemeProvider theme={Theme.main}>
     <div>
       <TabSet>
-        <Tab
-          render={() => <div>TAB ONE</div>}
-          renderHeader={() => <div>TAB ONE HEADER</div>}
-        />
-        <Tab
-          render={() => <div>TAB TWO</div>}
-          renderHeader={() => <div>TAB TWO HEADER</div>}
-        />
-        <Tab
-          render={() => <div>TAB THREE</div>}
-          renderHeader={() => <div>TAB THREE HEADER</div>}
-        />
+        <Tab render={() => <div>TAB ONE</div>} header="tab one" />
+        <Tab render={() => <div>TAB TWO</div>} header="tab two" />
+        <Tab render={() => <div>TAB THREE</div>} header="tab three" />
       </TabSet>
     </div>
   </ThemeProvider>
