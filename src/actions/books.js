@@ -1,22 +1,9 @@
-import { GET_BOOKS } from "./types";
+import { GET_BOOKS, GET_BOOKS_LOADING, GET_BOOKS_FAILED } from "./types";
 import { authRef, dbRef } from "../firebase";
 
-const testData = [
-  {
-    coverSrc: "https://via.placeholder.com/128x198",
-    numEntries: 0
-  },
-  {
-    coverSrc: "https://via.placeholder.com/128x198",
-    numEntries: 5
-  },
-  {
-    coverSrc: "https://via.placeholder.com/128x198",
-    numEntries: 1
-  }
-];
-
 export const getBooks = () => dispatch => {
+  dispatch({ type: GET_BOOKS_LOADING });
+
   const currentUser = authRef.currentUser;
   const booksRef = dbRef.collection("books");
 
@@ -36,6 +23,9 @@ export const getBooks = () => dispatch => {
         payload: result
       });
     },
-    error => console.error(error)
+    error => {
+      console.error(error);
+      dispatch({ type: GET_BOOKS_FAILED });
+    }
   );
 };
