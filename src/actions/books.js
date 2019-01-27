@@ -1,23 +1,31 @@
-import { GET_BOOKS } from "./types";
-
-const testData = [
-  {
-    coverSrc: "https://via.placeholder.com/128x198",
-    numEntries: 0
-  },
-  {
-    coverSrc: "https://via.placeholder.com/128x198",
-    numEntries: 5
-  },
-  {
-    coverSrc: "https://via.placeholder.com/128x198",
-    numEntries: 1
-  }
-];
+import { GET_BOOKS, GET_BOOKS_LOADING, GET_BOOKS_FAILED } from "./types";
+import { authRef, dbRef } from "../firebase";
 
 export const getBooks = () => dispatch => {
-  dispatch({
-    type: GET_BOOKS,
-    payload: testData
-  });
+  dispatch({ type: GET_BOOKS_LOADING });
+
+  const currentUser = authRef.currentUser;
+  const booksRef = dbRef.collection("books");
+
+  const query = booksRef.where("creator", "==", currentUser.uid);
+  query.onSnapshot(
+    snapshot => {
+      const result = [];
+      snapshot.forEach(doc => {
+        result.push({
+          id: doc.id,
+          ...doc.data()
+        });
+      });
+
+      dispatch({
+        type: GET_BOOKS,
+        payload: result
+      });
+    },
+    error => {
+      console.error(error);
+      dispatch({ type: GET_BOOKS_FAILED });
+    }
+  );
 };

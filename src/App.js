@@ -39,7 +39,13 @@ class App extends Component {
   }
 }
 
+const mapStateToProps = ({ auth }) => {
+  return {
+    currentUser: auth.currentUser
+  };
+};
+
 export default connect(
-  null,
+  mapStateToProps,
   { getCurrentUser }
 )(App);
