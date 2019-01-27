@@ -1,8 +1,8 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getEntries } from "../../actions";
 import ContentLoader from "../../components/ContentLoader/ContentLoader";
-import Entry from "../../components/Entry/Entry";
+import EntryList from "../../components/EntryList/EntryList";
 
 class EntriesComp extends Component {
   constructor(props) {
@@ -13,17 +13,7 @@ class EntriesComp extends Component {
   }
 
   renderEntries() {
-    return (
-      <Fragment>
-        {this.props.entries.list && this.props.entries.list.length && (
-          <Fragment>
-            {this.props.entries.list.map(entry => {
-              return <Entry {...entry} key={entry.id} />;
-            })}
-          </Fragment>
-        )}
-      </Fragment>
-    );
+    return <EntryList entries={this.props.entries.list} />;
   }
 
   render() {

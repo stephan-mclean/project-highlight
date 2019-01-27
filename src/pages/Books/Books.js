@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import { getBooks } from "../../actions";
+import { getBooks, getEntries } from "../../actions";
 import BookTile, { BookTileGrid } from "../../components/BookTile/BookTile";
 import ContentLoader from "../../components/ContentLoader/ContentLoader";
 import { ROUTES } from "../../constants";
@@ -10,6 +10,9 @@ class BooksComp extends Component {
     super(props);
 
     this.props.getBooks();
+    // Preload entries
+    this.props.getEntries();
+
     this.renderBooks = this.renderBooks.bind(this);
   }
 
@@ -53,5 +56,5 @@ const mapStateToProps = ({ books }) => {
 
 export const Books = connect(
   mapStateToProps,
-  { getBooks }
+  { getBooks, getEntries }
 )(BooksComp);
