@@ -23,8 +23,7 @@ stories.add("Entry", () => (
   <ThemeProvider theme={Theme.main}>
     <div>
       <Entry
-        bookTitle={mockEntry.bookTitle}
-        page={mockEntry.page}
+        book={mockEntry.book}
         createdDate={mockEntry.createdDate}
         passage={mockEntry.passage}
         notes={mockEntry.notes}
