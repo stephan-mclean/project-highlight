@@ -5,8 +5,10 @@ import Theme from "../../theme/Theme";
 import Entry from "./Entry";
 
 const mockEntry = {
-  bookTitle: "Book Title",
-  page: 323,
+  book: {
+    title: "Book Title",
+    page: 323
+  },
   createdDate: "01/01/2019",
   passage: {
     text:

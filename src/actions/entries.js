@@ -17,11 +17,7 @@ export const getEntries = () => dispatch => {
           ...doc.data()
         };
 
-        entry.createdDate = entry.createdDate.toDate().toString();
-        console.log(entry);
-
-        const book = entry.book.id.get();
-        console.log(book);
+        entry.createdDate = entry.createdDate.toDate().toLocaleDateString();
 
         result.push(entry);
       });
