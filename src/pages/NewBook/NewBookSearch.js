@@ -39,7 +39,9 @@ class NewBookSearch extends Component {
     const { handleSubmit } = this.props;
     return (
       <form onSubmit={handleSubmit(this.onSearchSubmit)}>
+        <Field name="title" label="Title" type="text" component={Input} />
         <Field name="author" label="Author" type="text" component={Input} />
+        <Field name="isbn" label="ISBN" type="text" component={Input} />
         <button type="submit">Submit</button>
       </form>
     );

@@ -6,7 +6,9 @@ import {
 import {
   GBOOKS_API_BASE_URL,
   GBOOKS_VOLUME_PATH,
-  searchAuthorParam
+  searchAuthorParam,
+  searchTitleParam,
+  searchISBNParam
 } from "../constants";
 
 export const searchBooks = params => dispatch => {
@@ -14,7 +16,9 @@ export const searchBooks = params => dispatch => {
 
   let searchURL = GBOOKS_API_BASE_URL + GBOOKS_VOLUME_PATH + "?q=";
   const authorParam = searchAuthorParam(params.author);
-  searchURL += authorParam;
+  const titleParam = searchTitleParam(params.title);
+  const isbnParam = searchISBNParam(params.isbn);
+  searchURL += authorParam + titleParam + isbnParam;
 
   fetch(searchURL)
     .then(response => response.json())
@@ -27,7 +31,7 @@ export const searchBooks = params => dispatch => {
           title: title || "",
           subtitle: subtitle || "",
           description: description || "",
-          coverSrc: volumeInfo.imageLinks.thumbnail
+          coverSrc: volumeInfo.imageLinks ? volumeInfo.imageLinks.thumbnail : ""
         };
       });
 
