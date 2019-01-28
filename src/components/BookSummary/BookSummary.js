@@ -19,12 +19,18 @@ const Subtitle = styled(S2)`
   margin-bottom: 0.5rem;
 `;
 
-const BookSummary = ({ coverSrc, title, subtitle, description }) => (
+const BookSummary = ({
+  coverSrc,
+  title,
+  subtitle,
+  description,
+  showDescription
+}) => (
   <Fragment>
     <CoverImg src={coverSrc} />
     <Title>{title}</Title>
     <Subtitle>{subtitle}</Subtitle>
-    <Caption>{description}</Caption>
+    {showDescription && <Caption>{description}</Caption>}
   </Fragment>
 );
 
@@ -32,7 +38,12 @@ BookSummary.propTypes = {
   coverSrc: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   subtitle: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired
+  description: PropTypes.string.isRequired,
+  showDescription: PropTypes.bool
+};
+
+BookSummary.defaultProps = {
+  showDescription: true
 };
 
 export default BookSummary;

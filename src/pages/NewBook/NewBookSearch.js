@@ -9,6 +9,8 @@ import Button, {
   ACCENT_STYLE,
   OUTLINE_TYPE
 } from "../../components/Button/Button";
+import ContentLoader from "../../components/ContentLoader/ContentLoader";
+import BookSummary from "../../components/BookSummary/BookSummary";
 
 class NewBookSearch extends Component {
   constructor(props) {
@@ -17,6 +19,7 @@ class NewBookSearch extends Component {
     this.onSearchSubmit = this.onSearchSubmit.bind(this);
     this.renderSearchForm = this.renderSearchForm.bind(this);
     this.renderSearchResults = this.renderSearchResults.bind(this);
+    this.renderSearchResultsList = this.renderSearchResultsList.bind(this);
     this.backToSearch = this.backToSearch.bind(this);
 
     this.state = {
@@ -48,9 +51,36 @@ class NewBookSearch extends Component {
     this.setState({ shouldShowSearchForm: true });
   }
 
+  renderSearchResultsList() {
+    const { bookSearch } = this.props;
+    if (bookSearch.results && bookSearch.results.length) {
+      return (
+        <Fragment>
+          {bookSearch.results.map(result => {
+            return (
+              <BookSummary
+                key={result.gBooksID}
+                {...result}
+                showDescription={false}
+              />
+            );
+          })}
+        </Fragment>
+      );
+    }
+
+    return <Fragment>NO RESULTS</Fragment>;
+  }
+
   renderSearchResults() {
     return (
       <Fragment>
+        <ContentLoader
+          loading={this.props.bookSearch.loading}
+          error={this.props.bookSearch.error}
+          onLoad={this.renderSearchResultsList}
+        />
+
         <Button
           type={OUTLINE_TYPE}
           buttonStyle={DEFAULT_STYLE}
