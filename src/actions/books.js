@@ -32,6 +32,7 @@ export const getBooks = () => dispatch => {
 
 export const addBook = book => dispatch => {
   console.log("add book", book);
+
   const currentUser = authRef.currentUser;
   booksRef
     .add({
@@ -39,5 +40,6 @@ export const addBook = book => dispatch => {
       numEntries: 0,
       ...book
     })
-    .then(docRef => console.log("added book", docRef.id));
+    .then(docRef => console.log("added book", docRef.id))
+    .catch(err => console.error(err));
 };

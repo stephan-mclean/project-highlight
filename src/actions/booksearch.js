@@ -24,9 +24,9 @@ export const searchBooks = params => dispatch => {
         const { title, subtitle, description } = volumeInfo;
         return {
           gBooksID: result.id,
-          title,
-          subtitle,
-          description,
+          title: title || "",
+          subtitle: subtitle || "",
+          description: description || "",
           coverSrc: volumeInfo.imageLinks.thumbnail
         };
       });

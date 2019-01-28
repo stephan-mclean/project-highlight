@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import TabSet, { Tab } from "../../components/TabSet/TabSet";
 import NewBookSearch from "./NewBookSearch";
 import { addBook } from "../../actions";
+import { ROUTES } from "../../constants";
 
 class NewBookComp extends Component {
   constructor(props) {
@@ -22,8 +23,8 @@ class NewBookComp extends Component {
   }
 
   onAddBook(book) {
-    console.log("on add book", this, book);
     this.props.addBook(book);
+    this.props.history.push(`/${ROUTES.HOME}`);
   }
 
   render() {

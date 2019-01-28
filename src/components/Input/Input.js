@@ -8,7 +8,7 @@ const Label = styled(B1)`
 `;
 
 const StyledInput = styled.input`
-  width: 100%;
+  width: fill-available;
   height: 2rem;
   padding: 0.25rem;
   background-color: ${props => props.theme.colors.background.default};
