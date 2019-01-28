@@ -32,6 +32,7 @@ export const getBooks = () => dispatch => {
 
 export const addBook = book => dispatch => {
   console.log("add book", book);
+
   const currentUser = authRef.currentUser;
   booksRef
     .add({
