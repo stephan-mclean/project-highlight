@@ -5,3 +5,6 @@ export const GET_BOOKS_FAILED = "getbooksfailed";
 export const GET_ENTRIES = "getentries";
 export const GET_ENTRIES_LOADING = "getentriesloading";
 export const GET_ENTRIES_ERROR = "getentrieserror";
+export const SEARCH_BOOKS = "searchbooks";
+export const SEARCH_BOOKS_LOADING = "searchbooksloading";
+export const SEARCH_BOOKS_ERROR = "searchbookserror";
