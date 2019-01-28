@@ -33,8 +33,9 @@ class BooksComp extends Component {
           </BookTileGrid>
         )}
 
-        {!this.props.books.list ||
-          (!this.props.books.list.length && <Fragment>NO BOOKS</Fragment>)}
+        {(!this.props.books.list || !this.props.books.list.length) && (
+          <Fragment>NO BOOKS</Fragment>
+        )}
       </Fragment>
     );
   }
