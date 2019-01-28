@@ -1,7 +1,13 @@
-import React, { Fragment } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { S1, S2, Caption } from "../Fonts/Fonts";
+
+const Container = styled.div`
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 1rem;
+`;
 
 const CoverImg = styled.img`
   width: 4rem;
@@ -26,12 +32,12 @@ const BookSummary = ({
   description,
   showDescription
 }) => (
-  <Fragment>
+  <Container>
     <CoverImg src={coverSrc} />
     <Title>{title}</Title>
     <Subtitle>{subtitle}</Subtitle>
     {showDescription && <Caption>{description}</Caption>}
-  </Fragment>
+  </Container>
 );
 
 BookSummary.propTypes = {

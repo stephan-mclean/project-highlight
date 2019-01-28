@@ -6,7 +6,6 @@ import EntryList from "../../components/EntryList/EntryList";
 import { H6 } from "../../components/Fonts/Fonts";
 
 const EntriesHeader = styled(H6)`
-  margin-top: 1rem;
   margin-bottom: 1rem;
   color: ${props => props.theme.colors.foreground.default};
 `;
