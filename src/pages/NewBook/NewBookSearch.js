@@ -18,7 +18,6 @@ class NewBookSearch extends Component {
     this.onSearchSubmit = this.onSearchSubmit.bind(this);
     this.renderSearchForm = this.renderSearchForm.bind(this);
     this.renderSearchResults = this.renderSearchResults.bind(this);
-    this.renderSearchResultsList = this.renderSearchResultsList.bind(this);
     this.backToSearch = this.backToSearch.bind(this);
 
     this.state = {
@@ -50,27 +49,6 @@ class NewBookSearch extends Component {
 
   backToSearch() {
     this.setState({ shouldShowSearchForm: true });
-  }
-
-  renderSearchResultsList() {
-    const { bookSearch } = this.props;
-    if (bookSearch.results && bookSearch.results.length) {
-      return (
-        <Fragment>
-          {bookSearch.results.map(result => {
-            return (
-              <BookSummary
-                key={result.gBooksID}
-                {...result}
-                showDescription={false}
-              />
-            );
-          })}
-        </Fragment>
-      );
-    }
-
-    return <Fragment>NO RESULTS</Fragment>;
   }
 
   renderSearchResults() {
