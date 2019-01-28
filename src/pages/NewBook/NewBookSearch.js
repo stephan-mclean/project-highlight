@@ -54,6 +54,7 @@ class NewBookSearch extends Component {
       <NewBookSearchResults
         search={this.props.bookSearch}
         backToSearch={this.backToSearch}
+        onAddBook={this.props.onAddBook}
       />
     );
   }

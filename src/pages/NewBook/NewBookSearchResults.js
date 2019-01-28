@@ -4,7 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PropTypes from "prop-types";
 import Button, {
   DEFAULT_STYLE,
-  OUTLINE_TYPE
+  OUTLINE_TYPE,
+  ACCENT_STYLE
 } from "../../components/Button/Button";
 import ContentLoader from "../../components/ContentLoader/ContentLoader";
 import BookSummary from "../../components/BookSummary/BookSummary";
@@ -26,6 +27,22 @@ class NewBookSearchResults extends Component {
     super(props);
 
     this.renderSearchResultsList = this.renderSearchResultsList.bind(this);
+    this.backToSearchResultsList = this.backToSearchResultsList.bind(this);
+    this.renderAllResults = this.renderAllResults.bind(this);
+    this.renderIndividualResult = this.renderIndividualResult.bind(this);
+
+    this.state = {
+      individualResult: null
+    };
+  }
+
+  viewIndividualResult(result) {
+    console.log("result", result);
+    this.setState({ individualResult: result });
+  }
+
+  backToSearchResultsList() {
+    this.setState({ individualResult: null });
   }
 
   renderSearchResultsList() {
@@ -35,12 +52,11 @@ class NewBookSearchResults extends Component {
         <Fragment>
           {search.results.map(result => {
             return (
-              <SearchResultContainer>
-                <BookSummary
-                  key={result.gBooksID}
-                  {...result}
-                  showDescription={false}
-                />
+              <SearchResultContainer
+                key={result.gBooksID}
+                onClick={this.viewIndividualResult.bind(this, result)}
+              >
+                <BookSummary {...result} showDescription={false} />
                 <SearchResultIcon icon="chevron-right" />
               </SearchResultContainer>
             );
@@ -52,7 +68,7 @@ class NewBookSearchResults extends Component {
     return <Fragment>NO RESULTS</Fragment>;
   }
 
-  render() {
+  renderAllResults() {
     return (
       <Fragment>
         <ContentLoader
@@ -71,11 +87,41 @@ class NewBookSearchResults extends Component {
       </Fragment>
     );
   }
+
+  renderIndividualResult() {
+    return (
+      <Fragment>
+        <BookSummary {...this.state.individualResult} />
+        <Button
+          type={OUTLINE_TYPE}
+          buttonStyle={DEFAULT_STYLE}
+          onClick={this.backToSearchResultsList}
+        >
+          Back
+        </Button>
+        <Button
+          type={OUTLINE_TYPE}
+          buttonStyle={ACCENT_STYLE}
+          onClick={() => this.props.onAddBook(this.state.individualResult)}
+        >
+          Add Book
+        </Button>
+      </Fragment>
+    );
+  }
+
+  render() {
+    if (this.state.individualResult) {
+      return this.renderIndividualResult();
+    }
+    return this.renderAllResults();
+  }
 }
 
 NewBookSearchResults.propTypes = {
   search: PropTypes.object.isRequired,
-  backToSearch: PropTypes.func.isRequired
+  backToSearch: PropTypes.func.isRequired,
+  onAddBook: PropTypes.func.isRequired
 };
 
 export default NewBookSearchResults;

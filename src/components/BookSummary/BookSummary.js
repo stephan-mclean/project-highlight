@@ -42,8 +42,8 @@ const BookSummary = ({
 BookSummary.propTypes = {
   coverSrc: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  subtitle: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  subtitle: PropTypes.string,
+  description: PropTypes.string,
   showDescription: PropTypes.bool
 };
 

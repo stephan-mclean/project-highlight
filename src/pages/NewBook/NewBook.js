@@ -1,6 +1,8 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import TabSet, { Tab } from "../../components/TabSet/TabSet";
 import NewBookSearch from "./NewBookSearch";
+import { addBook } from "../../actions";
 
 class NewBookComp extends Component {
   constructor(props) {
@@ -21,6 +23,7 @@ class NewBookComp extends Component {
 
   onAddBook(book) {
     console.log("on add book", this, book);
+    this.props.addBook(book);
   }
 
   render() {
@@ -33,4 +36,7 @@ class NewBookComp extends Component {
   }
 }
 
-export const NewBook = NewBookComp;
+export const NewBook = connect(
+  null,
+  { addBook }
+)(NewBookComp);
