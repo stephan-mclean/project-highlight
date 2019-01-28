@@ -1,4 +1,6 @@
 import React, { Component, Fragment } from "react";
+import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PropTypes from "prop-types";
 import Button, {
   DEFAULT_STYLE,
@@ -6,6 +8,18 @@ import Button, {
 } from "../../components/Button/Button";
 import ContentLoader from "../../components/ContentLoader/ContentLoader";
 import BookSummary from "../../components/BookSummary/BookSummary";
+
+const SearchResultContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+`;
+
+const SearchResultIcon = styled(FontAwesomeIcon)`
+  color: ${props => props.theme.colors.foreground.default};
+  font-size: 1rem;
+`;
 
 class NewBookSearchResults extends Component {
   constructor(props) {
@@ -21,11 +35,14 @@ class NewBookSearchResults extends Component {
         <Fragment>
           {search.results.map(result => {
             return (
-              <BookSummary
-                key={result.gBooksID}
-                {...result}
-                showDescription={false}
-              />
+              <SearchResultContainer>
+                <BookSummary
+                  key={result.gBooksID}
+                  {...result}
+                  showDescription={false}
+                />
+                <SearchResultIcon icon="chevron-right" />
+              </SearchResultContainer>
             );
           })}
         </Fragment>

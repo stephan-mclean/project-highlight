@@ -6,7 +6,6 @@ import { S1, S2, Caption } from "../Fonts/Fonts";
 const Container = styled.div`
   display: inline-block;
   width: 100%;
-  margin-bottom: 1rem;
 `;
 
 const CoverImg = styled.img`
