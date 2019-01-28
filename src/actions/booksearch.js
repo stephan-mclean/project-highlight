@@ -18,7 +18,21 @@ export const searchBooks = params => dispatch => {
 
   fetch(searchURL)
     .then(response => response.json())
-    .then(data => dispatch({ type: SEARCH_BOOKS, payload: data.items }))
+    .then(data => {
+      const results = data.items.map(result => {
+        const { volumeInfo } = result;
+        const { title, subtitle, description } = volumeInfo;
+        return {
+          gBooksID: result.id,
+          title,
+          subtitle,
+          description,
+          coverSrc: volumeInfo.imageLinks.thumbnail
+        };
+      });
+
+      dispatch({ type: SEARCH_BOOKS, payload: results });
+    })
     .catch(error => {
       console.error(error);
       dispatch({ type: SEARCH_BOOKS_ERROR });
