@@ -1,15 +1,16 @@
 import React, { Component, Fragment } from "react";
+import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import PropTypes from "prop-types";
 import { searchBooks } from "../../actions";
 import Input from "../../components/Input/Input";
 import Button, {
-  DEFAULT_STYLE,
   ACCENT_STYLE,
   OUTLINE_TYPE
 } from "../../components/Button/Button";
 import NewBookSearchResults from "./NewBookSearchResults";
+import { ROUTES } from "../../constants";
 
 class NewBookSearch extends Component {
   constructor(props) {
@@ -19,11 +20,16 @@ class NewBookSearch extends Component {
     this.renderSearchForm = this.renderSearchForm.bind(this);
     this.renderSearchResults = this.renderSearchResults.bind(this);
     this.backToSearch = this.backToSearch.bind(this);
+    this.cancelSearch = this.cancelSearch.bind(this);
 
     this.state = {
       // Initially show the search form
       shouldShowSearchForm: true
     };
+  }
+
+  cancelSearch() {
+    this.props.history.push(`/${ROUTES.HOME}`);
   }
 
   componentDidUpdate() {
@@ -42,7 +48,20 @@ class NewBookSearch extends Component {
         <Field name="title" label="Title" type="text" component={Input} />
         <Field name="author" label="Author" type="text" component={Input} />
         <Field name="isbn" label="ISBN" type="text" component={Input} />
-        <button type="submit">Submit</button>
+        <Button
+          type="button"
+          buttonType={OUTLINE_TYPE}
+          onClick={this.cancelSearch}
+        >
+          Cancel
+        </Button>
+        <Button
+          buttonType={OUTLINE_TYPE}
+          buttonStyle={ACCENT_STYLE}
+          type="submit"
+        >
+          Search
+        </Button>
       </form>
     );
   }
@@ -78,6 +97,8 @@ NewBookSearch.propTypes = {
 const mapStateToProps = ({ bookSearch }) => {
   return { bookSearch };
 };
+
+NewBookSearch = withRouter(NewBookSearch);
 
 NewBookSearch = connect(
   mapStateToProps,
