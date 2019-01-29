@@ -49,7 +49,7 @@ const BookSummary = ({
 );
 
 BookSummary.propTypes = {
-  coverSrc: PropTypes.string.isRequired,
+  coverSrc: PropTypes.string,
   title: PropTypes.string.isRequired,
   subtitle: PropTypes.string,
   description: PropTypes.string,

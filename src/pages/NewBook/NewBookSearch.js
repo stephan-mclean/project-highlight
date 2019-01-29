@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 import { searchBooks } from "../../actions";
 import NewBookSearchResults from "./NewBookSearchResults";
 import NewBookSearchForm from "./NewBookSearchForm";
-import { ROUTES } from "../../constants";
 
 class NewBookSearch extends Component {
   constructor(props) {
@@ -15,20 +14,11 @@ class NewBookSearch extends Component {
     this.renderSearchForm = this.renderSearchForm.bind(this);
     this.renderSearchResults = this.renderSearchResults.bind(this);
     this.backToSearch = this.backToSearch.bind(this);
-    this.cancelSearch = this.cancelSearch.bind(this);
 
     this.state = {
       // Initially show the search form
       shouldShowSearchForm: true
     };
-  }
-
-  cancelSearch() {
-    this.props.history.push(`/${ROUTES.HOME}`);
-  }
-
-  componentDidUpdate() {
-    console.log("book search update", this.props);
   }
 
   onSearchSubmit(values) {
@@ -39,7 +29,7 @@ class NewBookSearch extends Component {
   renderSearchForm() {
     return (
       <NewBookSearchForm
-        cancelSearch={this.cancelSearch}
+        cancelSearch={this.props.cancelAddBook}
         onSearchSubmit={this.onSearchSubmit}
       />
     );
@@ -70,7 +60,8 @@ class NewBookSearch extends Component {
 }
 
 NewBookSearch.propTypes = {
-  onAddBook: PropTypes.func.isRequired
+  onAddBook: PropTypes.func.isRequired,
+  cancelAddBook: PropTypes.func.isRequired
 };
 
 const mapStateToProps = ({ bookSearch }) => {

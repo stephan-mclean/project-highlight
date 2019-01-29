@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import TabSet, { Tab } from "../../components/TabSet/TabSet";
 import NewBookSearch from "./NewBookSearch";
+import NewBookManually from "./NewBookManually";
 import { addBook } from "../../actions";
 import { ROUTES } from "../../constants";
 
@@ -12,19 +13,31 @@ class NewBookComp extends Component {
     this.renderBookSearchTab = this.renderBookSearchTab.bind(this);
     this.renderAddManuallyTab = this.renderAddManuallyTab.bind(this);
     this.onAddBook = this.onAddBook.bind(this);
+    this.goToHome = this.goToHome.bind(this);
   }
 
   renderBookSearchTab() {
-    return <NewBookSearch onAddBook={this.onAddBook} />;
+    return (
+      <NewBookSearch onAddBook={this.onAddBook} cancelAddBook={this.goToHome} />
+    );
   }
 
   renderAddManuallyTab() {
-    return <div>ADD MANUALLY</div>;
+    return (
+      <NewBookManually
+        onAddBook={this.onAddBook}
+        cancelAddBook={this.goToHome}
+      />
+    );
+  }
+
+  goToHome() {
+    this.props.history.push(`/${ROUTES.HOME}`);
   }
 
   onAddBook(book) {
     this.props.addBook(book);
-    this.props.history.push(`/${ROUTES.HOME}`);
+    this.goToHome();
   }
 
   render() {
