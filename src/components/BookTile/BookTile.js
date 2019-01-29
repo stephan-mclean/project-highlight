@@ -7,7 +7,7 @@ const BookTileContainer = styled.div`
   text-align: center;
   color: ${props => props.theme.colors.foreground.secondary};
   display: inline-block;
-  margin-right: 0.5rem;
+  margin-bottom: 1rem;
 `;
 
 const CoverImg = styled.img`
@@ -56,6 +56,7 @@ BookTile.propTypes = {
 const StyledBookTileGrid = styled.div`
   display: flex;
   flex-flow: row wrap;
+  justify-content: space-between;
 `;
 
 export default BookTile;

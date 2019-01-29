@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Field, reduxForm, formValueSelector } from "redux-form";
+import { uploadFile } from "../../../firebase";
 import Input from "../../../components/Input/Input";
 import FileInput from "../../../components/FileInput/FileInput";
 import TextArea from "../../../components/TextArea/TextArea";
@@ -18,18 +19,23 @@ class NewBookManually extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (!prevProps.coverImgFileValue && this.props.coverImgFileValue) {
-      console.log("do file upload");
+    if (
+      prevProps.coverImgFileValue !== this.props.coverImgFileValue &&
+      this.props.coverImgFileValue
+    ) {
+      uploadFile(this.props.coverImgFileValue).then(url => {
+        console.log("IT WORKED", url);
+
+        this.setState({ coverSrc: url });
+      });
     }
   }
 
   onSubmit(values) {
-    console.log("add book manually", values);
+    delete values["coverImgFile"];
+    values.coverSrc = this.state.coverSrc;
 
-    //this.props.onAddBook(values);
-
-    // TODO: Set the coverSrc prop to the value of the download url
-    // of the file uploaded in the componentDidUpdate fn
+    this.props.onAddBook(values);
   }
 
   render() {
@@ -39,7 +45,7 @@ class NewBookManually extends Component {
         <Field
           name="coverImgFile"
           label="Cover Image"
-          accept=".txt"
+          accept="image/*"
           buttonType={OUTLINE_TYPE}
           component={FileInput}
         />
