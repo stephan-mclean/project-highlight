@@ -1,15 +1,10 @@
 import React, { Component, Fragment } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { Field, reduxForm } from "redux-form";
 import PropTypes from "prop-types";
 import { searchBooks } from "../../actions";
-import Input from "../../components/Input/Input";
-import Button, {
-  ACCENT_STYLE,
-  OUTLINE_TYPE
-} from "../../components/Button/Button";
 import NewBookSearchResults from "./NewBookSearchResults";
+import NewBookSearchForm from "./NewBookSearchForm";
 import { ROUTES } from "../../constants";
 
 class NewBookSearch extends Component {
@@ -42,27 +37,11 @@ class NewBookSearch extends Component {
   }
 
   renderSearchForm() {
-    const { handleSubmit } = this.props;
     return (
-      <form onSubmit={handleSubmit(this.onSearchSubmit)}>
-        <Field name="title" label="Title" type="text" component={Input} />
-        <Field name="author" label="Author" type="text" component={Input} />
-        <Field name="isbn" label="ISBN" type="text" component={Input} />
-        <Button
-          type="button"
-          buttonType={OUTLINE_TYPE}
-          onClick={this.cancelSearch}
-        >
-          Cancel
-        </Button>
-        <Button
-          buttonType={OUTLINE_TYPE}
-          buttonStyle={ACCENT_STYLE}
-          type="submit"
-        >
-          Search
-        </Button>
-      </form>
+      <NewBookSearchForm
+        cancelSearch={this.cancelSearch}
+        onSearchSubmit={this.onSearchSubmit}
+      />
     );
   }
 
@@ -105,6 +84,4 @@ NewBookSearch = connect(
   { searchBooks }
 )(NewBookSearch);
 
-export default reduxForm({
-  form: "booksearch"
-})(NewBookSearch);
+export default NewBookSearch;
