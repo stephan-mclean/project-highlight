@@ -5,7 +5,16 @@ import {
   faStickyNote,
   faPlus,
   faChevronRight,
-  faCheck
+  faCheck,
+  faCheckCircle
 } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faCog, faBook, faStickyNote, faPlus, faChevronRight, faCheck);
+library.add(
+  faCog,
+  faBook,
+  faStickyNote,
+  faPlus,
+  faChevronRight,
+  faCheck,
+  faCheckCircle
+);

@@ -1,15 +1,33 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button, { DEFAULT_TYPE, DEFAULT_STYLE } from "../Button/Button";
-import { B1 } from "../Fonts/Fonts";
+import { B1, Overline } from "../Fonts/Fonts";
+
+const Container = styled.div`
+  margin-bottom: 1rem;
+`;
 
 const Label = styled(B1)`
   margin-bottom: 0.25rem;
 `;
 
+const FileNameLabel = styled(Overline)`
+  color: ${props => props.theme.colors.foreground.secondary};
+`;
+
 const StyledFileInput = styled.input`
   display: none;
+`;
+
+const FileInputButton = styled(Button)`
+  display: block;
+  margin-bottom: 0.25rem;
+`;
+
+const FileCheckIcon = styled(FontAwesomeIcon)`
+  margin-right: 0.25rem;
 `;
 
 class FileInput extends Component {
@@ -22,7 +40,6 @@ class FileInput extends Component {
   }
 
   onChange(e) {
-    console.log("file upload", e, e.target.files[0]);
     const { input } = this.props;
     input.onChange(e.target.files[0]);
   }
@@ -33,7 +50,7 @@ class FileInput extends Component {
 
   render() {
     return (
-      <Fragment>
+      <Container>
         <StyledFileInput
           type="file"
           accept={this.props.accept}
@@ -41,16 +58,21 @@ class FileInput extends Component {
           onChange={this.onChange}
         />
         <Label>{this.props.label}</Label>
-        <Button
+        <FileInputButton
           type={this.props.buttonType}
           buttonStyle={this.props.buttonStyle}
           onClick={this.onClick}
         >
           {this.props.renderButtonLabel()}
-        </Button>
+        </FileInputButton>
 
-        {this.props.input.value && <span>{this.props.input.value.name}</span>}
-      </Fragment>
+        {this.props.input.value && (
+          <FileNameLabel>
+            <FileCheckIcon icon="check-circle" />
+            {this.props.input.value.name}
+          </FileNameLabel>
+        )}
+      </Container>
     );
   }
 }
