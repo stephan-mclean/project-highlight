@@ -1,14 +1,18 @@
-import React, { Fragment } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { B1 } from "../Fonts/Fonts";
+
+const Container = styled.div`
+  margin-bottom: 1rem;
+`;
 
 const Label = styled(B1)`
   margin-bottom: 0.25rem;
 `;
 
 const StyledTextArea = styled.textarea`
-  width: 100%;
+  width: fill-available;
   padding: 0.25rem;
   background-color: ${props => props.theme.colors.background.default};
   font-size: ${props => props.theme.fonts.b1.size};
@@ -22,10 +26,10 @@ const StyledTextArea = styled.textarea`
 `;
 
 const TextArea = ({ label, placeholder, input }) => (
-  <Fragment>
+  <Container>
     {label && <Label>{label}</Label>}
     <StyledTextArea {...input} placeholder={placeholder} />
-  </Fragment>
+  </Container>
 );
 
 TextArea.propTypes = {

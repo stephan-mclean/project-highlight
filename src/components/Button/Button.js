@@ -168,6 +168,7 @@ const Button = styled.button`
     props.circle ? "1rem" : props.theme.fonts.button.size};
   font-weight: ${props => props.theme.fonts.button.weight};
   letter-spacing: ${props => props.theme.fonts.button.letterspacing};
+  line-height: 1rem;
   font-family: "Muli", sans-serif;
   text-transform: uppercase;
   background-color: ${props => getBackgroundColor(props)};

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
 import Input from "../../../components/Input/Input";
+import TextArea from "../../../components/TextArea/TextArea";
 import Button, {
   ACCENT_STYLE,
   OUTLINE_TYPE
@@ -14,12 +15,7 @@ class NewBookManually extends Component {
       <form onSubmit={handleSubmit(this.props.onAddBook)}>
         <Field name="title" label="Title" type="text" component={Input} />
         <Field name="subtitle" label="Subtitle" type="text" component={Input} />
-        <Field
-          name="description"
-          label="Description"
-          type="text"
-          component={Input}
-        />
+        <Field name="description" label="Description" component={TextArea} />
 
         <Button
           type="button"
