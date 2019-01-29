@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
 import Input from "../../../components/Input/Input";
+import FileInput from "../../../components/FileInput/FileInput";
 import TextArea from "../../../components/TextArea/TextArea";
 import Button, {
   ACCENT_STYLE,
@@ -9,10 +10,38 @@ import Button, {
 } from "../../../components/Button/Button";
 
 class NewBookManually extends Component {
+  constructor(props) {
+    super(props);
+
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  componentDidUpdate() {
+    console.log("new book manual update", this.props);
+
+    // TODO: get value of coverImgFile + upload to storage
+  }
+
+  onSubmit(values) {
+    console.log("add book manually", values);
+
+    //this.props.onAddBook(values);
+
+    // TODO: Set the coverSrc prop to the value of the download url
+    // of the file uploaded in the componentDidUpdate fn
+  }
+
   render() {
     const { handleSubmit } = this.props;
     return (
-      <form onSubmit={handleSubmit(this.props.onAddBook)}>
+      <form onSubmit={handleSubmit(this.onSubmit)}>
+        <Field
+          name="coverImgFile"
+          label="Cover Image"
+          accept=".txt"
+          buttonType={OUTLINE_TYPE}
+          component={FileInput}
+        />
         <Field name="title" label="Title" type="text" component={Input} />
         <Field name="subtitle" label="Subtitle" type="text" component={Input} />
         <Field name="description" label="Description" component={TextArea} />
