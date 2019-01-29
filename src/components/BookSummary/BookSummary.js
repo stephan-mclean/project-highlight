@@ -15,6 +15,14 @@ const CoverImg = styled.img`
   margin-right: 1rem;
 `;
 
+const CoverImgPlaceholder = styled.div`
+  width: 4rem;
+  height: 5rem;
+  float: left;
+  margin-right: 1rem;
+  background: ${props => props.theme.colors.background.default};
+`;
+
 const Title = styled(S1)`
   margin-bottom: 0.25rem;
 `;
@@ -32,7 +40,8 @@ const BookSummary = ({
   showDescription
 }) => (
   <Container>
-    <CoverImg src={coverSrc} />
+    {coverSrc && <CoverImg src={coverSrc} />}
+    {!coverSrc && <CoverImgPlaceholder />}
     <Title>{title}</Title>
     <Subtitle>{subtitle}</Subtitle>
     {showDescription && <Caption>{description}</Caption>}
