@@ -34,7 +34,7 @@ class LoginComp extends Component {
     return (
       <Fragment>
         <Button
-          type={OUTLINE_TYPE}
+          buttonType={OUTLINE_TYPE}
           buttonStyle={PRIMARY_STYLE}
           onClick={this.login}
         >

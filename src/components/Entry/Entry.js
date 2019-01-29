@@ -66,12 +66,12 @@ const Entry = ({ book, createdDate, passage, notes, onEdit, onDelete }) => (
       <NotesText>{notes}</NotesText>
 
       <ButtonsContainer>
-        <StyledEntryButton onClick={onEdit} type={LINK_TYPE}>
+        <StyledEntryButton onClick={onEdit} buttonType={LINK_TYPE}>
           Edit
         </StyledEntryButton>
         <StyledEntryButton
           onClick={onDelete}
-          type={LINK_TYPE}
+          buttonType={LINK_TYPE}
           buttonStyle={DANGER_STYLE}
         >
           Delete

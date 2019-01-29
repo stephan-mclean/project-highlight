@@ -78,7 +78,7 @@ class NewBookSearchResults extends Component {
         />
 
         <Button
-          type={OUTLINE_TYPE}
+          buttonType={OUTLINE_TYPE}
           buttonStyle={DEFAULT_STYLE}
           onClick={this.props.backToSearch}
         >
@@ -93,14 +93,14 @@ class NewBookSearchResults extends Component {
       <Fragment>
         <BookSummary {...this.state.individualResult} />
         <Button
-          type={OUTLINE_TYPE}
+          buttonType={OUTLINE_TYPE}
           buttonStyle={DEFAULT_STYLE}
           onClick={this.backToSearchResultsList}
         >
           Back
         </Button>
         <Button
-          type={OUTLINE_TYPE}
+          buttonType={OUTLINE_TYPE}
           buttonStyle={ACCENT_STYLE}
           onClick={() => this.props.onAddBook(this.state.individualResult)}
         >

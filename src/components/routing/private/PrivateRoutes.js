@@ -60,7 +60,7 @@ export default ({ location, history }) => (
         <NavItem icon="book" label="Books" />
       </Link>
       <Button
-        type={OUTLINE_TYPE}
+        buttonType={OUTLINE_TYPE}
         buttonStyle={PRIMARY_STYLE}
         circle
         onClick={() => {

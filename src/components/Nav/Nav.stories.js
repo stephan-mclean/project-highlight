@@ -30,7 +30,7 @@ stories.add("Nav", () => (
 
       <BottomNav>
         <NavItem icon="book" label="Books" />
-        <Button type={OUTLINE_TYPE} buttonStyle={PRIMARY_STYLE} circle>
+        <Button buttonType={OUTLINE_TYPE} buttonStyle={PRIMARY_STYLE} circle>
           <FontAwesomeIcon icon="plus" />
         </Button>
         <NavItem icon="sticky-note" label="Entries" />
