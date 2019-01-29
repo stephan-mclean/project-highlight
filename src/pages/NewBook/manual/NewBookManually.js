@@ -1,6 +1,7 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Field, reduxForm } from "redux-form";
+import { Field, reduxForm, formValueSelector } from "redux-form";
 import Input from "../../../components/Input/Input";
 import FileInput from "../../../components/FileInput/FileInput";
 import TextArea from "../../../components/TextArea/TextArea";
@@ -16,10 +17,10 @@ class NewBookManually extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  componentDidUpdate() {
-    console.log("new book manual update", this.props);
-
-    // TODO: get value of coverImgFile + upload to storage
+  componentDidUpdate(prevProps) {
+    if (!prevProps.coverImgFileValue && this.props.coverImgFileValue) {
+      console.log("do file upload");
+    }
   }
 
   onSubmit(values) {
@@ -70,6 +71,18 @@ NewBookManually.propTypes = {
   cancelAddBook: PropTypes.func.isRequired
 };
 
-export default reduxForm({
+NewBookManually = reduxForm({
   form: "addbookmanually"
 })(NewBookManually);
+
+const selector = formValueSelector("addbookmanually");
+const mapStateToProps = state => {
+  const coverImgFileValue = selector(state, "coverImgFile");
+
+  return { coverImgFileValue };
+};
+
+export default connect(
+  mapStateToProps,
+  null
+)(NewBookManually);
