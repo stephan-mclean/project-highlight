@@ -6,9 +6,9 @@ import Button, {
   DEFAULT_STYLE,
   OUTLINE_TYPE,
   ACCENT_STYLE
-} from "../../components/Button/Button";
-import ContentLoader from "../../components/ContentLoader/ContentLoader";
-import BookSummary from "../../components/BookSummary/BookSummary";
+} from "../../../components/Button/Button";
+import ContentLoader from "../../../components/ContentLoader/ContentLoader";
+import BookSummary from "../../../components/BookSummary/BookSummary";
 
 const SearchResultContainer = styled.div`
   display: flex;

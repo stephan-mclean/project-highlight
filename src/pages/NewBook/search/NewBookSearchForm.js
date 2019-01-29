@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
-import Input from "../../components/Input/Input";
+import Input from "../../../components/Input/Input";
 import Button, {
   ACCENT_STYLE,
   OUTLINE_TYPE
-} from "../../components/Button/Button";
+} from "../../../components/Button/Button";
 
 class NewBookSearchForm extends Component {
   render() {

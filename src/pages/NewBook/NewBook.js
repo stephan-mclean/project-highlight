@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import TabSet, { Tab } from "../../components/TabSet/TabSet";
-import NewBookSearch from "./NewBookSearch";
-import NewBookManually from "./NewBookManually";
+import NewBookSearch from "./search/NewBookSearch";
+import NewBookManually from "./manual/NewBookManually";
 import { addBook } from "../../actions";
 import { ROUTES } from "../../constants";
 

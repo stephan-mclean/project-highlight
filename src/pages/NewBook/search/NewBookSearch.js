@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { searchBooks } from "../../actions";
+import { searchBooks } from "../../../actions";
 import NewBookSearchResults from "./NewBookSearchResults";
 import NewBookSearchForm from "./NewBookSearchForm";
 
