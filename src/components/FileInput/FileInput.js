@@ -59,7 +59,7 @@ class FileInput extends Component {
         />
         <Label>{this.props.label}</Label>
         <FileInputButton
-          type={this.props.buttonType}
+          buttonType={this.props.buttonType}
           buttonStyle={this.props.buttonStyle}
           onClick={this.onClick}
         >
