@@ -61,6 +61,14 @@ class NewBookSearchResults extends Component {
               </SearchResultContainer>
             );
           })}
+
+          <Button
+            buttonType={OUTLINE_TYPE}
+            buttonStyle={DEFAULT_STYLE}
+            onClick={this.props.backToSearch}
+          >
+            Back
+          </Button>
         </Fragment>
       );
     }
@@ -76,14 +84,6 @@ class NewBookSearchResults extends Component {
           error={this.props.search.error}
           onLoad={this.renderSearchResultsList}
         />
-
-        <Button
-          buttonType={OUTLINE_TYPE}
-          buttonStyle={DEFAULT_STYLE}
-          onClick={this.props.backToSearch}
-        >
-          Back
-        </Button>
       </Fragment>
     );
   }
