@@ -43,6 +43,33 @@ stories.add("Button", () => (
       </RowContainer>
 
       <RowContainer>
+        <Button buttonType={defaultButtonType} disabled>
+          Button
+        </Button>
+        <Button
+          buttonType={defaultButtonType}
+          buttonStyle={primaryButtonStyle}
+          disabled
+        >
+          Button
+        </Button>
+        <Button
+          buttonType={defaultButtonType}
+          buttonStyle={accentButtonStyle}
+          disabled
+        >
+          Button
+        </Button>
+        <Button
+          buttonType={defaultButtonType}
+          buttonStyle={dangerButtonStyle}
+          disabled
+        >
+          Button
+        </Button>
+      </RowContainer>
+
+      <RowContainer>
         <Button buttonType={outlineButtonType}>Button</Button>
         <Button buttonType={outlineButtonType} buttonStyle={primaryButtonStyle}>
           Button
@@ -51,6 +78,33 @@ stories.add("Button", () => (
           Button
         </Button>
         <Button buttonType={outlineButtonType} buttonStyle={dangerButtonStyle}>
+          Button
+        </Button>
+      </RowContainer>
+
+      <RowContainer>
+        <Button buttonType={outlineButtonType} disabled>
+          Button
+        </Button>
+        <Button
+          buttonType={outlineButtonType}
+          buttonStyle={primaryButtonStyle}
+          disabled
+        >
+          Button
+        </Button>
+        <Button
+          buttonType={outlineButtonType}
+          buttonStyle={accentButtonStyle}
+          disabled
+        >
+          Button
+        </Button>
+        <Button
+          buttonType={outlineButtonType}
+          buttonStyle={dangerButtonStyle}
+          disabled
+        >
           Button
         </Button>
       </RowContainer>
