@@ -9,7 +9,7 @@ import Button, {
 
 class NewBookSearchForm extends Component {
   render() {
-    const { handleSubmit } = this.props;
+    const { handleSubmit, invalid, submitting, pristine } = this.props;
     return (
       <form onSubmit={handleSubmit(this.props.onSearchSubmit)}>
         <Field name="title" label="Title" type="text" component={Input} />
@@ -26,6 +26,7 @@ class NewBookSearchForm extends Component {
           buttonType={OUTLINE_TYPE}
           buttonStyle={ACCENT_STYLE}
           type="submit"
+          disabled={invalid || submitting || pristine}
         >
           Search
         </Button>
@@ -40,5 +41,16 @@ NewBookSearchForm.propTypes = {
 };
 
 export default reduxForm({
-  form: "booksearch"
+  form: "booksearch",
+  validate: values => {
+    const errors = {};
+    if (!values.title && !values.author && !values.isbn) {
+      const error = "Please enter either an author, title, or ISBN";
+      errors.title = error;
+      errors.author = error;
+      errors.isbn = error;
+    }
+
+    return errors;
+  }
 })(NewBookSearchForm);
