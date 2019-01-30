@@ -11,3 +11,22 @@ firebase.initializeApp({
 
 export const authRef = firebase.auth();
 export const dbRef = firebase.firestore();
+
+const storage = firebase.storage().ref();
+export const uploadFile = file => {
+  return new Promise(resolve => {
+    console.log("upload file");
+    const currentUser = authRef.currentUser;
+    const fileStorageRef = storage.child(`${currentUser.uid}/${file.name}`);
+
+    console.log("uploading to", `${currentUser.uid}/${file.name}`);
+
+    fileStorageRef.put(file).then(() => {
+      console.log("uploaded, getting download url");
+      fileStorageRef.getDownloadURL().then(url => {
+        console.log("download file: ", url);
+        resolve(url);
+      });
+    });
+  });
+};

@@ -1,14 +1,18 @@
-import React, { Fragment } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { B1 } from "../Fonts/Fonts";
+
+const Container = styled.div`
+  margin-bottom: 1rem;
+`;
 
 const Label = styled(B1)`
   margin-bottom: 0.25rem;
 `;
 
 const StyledInput = styled.input`
-  width: 100%;
+  width: fill-available;
   height: 2rem;
   padding: 0.25rem;
   background-color: ${props => props.theme.colors.background.default};
@@ -23,10 +27,10 @@ const StyledInput = styled.input`
 `;
 
 const Input = ({ label, placeholder, input }) => (
-  <Fragment>
+  <Container>
     {label && <Label>{label}</Label>}
     <StyledInput {...input} placeholder={placeholder} />
-  </Fragment>
+  </Container>
 );
 
 Input.propTypes = {

@@ -48,7 +48,7 @@ const getPrimaryHoverColor = props => {
 };
 
 const getBackgroundColor = props => {
-  if ([OUTLINE_TYPE, LINK_TYPE].includes(props.type)) {
+  if ([OUTLINE_TYPE, LINK_TYPE].includes(props.buttonType)) {
     return "transparent";
   }
 
@@ -57,14 +57,14 @@ const getBackgroundColor = props => {
 
 const getFontColor = props => {
   if (
-    [OUTLINE_TYPE, LINK_TYPE].includes(props.type) &&
+    [OUTLINE_TYPE, LINK_TYPE].includes(props.buttonType) &&
     props.buttonStyle !== DEFAULT_STYLE
   ) {
     return getPrimaryColor(props);
   }
 
   if (
-    [OUTLINE_TYPE, LINK_TYPE].includes(props.type) &&
+    [OUTLINE_TYPE, LINK_TYPE].includes(props.buttonType) &&
     props.buttonStyle === DEFAULT_STYLE
   ) {
     return props.theme.colors.foreground.tertiary;
@@ -85,11 +85,17 @@ const getFontColor = props => {
 };
 
 const getBorder = props => {
-  if (props.type === OUTLINE_TYPE && props.buttonStyle !== DEFAULT_STYLE) {
+  if (
+    props.buttonType === OUTLINE_TYPE &&
+    props.buttonStyle !== DEFAULT_STYLE
+  ) {
     return `1px solid ${getPrimaryColor(props)}`;
   }
 
-  if (props.type === OUTLINE_TYPE && props.buttonStyle === DEFAULT_STYLE) {
+  if (
+    props.buttonType === OUTLINE_TYPE &&
+    props.buttonStyle === DEFAULT_STYLE
+  ) {
     return `1px solid ${props.theme.colors.foreground.quaternary}`;
   }
 
@@ -97,7 +103,7 @@ const getBorder = props => {
 };
 
 const getHoverBackgroundColor = props => {
-  if ([OUTLINE_TYPE, LINK_TYPE].includes(props.type)) {
+  if ([OUTLINE_TYPE, LINK_TYPE].includes(props.buttonType)) {
     return "none";
   }
 
@@ -106,14 +112,14 @@ const getHoverBackgroundColor = props => {
 
 const getHoverFontColor = props => {
   if (
-    [OUTLINE_TYPE, LINK_TYPE].includes(props.type) &&
+    [OUTLINE_TYPE, LINK_TYPE].includes(props.buttonType) &&
     props.buttonStyle !== DEFAULT_STYLE
   ) {
     return getPrimaryHoverColor(props);
   }
 
   if (
-    [OUTLINE_TYPE, LINK_TYPE].includes(props.type) &&
+    [OUTLINE_TYPE, LINK_TYPE].includes(props.buttonType) &&
     props.buttonStyle === DEFAULT_STYLE
   ) {
     return props.theme.colors.foreground.secondary;
@@ -134,11 +140,17 @@ const getHoverFontColor = props => {
 };
 
 const getHoverBorder = props => {
-  if (props.type === OUTLINE_TYPE && props.buttonStyle !== DEFAULT_STYLE) {
+  if (
+    props.buttonType === OUTLINE_TYPE &&
+    props.buttonStyle !== DEFAULT_STYLE
+  ) {
     return `1px solid ${getPrimaryHoverColor(props)}`;
   }
 
-  if (props.type === OUTLINE_TYPE && props.buttonStyle === DEFAULT_STYLE) {
+  if (
+    props.buttonType === OUTLINE_TYPE &&
+    props.buttonStyle === DEFAULT_STYLE
+  ) {
     return `1px solid ${props.theme.colors.foreground.secondary}`;
   }
 
@@ -151,18 +163,19 @@ const Button = styled.button`
   border-radius: ${props =>
     props.circle ? "1.5rem" : props.theme.defaultBorderRadius};
   padding: ${props =>
-    props.type === LINK_TYPE || props.circle ? "0" : "0.5rem"};
+    props.buttonType === LINK_TYPE || props.circle ? "0" : "0.5rem"};
   font-size: ${props =>
     props.circle ? "1rem" : props.theme.fonts.button.size};
   font-weight: ${props => props.theme.fonts.button.weight};
   letter-spacing: ${props => props.theme.fonts.button.letterspacing};
+  line-height: 1rem;
   font-family: "Muli", sans-serif;
   text-transform: uppercase;
   background-color: ${props => getBackgroundColor(props)};
   color: ${props => getFontColor(props)};
   border: ${props => getBorder(props)};
   text-decoration: ${props =>
-    props.type === LINK_TYPE ? "underline" : "none"};
+    props.buttonType === LINK_TYPE ? "underline" : "none"};
 
   :hover,
   :active {
@@ -175,12 +188,12 @@ const Button = styled.button`
 `;
 
 Button.propTypes = {
-  type: PropTypes.oneOf(AVAILABLE_TYPES),
+  buttonType: PropTypes.oneOf(AVAILABLE_TYPES),
   buttonStyle: PropTypes.oneOf(AVAILABLE_STYLES)
 };
 
 Button.defaultProps = {
-  type: DEFAULT_TYPE,
+  buttonType: DEFAULT_TYPE,
   buttonStyle: DEFAULT_STYLE
 };
 

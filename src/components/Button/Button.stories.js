@@ -30,78 +30,94 @@ stories.add("Button", () => (
   <ThemeProvider theme={Theme.main}>
     <StoryContainer>
       <RowContainer>
-        <Button type={defaultButtonType}>Button</Button>
-        <Button type={defaultButtonType} buttonStyle={primaryButtonStyle}>
+        <Button buttonType={defaultButtonType}>Button</Button>
+        <Button buttonType={defaultButtonType} buttonStyle={primaryButtonStyle}>
           Button
         </Button>
-        <Button type={defaultButtonType} buttonStyle={accentButtonStyle}>
+        <Button buttonType={defaultButtonType} buttonStyle={accentButtonStyle}>
           Button
         </Button>
-        <Button type={defaultButtonType} buttonStyle={dangerButtonStyle}>
-          Button
-        </Button>
-      </RowContainer>
-
-      <RowContainer>
-        <Button type={outlineButtonType}>Button</Button>
-        <Button type={outlineButtonType} buttonStyle={primaryButtonStyle}>
-          Button
-        </Button>
-        <Button type={outlineButtonType} buttonStyle={accentButtonStyle}>
-          Button
-        </Button>
-        <Button type={outlineButtonType} buttonStyle={dangerButtonStyle}>
+        <Button buttonType={defaultButtonType} buttonStyle={dangerButtonStyle}>
           Button
         </Button>
       </RowContainer>
 
       <RowContainer>
-        <Button type={linkButtonType}>Button</Button>
-        <Button type={linkButtonType} buttonStyle={primaryButtonStyle}>
+        <Button buttonType={outlineButtonType}>Button</Button>
+        <Button buttonType={outlineButtonType} buttonStyle={primaryButtonStyle}>
           Button
         </Button>
-        <Button type={linkButtonType} buttonStyle={accentButtonStyle}>
+        <Button buttonType={outlineButtonType} buttonStyle={accentButtonStyle}>
           Button
         </Button>
-        <Button type={linkButtonType} buttonStyle={dangerButtonStyle}>
+        <Button buttonType={outlineButtonType} buttonStyle={dangerButtonStyle}>
           Button
         </Button>
       </RowContainer>
 
       <RowContainer>
-        <Button type={defaultButtonType} circle>
+        <Button buttonType={linkButtonType}>Button</Button>
+        <Button buttonType={linkButtonType} buttonStyle={primaryButtonStyle}>
+          Button
+        </Button>
+        <Button buttonType={linkButtonType} buttonStyle={accentButtonStyle}>
+          Button
+        </Button>
+        <Button buttonType={linkButtonType} buttonStyle={dangerButtonStyle}>
+          Button
+        </Button>
+      </RowContainer>
+
+      <RowContainer>
+        <Button buttonType={defaultButtonType} circle>
           +
         </Button>
         <Button
-          type={defaultButtonType}
+          buttonType={defaultButtonType}
           buttonStyle={primaryButtonStyle}
           circle
         >
           +
         </Button>
-        <Button type={defaultButtonType} buttonStyle={accentButtonStyle} circle>
+        <Button
+          buttonType={defaultButtonType}
+          buttonStyle={accentButtonStyle}
+          circle
+        >
           +
         </Button>
-        <Button type={defaultButtonType} buttonStyle={dangerButtonStyle} circle>
+        <Button
+          buttonType={defaultButtonType}
+          buttonStyle={dangerButtonStyle}
+          circle
+        >
           +
         </Button>
       </RowContainer>
 
       <RowContainer>
-        <Button type={outlineButtonType} circle>
+        <Button buttonType={outlineButtonType} circle>
           +
         </Button>
         <Button
-          type={outlineButtonType}
+          buttonType={outlineButtonType}
           buttonStyle={primaryButtonStyle}
           circle
         >
           +
         </Button>
-        <Button type={outlineButtonType} buttonStyle={accentButtonStyle} circle>
+        <Button
+          buttonType={outlineButtonType}
+          buttonStyle={accentButtonStyle}
+          circle
+        >
           +
         </Button>
-        <Button type={outlineButtonType} buttonStyle={dangerButtonStyle} circle>
+        <Button
+          buttonType={outlineButtonType}
+          buttonStyle={dangerButtonStyle}
+          circle
+        >
           +
         </Button>
       </RowContainer>

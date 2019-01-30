@@ -19,6 +19,11 @@ const mockBookTile3 = {
   numEntries: 2
 };
 
+const mockBookTile4 = {
+  title: "Book Title",
+  numEntries: 2
+};
+
 const stories = storiesOf("Components", module);
 stories.add("Book Tile", () => (
   <ThemeProvider theme={Theme.main}>
@@ -39,6 +44,11 @@ stories.add("Book Tile", () => (
         coverSrc={mockBookTile3.coverSrc}
         numEntries={mockBookTile3.numEntries}
         onClick={() => console.log("Book tile 3 on click")}
+      />
+      <BookTile
+        title={mockBookTile4.title}
+        numEntries={mockBookTile4.numEntries}
+        onClick={() => console.log("Book tile 4 on click")}
       />
     </BookTileGrid>
   </ThemeProvider>

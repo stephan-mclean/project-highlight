@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -59,7 +59,8 @@ class FileInput extends Component {
         />
         <Label>{this.props.label}</Label>
         <FileInputButton
-          type={this.props.buttonType}
+          type="button"
+          buttonType={this.props.buttonType}
           buttonStyle={this.props.buttonStyle}
           onClick={this.onClick}
         >
