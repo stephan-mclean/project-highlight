@@ -6,6 +6,7 @@ import Button, {
   ACCENT_STYLE,
   OUTLINE_TYPE
 } from "../../../components/Button/Button";
+import ButtonGroup from "../../../components/ButtonGroup/ButtonGroup";
 
 class NewBookSearchForm extends Component {
   render() {
@@ -15,21 +16,28 @@ class NewBookSearchForm extends Component {
         <Field name="title" label="Title" type="text" component={Input} />
         <Field name="author" label="Author" type="text" component={Input} />
         <Field name="isbn" label="ISBN" type="text" component={Input} />
-        <Button
-          type="button"
-          buttonType={OUTLINE_TYPE}
-          onClick={this.props.cancelSearch}
-        >
-          Cancel
-        </Button>
-        <Button
-          buttonType={OUTLINE_TYPE}
-          buttonStyle={ACCENT_STYLE}
-          type="submit"
-          disabled={invalid || submitting || pristine}
-        >
-          Search
-        </Button>
+        <ButtonGroup right>
+          <ButtonGroup.Item>
+            <Button
+              type="button"
+              buttonType={OUTLINE_TYPE}
+              onClick={this.props.cancelSearch}
+            >
+              Cancel
+            </Button>
+          </ButtonGroup.Item>
+
+          <ButtonGroup.Item>
+            <Button
+              buttonType={OUTLINE_TYPE}
+              buttonStyle={ACCENT_STYLE}
+              type="submit"
+              disabled={invalid || submitting || pristine}
+            >
+              Search
+            </Button>
+          </ButtonGroup.Item>
+        </ButtonGroup>
       </form>
     );
   }

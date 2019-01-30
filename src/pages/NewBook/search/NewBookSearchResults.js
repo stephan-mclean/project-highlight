@@ -7,6 +7,7 @@ import Button, {
   OUTLINE_TYPE,
   ACCENT_STYLE
 } from "../../../components/Button/Button";
+import ButtonGroup from "../../../components/ButtonGroup/ButtonGroup";
 import ContentLoader from "../../../components/ContentLoader/ContentLoader";
 import BookSummary from "../../../components/BookSummary/BookSummary";
 
@@ -62,13 +63,17 @@ class NewBookSearchResults extends Component {
             );
           })}
 
-          <Button
-            buttonType={OUTLINE_TYPE}
-            buttonStyle={DEFAULT_STYLE}
-            onClick={this.props.backToSearch}
-          >
-            Back
-          </Button>
+          <ButtonGroup right>
+            <ButtonGroup.Item>
+              <Button
+                buttonType={OUTLINE_TYPE}
+                buttonStyle={DEFAULT_STYLE}
+                onClick={this.props.backToSearch}
+              >
+                Back
+              </Button>
+            </ButtonGroup.Item>
+          </ButtonGroup>
         </Fragment>
       );
     }
@@ -92,20 +97,28 @@ class NewBookSearchResults extends Component {
     return (
       <Fragment>
         <BookSummary {...this.state.individualResult} />
-        <Button
-          buttonType={OUTLINE_TYPE}
-          buttonStyle={DEFAULT_STYLE}
-          onClick={this.backToSearchResultsList}
-        >
-          Back
-        </Button>
-        <Button
-          buttonType={OUTLINE_TYPE}
-          buttonStyle={ACCENT_STYLE}
-          onClick={() => this.props.onAddBook(this.state.individualResult)}
-        >
-          Add Book
-        </Button>
+
+        <ButtonGroup right>
+          <ButtonGroup.Item>
+            <Button
+              buttonType={OUTLINE_TYPE}
+              buttonStyle={DEFAULT_STYLE}
+              onClick={this.backToSearchResultsList}
+            >
+              Back
+            </Button>
+          </ButtonGroup.Item>
+
+          <ButtonGroup.Item>
+            <Button
+              buttonType={OUTLINE_TYPE}
+              buttonStyle={ACCENT_STYLE}
+              onClick={() => this.props.onAddBook(this.state.individualResult)}
+            >
+              Add Book
+            </Button>
+          </ButtonGroup.Item>
+        </ButtonGroup>
       </Fragment>
     );
   }

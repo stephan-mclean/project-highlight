@@ -11,6 +11,7 @@ import Button, {
   ACCENT_STYLE,
   OUTLINE_TYPE
 } from "../../../components/Button/Button";
+import ButtonGroup from "../../../components/ButtonGroup/ButtonGroup";
 
 class NewBookManually extends Component {
   constructor(props) {
@@ -62,21 +63,27 @@ class NewBookManually extends Component {
         <Field name="subtitle" label="Subtitle" type="text" component={Input} />
         <Field name="description" label="Description" component={TextArea} />
 
-        <Button
-          type="button"
-          buttonType={OUTLINE_TYPE}
-          onClick={this.props.cancelAddBook}
-        >
-          Cancel
-        </Button>
-        <Button
-          type="submit"
-          buttonType={OUTLINE_TYPE}
-          buttonStyle={ACCENT_STYLE}
-          disabled={invalid || submitting || pristine}
-        >
-          Add Book
-        </Button>
+        <ButtonGroup right>
+          <ButtonGroup.Item>
+            <Button
+              type="button"
+              buttonType={OUTLINE_TYPE}
+              onClick={this.props.cancelAddBook}
+            >
+              Cancel
+            </Button>
+          </ButtonGroup.Item>
+          <ButtonGroup.Item>
+            <Button
+              type="submit"
+              buttonType={OUTLINE_TYPE}
+              buttonStyle={ACCENT_STYLE}
+              disabled={invalid || submitting || pristine}
+            >
+              Add Book
+            </Button>
+          </ButtonGroup.Item>
+        </ButtonGroup>
       </form>
     );
   }
