@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import { Field, reduxForm } from "redux-form";
 import Input from "../../components/Input/Input";
 import TextArea from "../../components/TextArea/TextArea";
+import Picker from "../../components/Picker/Picker";
 import Button, {
   ACCENT_STYLE,
   OUTLINE_TYPE
@@ -13,10 +14,15 @@ class NewEntryComp extends Component {
     super(props);
 
     this.onSubmit = this.onSubmit.bind(this);
+    this.onBookPickerClick = this.onBookPickerClick.bind(this);
   }
 
   onSubmit(values) {
     console.log("new entry submit", values);
+  }
+
+  onBookPickerClick() {
+    console.log("book picker click");
   }
 
   render() {
@@ -30,6 +36,9 @@ class NewEntryComp extends Component {
           rows="4"
           component={TextArea}
         />
+
+        <Picker label="Book" onClick={this.onBookPickerClick} />
+
         <ButtonGroup>
           <ButtonGroup.Item>
             <Button buttonType={OUTLINE_TYPE} type="button">

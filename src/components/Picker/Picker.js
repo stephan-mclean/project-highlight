@@ -1,8 +1,12 @@
-import React, { Fragment } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { B1, B2 } from "../Fonts/Fonts";
+
+const Container = styled.div`
+  margin-bottom: 1rem;
+`;
 
 const PickerLabel = styled(B1)`
   margin-bottom: 0.25rem;
@@ -27,13 +31,13 @@ const ValueContainer = styled.div`
 `;
 
 const Picker = ({ label, value, onClick }) => (
-  <Fragment>
+  <Container>
     {label && <PickerLabel>{label}</PickerLabel>}
     <ValueContainer onClick={onClick}>
       <ValueLabel>{value}</ValueLabel>
       <ValueIcon icon="chevron-right" />
     </ValueContainer>
-  </Fragment>
+  </Container>
 );
 
 Picker.propTypes = {
