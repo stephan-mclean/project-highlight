@@ -53,7 +53,11 @@ class NewEntryComp extends Component {
           component={TextArea}
         />
 
-        <Picker label="Book" onClick={this.onBookPickerClick} />
+        <Picker
+          label="Book"
+          onClick={this.onBookPickerClick}
+          value={this.props.newEntry.book.title}
+        />
 
         <ButtonGroup>
           <ButtonGroup.Item>
@@ -85,7 +89,8 @@ const mapStateToProps = state => {
   const notesVal = selector(state, "notes");
   return {
     notesFormVal: notesVal,
-    newEntry: state.newEntry
+    newEntry: state.newEntry,
+    initialValues: state.newEntry
   };
 };
 

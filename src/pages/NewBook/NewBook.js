@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import TabSet, { Tab } from "../../components/TabSet/TabSet";
 import NewBookSearch from "./search/NewBookSearch";
+import NewBookSearchResults from "./search/NewBookSearchResults";
 import NewBookManually from "./manual/NewBookManually";
-import { addBook } from "../../actions";
+import { addBook, updateNewEntry } from "../../actions";
 import { ROUTES } from "../../constants";
 
 class NewBookComp extends Component {
@@ -14,6 +15,7 @@ class NewBookComp extends Component {
     this.renderAddManuallyTab = this.renderAddManuallyTab.bind(this);
     this.renderLibraryTab = this.renderLibraryTab.bind(this);
     this.onAddBook = this.onAddBook.bind(this);
+    this.onChooseBookFromLibrary = this.onChooseBookFromLibrary.bind(this);
     this.goToHome = this.goToHome.bind(this);
 
     const isForEntry =
@@ -40,7 +42,20 @@ class NewBookComp extends Component {
   }
 
   renderLibraryTab() {
-    return <div>LIBRARY</div>;
+    const books = {
+      ...this.props.books,
+      results: this.props.books.list // search results comp expects results as list name
+    };
+
+    console.log("going to render", books);
+
+    return (
+      <NewBookSearchResults
+        search={books}
+        hideBackToSearch={true}
+        onAddBook={this.onChooseBookFromLibrary}
+      />
+    );
   }
 
   goToHome() {
@@ -50,6 +65,17 @@ class NewBookComp extends Component {
   onAddBook(book) {
     this.props.addBook(book);
     this.goToHome();
+  }
+
+  onChooseBookFromLibrary(book) {
+    console.log("chose library book", book);
+
+    this.props.updateNewEntry({
+      ...this.props.newEntry,
+      book
+    });
+
+    this.props.history.push(`/${ROUTES.NEW_ENTRY}`);
   }
 
   render() {
@@ -72,7 +98,14 @@ class NewBookComp extends Component {
   }
 }
 
+const mapStateToProps = ({ books, newEntry }) => {
+  return {
+    books,
+    newEntry
+  };
+};
+
 export const NewBook = connect(
-  null,
-  { addBook }
+  mapStateToProps,
+  { addBook, updateNewEntry }
 )(NewBookComp);
