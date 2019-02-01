@@ -61,7 +61,7 @@ const Entry = ({ book, createdDate, passage, notes, onEdit, onDelete }) => (
       <DateText>{createdDate}</DateText>
     </BookAndDateContainer>
     <MainContainer>
-      <PassageText>"{passage.text}"</PassageText>
+      {passage && <PassageText>"{passage.text}"</PassageText>}
       <NotesTitle>Notes</NotesTitle>
       <NotesText>{notes}</NotesText>
 

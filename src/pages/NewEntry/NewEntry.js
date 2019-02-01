@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { Field, reduxForm, formValueSelector } from "redux-form";
 import { connect } from "react-redux";
-import Input from "../../components/Input/Input";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TextArea from "../../components/TextArea/TextArea";
 import Picker from "../../components/Picker/Picker";
 import Button, {
@@ -9,7 +9,7 @@ import Button, {
   OUTLINE_TYPE
 } from "../../components/Button/Button";
 import ButtonGroup from "../../components/ButtonGroup/ButtonGroup";
-import { updateNewEntry } from "../../actions";
+import { updateNewEntry, publishEntry } from "../../actions";
 import { ROUTES } from "../../constants";
 
 class NewEntryComp extends Component {
@@ -22,12 +22,25 @@ class NewEntryComp extends Component {
     console.log("new entry", this.props);
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     console.log("new entry update", this.props);
+
+    if (this.props.newEntry.publishedEntry) {
+      console.log("published, redirect");
+      this.props.history.push(`/${ROUTES.ENTRIES}`);
+    }
   }
 
   onSubmit(values) {
     console.log("new entry submit", values);
+
+    const { notes } = values;
+    const toPublish = {
+      ...this.props.newEntry,
+      notes
+    };
+
+    this.props.publishEntry(toPublish);
   }
 
   onBookPickerClick() {
@@ -71,7 +84,10 @@ class NewEntryComp extends Component {
               buttonType={OUTLINE_TYPE}
               buttonStyle={ACCENT_STYLE}
             >
-              Add entry
+              {this.props.newEntry.publishLoading && (
+                <FontAwesomeIcon icon="spinner" spin />
+              )}
+              {!this.props.newEntry.publishLoading && "Add entry"}
             </Button>
           </ButtonGroup.Item>
         </ButtonGroup>
@@ -96,7 +112,7 @@ const mapStateToProps = state => {
 
 NewEntryComp = connect(
   mapStateToProps,
-  { updateNewEntry }
+  { updateNewEntry, publishEntry }
 )(NewEntryComp);
 
 export const NewEntry = NewEntryComp;
