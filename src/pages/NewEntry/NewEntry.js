@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
-import { Field, reduxForm } from "redux-form";
+import { Field, reduxForm, formValueSelector } from "redux-form";
+import { connect } from "react-redux";
 import Input from "../../components/Input/Input";
 import TextArea from "../../components/TextArea/TextArea";
 import Picker from "../../components/Picker/Picker";
@@ -8,6 +9,7 @@ import Button, {
   OUTLINE_TYPE
 } from "../../components/Button/Button";
 import ButtonGroup from "../../components/ButtonGroup/ButtonGroup";
+import { updateNewEntry } from "../../actions";
 
 class NewEntryComp extends Component {
   constructor(props) {
@@ -15,6 +17,12 @@ class NewEntryComp extends Component {
 
     this.onSubmit = this.onSubmit.bind(this);
     this.onBookPickerClick = this.onBookPickerClick.bind(this);
+
+    console.log("new entry", this.props);
+  }
+
+  componentDidUpdate() {
+    console.log("new entry update", this.props);
   }
 
   onSubmit(values) {
@@ -23,6 +31,12 @@ class NewEntryComp extends Component {
 
   onBookPickerClick() {
     console.log("book picker click");
+
+    const newEntryVal = this.props.newEntry;
+    newEntryVal.notes = this.props.notesFormVal;
+
+    console.log("storing draft entry", newEntryVal);
+    this.props.updateNewEntry(newEntryVal);
   }
 
   render() {
@@ -63,5 +77,19 @@ class NewEntryComp extends Component {
 NewEntryComp = reduxForm({
   form: "newentry"
 })(NewEntryComp);
+
+const selector = formValueSelector("newentry");
+const mapStateToProps = state => {
+  const notesVal = selector(state, "notes");
+  return {
+    notesFormVal: notesVal,
+    newEntry: state.newEntry
+  };
+};
+
+NewEntryComp = connect(
+  mapStateToProps,
+  { updateNewEntry }
+)(NewEntryComp);
 
 export const NewEntry = NewEntryComp;

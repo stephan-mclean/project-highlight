@@ -8,3 +8,4 @@ export const GET_ENTRIES_ERROR = "getentrieserror";
 export const SEARCH_BOOKS = "searchbooks";
 export const SEARCH_BOOKS_LOADING = "searchbooksloading";
 export const SEARCH_BOOKS_ERROR = "searchbookserror";
+export const UPDATE_NEW_ENTRY = "updatenewentry";
