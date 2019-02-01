@@ -12,8 +12,16 @@ class NewBookComp extends Component {
 
     this.renderBookSearchTab = this.renderBookSearchTab.bind(this);
     this.renderAddManuallyTab = this.renderAddManuallyTab.bind(this);
+    this.renderLibraryTab = this.renderLibraryTab.bind(this);
     this.onAddBook = this.onAddBook.bind(this);
     this.goToHome = this.goToHome.bind(this);
+
+    const isForEntry =
+      this.props.location.pathname === `/${ROUTES.NEW_BOOK_FOR_ENTRY}`;
+
+    this.state = {
+      isForEntry
+    };
   }
 
   renderBookSearchTab() {
@@ -31,6 +39,10 @@ class NewBookComp extends Component {
     );
   }
 
+  renderLibraryTab() {
+    return <div>LIBRARY</div>;
+  }
+
   goToHome() {
     this.props.history.push(`/${ROUTES.HOME}`);
   }
@@ -41,6 +53,16 @@ class NewBookComp extends Component {
   }
 
   render() {
+    if (this.state.isForEntry) {
+      return (
+        <TabSet>
+          <Tab render={this.renderLibraryTab} header="My Books" />
+          <Tab render={this.renderBookSearchTab} header="Search" />
+          <Tab render={this.renderAddManuallyTab} header="Add manually" />
+        </TabSet>
+      );
+    }
+
     return (
       <TabSet>
         <Tab render={this.renderBookSearchTab} header="Search" />

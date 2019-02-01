@@ -10,6 +10,7 @@ import Button, {
 } from "../../components/Button/Button";
 import ButtonGroup from "../../components/ButtonGroup/ButtonGroup";
 import { updateNewEntry } from "../../actions";
+import { ROUTES } from "../../constants";
 
 class NewEntryComp extends Component {
   constructor(props) {
@@ -37,6 +38,7 @@ class NewEntryComp extends Component {
 
     console.log("storing draft entry", newEntryVal);
     this.props.updateNewEntry(newEntryVal);
+    this.props.history.push(`/${ROUTES.NEW_BOOK_FOR_ENTRY}`);
   }
 
   render() {

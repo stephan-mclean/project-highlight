@@ -40,6 +40,11 @@ export default ({ location, history }) => (
         <PrivateRoute exact path={`/${ROUTES.NEW_BOOK}`} component={NewBook} />
         <PrivateRoute
           exact
+          path={`/${ROUTES.NEW_BOOK_FOR_ENTRY}`}
+          component={NewBook}
+        />
+        <PrivateRoute
+          exact
           path={`/${ROUTES.BOOKS}/:bookId`}
           component={ViewBook}
         />
