@@ -23,6 +23,7 @@ class NewEntryComp extends Component {
     this.onBookPickerClick = this.onBookPickerClick.bind(this);
     this.renderNewEntryForm = this.renderNewEntryForm.bind(this);
     this.renderAnnotatePassage = this.renderAnnotatePassage.bind(this);
+    this.onAddPassage = this.onAddPassage.bind(this);
 
     this.state = {
       shouldAnnotatePassage: false
@@ -55,7 +56,8 @@ class NewEntryComp extends Component {
     const toPublish = {
       ...this.props.newEntry,
       notes: notes || "",
-      page: page || ""
+      page: page || "",
+      passage: this.state.passage
     };
 
     this.props.publishEntry(toPublish);
@@ -125,8 +127,20 @@ class NewEntryComp extends Component {
     );
   }
 
+  onAddPassage(passage) {
+    this.setState({
+      passage,
+      shouldAnnotatePassage: false
+    });
+  }
+
   renderAnnotatePassage() {
-    return <AnnotatePassage passageFile={this.props.passageFileVal} />;
+    return (
+      <AnnotatePassage
+        passageFile={this.props.passageFileVal}
+        onAddPassage={this.onAddPassage}
+      />
+    );
   }
 
   render() {

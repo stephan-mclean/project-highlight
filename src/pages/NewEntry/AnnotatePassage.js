@@ -1,7 +1,13 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import ContentLoader from "../../components/ContentLoader/ContentLoader";
 import { B1 } from "../../components/Fonts/Fonts";
+import ButtonGroup from "../../components/ButtonGroup/ButtonGroup";
+import Button, {
+  OUTLINE_TYPE,
+  ACCENT_STYLE
+} from "../../components/Button/Button";
+
 const Tesseract = window.Tesseract;
 
 class AnnotatePassage extends Component {
@@ -23,13 +29,34 @@ class AnnotatePassage extends Component {
       console.log("tess result", result);
       this.setState({
         loadingPassageText: false,
-        passageText: result.text
+        passage: {
+          text: result.text
+        }
       });
     });
   }
 
   renderPassage() {
-    return <B1>{this.state.passageText}</B1>;
+    return (
+      <Fragment>
+        <B1>{this.state.passage.text}</B1>
+        <ButtonGroup right>
+          <ButtonGroup.Item>
+            <Button buttonType={OUTLINE_TYPE}>Cancel</Button>
+          </ButtonGroup.Item>
+
+          <ButtonGroup.Item>
+            <Button
+              buttonType={OUTLINE_TYPE}
+              buttonStyle={ACCENT_STYLE}
+              onClick={() => this.props.onAddPassage(this.state.passage)}
+            >
+              Done
+            </Button>
+          </ButtonGroup.Item>
+        </ButtonGroup>
+      </Fragment>
+    );
   }
 
   render() {
@@ -44,7 +71,8 @@ class AnnotatePassage extends Component {
 }
 
 AnnotatePassage.propTypes = {
-  passageFile: PropTypes.object
+  passageFile: PropTypes.object,
+  onAddPassage: PropTypes.func
 };
 
 export default AnnotatePassage;
