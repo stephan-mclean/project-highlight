@@ -3,13 +3,15 @@ import { Field, reduxForm, formValueSelector } from "redux-form";
 import { connect } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TextArea from "../../components/TextArea/TextArea";
+import Input from "../../components/Input/Input";
+import FileInput from "../../components/FileInput/FileInput";
 import Picker from "../../components/Picker/Picker";
 import Button, {
   ACCENT_STYLE,
   OUTLINE_TYPE
 } from "../../components/Button/Button";
 import ButtonGroup from "../../components/ButtonGroup/ButtonGroup";
-import { updateNewEntry, publishEntry } from "../../actions";
+import { updateNewEntry, publishEntry, resetDraftEntry } from "../../actions";
 import { ROUTES } from "../../constants";
 
 class NewEntryComp extends Component {
@@ -26,7 +28,7 @@ class NewEntryComp extends Component {
     console.log("new entry update", this.props);
 
     if (this.props.newEntry.publishedEntry) {
-      console.log("published, redirect");
+      this.props.resetDraftEntry();
       this.props.history.push(`/${ROUTES.ENTRIES}`);
     }
   }
@@ -34,10 +36,11 @@ class NewEntryComp extends Component {
   onSubmit(values) {
     console.log("new entry submit", values);
 
-    const { notes } = values;
+    const { notes, page } = values;
     const toPublish = {
       ...this.props.newEntry,
-      notes
+      notes: notes || "",
+      page: page || ""
     };
 
     this.props.publishEntry(toPublish);
@@ -59,6 +62,14 @@ class NewEntryComp extends Component {
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
         <Field
+          name="passageFile"
+          label="Passage"
+          accept="image/*"
+          buttonType={OUTLINE_TYPE}
+          component={FileInput}
+        />
+
+        <Field
           name="notes"
           label="Notes"
           placeholder="Add any additional notes you have here.."
@@ -71,6 +82,10 @@ class NewEntryComp extends Component {
           onClick={this.onBookPickerClick}
           value={this.props.newEntry.book.title}
         />
+
+        {this.props.newEntry.book.title && (
+          <Field name="page" label="Page" component={Input} />
+        )}
 
         <ButtonGroup>
           <ButtonGroup.Item>
@@ -112,7 +127,7 @@ const mapStateToProps = state => {
 
 NewEntryComp = connect(
   mapStateToProps,
-  { updateNewEntry, publishEntry }
+  { updateNewEntry, publishEntry, resetDraftEntry }
 )(NewEntryComp);
 
 export const NewEntry = NewEntryComp;

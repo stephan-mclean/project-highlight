@@ -52,11 +52,19 @@ const NotesText = styled(B2)`
   margin-bottom: 2rem;
 `;
 
-const Entry = ({ book, createdDate, passage, notes, onEdit, onDelete }) => (
+const Entry = ({
+  book,
+  page,
+  createdDate,
+  passage,
+  notes,
+  onEdit,
+  onDelete
+}) => (
   <Container>
     <BookAndDateContainer>
       <BookText>
-        {book.title}#{book.page}
+        {book.title}#{page}
       </BookText>
       <DateText>{createdDate}</DateText>
     </BookAndDateContainer>
@@ -83,6 +91,7 @@ const Entry = ({ book, createdDate, passage, notes, onEdit, onDelete }) => (
 
 Entry.propTypes = {
   book: PropTypes.object,
+  page: PropTypes.string,
   createdDate: PropTypes.string,
   passage: PropTypes.object,
   notes: PropTypes.string,

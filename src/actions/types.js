@@ -12,3 +12,4 @@ export const UPDATE_DRAFT_ENTRY = "updatedraftentry";
 export const PUBLISH_NEW_ENTRY = "publishnewentry";
 export const PUBLISH_NEW_ENTRY_LOADING = "publishnewentryloading";
 export const PUBLISH_NEW_ENTRY_ERROR = "publishnewentryerror";
+export const RESET_DRAFT_ENTRY = "resetdraftentry";

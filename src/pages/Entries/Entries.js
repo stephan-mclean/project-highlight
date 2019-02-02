@@ -29,7 +29,17 @@ class EntriesComp extends Component {
 
 const mapStateToProps = ({ entries }) => {
   return {
-    entries
+    entries: {
+      ...entries,
+      list: entries.list
+        ? entries.list.sort((a, b) => {
+            const firstEntryDate = new Date(a.createdDate);
+            const secondEntryDate = new Date(b.createdDate);
+
+            return firstEntryDate < secondEntryDate;
+          })
+        : []
+    }
   };
 };
 

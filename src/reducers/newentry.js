@@ -2,7 +2,8 @@ import {
   UPDATE_DRAFT_ENTRY,
   PUBLISH_NEW_ENTRY,
   PUBLISH_NEW_ENTRY_LOADING,
-  PUBLISH_NEW_ENTRY_ERROR
+  PUBLISH_NEW_ENTRY_ERROR,
+  RESET_DRAFT_ENTRY
 } from "../actions";
 
 const defaultState = {
@@ -20,6 +21,8 @@ export default (state = defaultState, action) => {
       return { ...state, publishLoading: false, publishedEntry: true };
     case PUBLISH_NEW_ENTRY_ERROR:
       return { ...state, publishLoading: false, publishError: true };
+    case RESET_DRAFT_ENTRY:
+      return { ...defaultState };
     default:
       return state;
   }
