@@ -11,6 +11,7 @@ import Button, {
   OUTLINE_TYPE
 } from "../../components/Button/Button";
 import ButtonGroup from "../../components/ButtonGroup/ButtonGroup";
+import AnnotatePassage from "./AnnotatePassage";
 import { updateNewEntry, publishEntry, resetDraftEntry } from "../../actions";
 import { ROUTES } from "../../constants";
 
@@ -20,8 +21,12 @@ class NewEntryComp extends Component {
 
     this.onSubmit = this.onSubmit.bind(this);
     this.onBookPickerClick = this.onBookPickerClick.bind(this);
+    this.renderNewEntryForm = this.renderNewEntryForm.bind(this);
+    this.renderAnnotatePassage = this.renderAnnotatePassage.bind(this);
 
-    console.log("new entry", this.props);
+    this.state = {
+      shouldAnnotatePassage: false
+    };
   }
 
   componentDidUpdate(prevProps) {
@@ -30,6 +35,16 @@ class NewEntryComp extends Component {
     if (this.props.newEntry.publishedEntry) {
       this.props.resetDraftEntry();
       this.props.history.push(`/${ROUTES.ENTRIES}`);
+    }
+
+    if (
+      this.props.passageFileVal &&
+      this.props.passageFileVal !== prevProps.passageFileVal
+    ) {
+      console.log("passage file upload");
+      this.setState({
+        shouldAnnotatePassage: true
+      });
     }
   }
 
@@ -57,7 +72,7 @@ class NewEntryComp extends Component {
     this.props.history.push(`/${ROUTES.NEW_BOOK_FOR_ENTRY}`);
   }
 
-  render() {
+  renderNewEntryForm() {
     const { handleSubmit } = this.props;
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
@@ -109,6 +124,18 @@ class NewEntryComp extends Component {
       </form>
     );
   }
+
+  renderAnnotatePassage() {
+    return <AnnotatePassage passageFile={this.props.passageFileVal} />;
+  }
+
+  render() {
+    if (this.state.shouldAnnotatePassage) {
+      return this.renderAnnotatePassage();
+    }
+
+    return this.renderNewEntryForm();
+  }
 }
 
 NewEntryComp = reduxForm({
@@ -118,8 +145,10 @@ NewEntryComp = reduxForm({
 const selector = formValueSelector("newentry");
 const mapStateToProps = state => {
   const notesVal = selector(state, "notes");
+  const passageFileVal = selector(state, "passageFile");
   return {
     notesFormVal: notesVal,
+    passageFileVal,
     newEntry: state.newEntry,
     initialValues: state.newEntry
   };
