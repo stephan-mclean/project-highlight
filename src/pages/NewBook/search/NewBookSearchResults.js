@@ -54,7 +54,7 @@ class NewBookSearchResults extends Component {
           {search.results.map(result => {
             return (
               <SearchResultContainer
-                key={result.gBooksID}
+                key={result.gBooksID || result.id}
                 onClick={this.viewIndividualResult.bind(this, result)}
               >
                 <BookSummary {...result} showDescription={false} />
@@ -63,17 +63,19 @@ class NewBookSearchResults extends Component {
             );
           })}
 
-          <ButtonGroup right>
-            <ButtonGroup.Item>
-              <Button
-                buttonType={OUTLINE_TYPE}
-                buttonStyle={DEFAULT_STYLE}
-                onClick={this.props.backToSearch}
-              >
-                Back
-              </Button>
-            </ButtonGroup.Item>
-          </ButtonGroup>
+          {!this.props.hideBackToSearch && (
+            <ButtonGroup right>
+              <ButtonGroup.Item>
+                <Button
+                  buttonType={OUTLINE_TYPE}
+                  buttonStyle={DEFAULT_STYLE}
+                  onClick={this.props.backToSearch}
+                >
+                  Back
+                </Button>
+              </ButtonGroup.Item>
+            </ButtonGroup>
+          )}
         </Fragment>
       );
     }
@@ -133,8 +135,14 @@ class NewBookSearchResults extends Component {
 
 NewBookSearchResults.propTypes = {
   search: PropTypes.object.isRequired,
-  backToSearch: PropTypes.func.isRequired,
+  backToSearch: PropTypes.func,
+  hideBackToSearch: PropTypes.bool,
   onAddBook: PropTypes.func.isRequired
+};
+
+NewBookSearchResults.defaultProps = {
+  hideBackToSearch: false,
+  backToSearch: () => {}
 };
 
 export default NewBookSearchResults;

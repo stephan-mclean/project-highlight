@@ -61,7 +61,12 @@ class NewBookManually extends Component {
           component={Input}
         />
         <Field name="subtitle" label="Subtitle" type="text" component={Input} />
-        <Field name="description" label="Description" component={TextArea} />
+        <Field
+          name="description"
+          rows="4"
+          label="Description"
+          component={TextArea}
+        />
 
         <ButtonGroup right>
           <ButtonGroup.Item>

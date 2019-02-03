@@ -1,6 +1,5 @@
 import { GET_BOOKS, GET_BOOKS_LOADING, GET_BOOKS_FAILED } from "./types";
-import { authRef, dbRef } from "../firebase";
-const booksRef = dbRef.collection("books");
+import { authRef, booksRef } from "../firebase";
 
 export const getBooks = () => dispatch => {
   dispatch({ type: GET_BOOKS_LOADING });
@@ -28,18 +27,4 @@ export const getBooks = () => dispatch => {
       dispatch({ type: GET_BOOKS_FAILED });
     }
   );
-};
-
-export const addBook = book => dispatch => {
-  console.log("add book", book);
-
-  const currentUser = authRef.currentUser;
-  booksRef
-    .add({
-      creator: currentUser.uid,
-      numEntries: 0,
-      ...book
-    })
-    .then(docRef => console.log("added book", docRef.id))
-    .catch(err => console.error(err));
 };

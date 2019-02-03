@@ -6,7 +6,8 @@ import {
   faPlus,
   faChevronRight,
   faCheck,
-  faCheckCircle
+  faCheckCircle,
+  faSpinner
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -16,5 +17,6 @@ library.add(
   faPlus,
   faChevronRight,
   faCheck,
-  faCheckCircle
+  faCheckCircle,
+  faSpinner
 );
