@@ -13,3 +13,7 @@ export const PUBLISH_NEW_ENTRY = "publishnewentry";
 export const PUBLISH_NEW_ENTRY_LOADING = "publishnewentryloading";
 export const PUBLISH_NEW_ENTRY_ERROR = "publishnewentryerror";
 export const RESET_DRAFT_ENTRY = "resetdraftentry";
+export const NEW_BOOK_LOADING = "newbookloading";
+export const NEW_BOOK_PUBLISHED = "newbookpublished";
+export const NEW_BOOK_ERROR = "newbookerror";
+export const RESET_NEW_BOOK = "resetnewbook";

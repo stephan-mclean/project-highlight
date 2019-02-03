@@ -4,7 +4,7 @@ import TabSet, { Tab } from "../../components/TabSet/TabSet";
 import NewBookSearch from "./search/NewBookSearch";
 import NewBookSearchResults from "./search/NewBookSearchResults";
 import NewBookManually from "./manual/NewBookManually";
-import { addBook, updateNewEntry } from "../../actions";
+import { addBook, resetNewBook, updateNewEntry } from "../../actions";
 import { ROUTES } from "../../constants";
 
 class NewBookComp extends Component {
@@ -15,7 +15,7 @@ class NewBookComp extends Component {
     this.renderAddManuallyTab = this.renderAddManuallyTab.bind(this);
     this.renderLibraryTab = this.renderLibraryTab.bind(this);
     this.onAddBook = this.onAddBook.bind(this);
-    this.onChooseBookFromLibrary = this.onChooseBookFromLibrary.bind(this);
+    this.onChooseBookForEntry = this.onChooseBookForEntry.bind(this);
     this.goToHome = this.goToHome.bind(this);
 
     const isForEntry =
@@ -53,7 +53,7 @@ class NewBookComp extends Component {
       <NewBookSearchResults
         search={books}
         hideBackToSearch={true}
-        onAddBook={this.onChooseBookFromLibrary}
+        onAddBook={this.onChooseBookForEntry}
       />
     );
   }
@@ -64,10 +64,22 @@ class NewBookComp extends Component {
 
   onAddBook(book) {
     this.props.addBook(book);
-    this.goToHome();
   }
 
-  onChooseBookFromLibrary(book) {
+  componentDidUpdate() {
+    const { newBook } = this.props;
+    if (newBook.bookAdded) {
+      this.props.resetNewBook();
+      if (this.state.isForEntry) {
+        console.log("need to go to new entry here");
+        this.onChooseBookForEntry(newBook.bookAdded);
+      } else {
+        this.goToHome();
+      }
+    }
+  }
+
+  onChooseBookForEntry(book) {
     console.log("chose library book", book);
 
     this.props.updateNewEntry({
@@ -98,14 +110,15 @@ class NewBookComp extends Component {
   }
 }
 
-const mapStateToProps = ({ books, newEntry }) => {
+const mapStateToProps = ({ books, newEntry, newBook }) => {
   return {
     books,
-    newEntry
+    newEntry,
+    newBook
   };
 };
 
 export const NewBook = connect(
   mapStateToProps,
-  { addBook, updateNewEntry }
+  { addBook, resetNewBook, updateNewEntry }
 )(NewBookComp);

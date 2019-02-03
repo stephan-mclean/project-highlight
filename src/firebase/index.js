@@ -11,6 +11,7 @@ firebase.initializeApp({
 
 export const authRef = firebase.auth();
 export const dbRef = firebase.firestore();
+export const booksRef = dbRef.collection("books");
 
 const storage = firebase.storage().ref();
 export const uploadFile = file => {

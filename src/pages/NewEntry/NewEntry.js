@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { Field, reduxForm, formValueSelector } from "redux-form";
 import { connect } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -31,8 +31,6 @@ class NewEntryComp extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log("new entry update", this.props);
-
     if (this.props.newEntry.publishedEntry) {
       this.props.resetDraftEntry();
       this.props.history.push(`/${ROUTES.ENTRIES}`);
@@ -42,7 +40,6 @@ class NewEntryComp extends Component {
       this.props.passageFileVal &&
       this.props.passageFileVal !== prevProps.passageFileVal
     ) {
-      console.log("passage file upload");
       this.setState({
         shouldAnnotatePassage: true
       });
@@ -50,26 +47,21 @@ class NewEntryComp extends Component {
   }
 
   onSubmit(values) {
-    console.log("new entry submit", values);
-
     const { notes, page } = values;
     const toPublish = {
       ...this.props.newEntry,
       notes: notes || "",
       page: page || "",
-      passage: this.state.passage
+      passage: this.state.passage || {}
     };
 
     this.props.publishEntry(toPublish);
   }
 
   onBookPickerClick() {
-    console.log("book picker click");
-
     const newEntryVal = this.props.newEntry;
     newEntryVal.notes = this.props.notesFormVal;
 
-    console.log("storing draft entry", newEntryVal);
     this.props.updateNewEntry(newEntryVal);
     this.props.history.push(`/${ROUTES.NEW_BOOK_FOR_ENTRY}`);
   }
