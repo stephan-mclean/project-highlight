@@ -9,7 +9,7 @@ const Container = styled.div`
 `;
 
 const BookAndDateContainer = styled.div`
-  height: 2rem;
+  min-height: 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -63,9 +63,13 @@ const Entry = ({
 }) => (
   <Container>
     <BookAndDateContainer>
-      <BookText>
-        {book.title}#{page}
-      </BookText>
+      {book && (
+        <BookText>
+          {book.title}
+          {page && <span>#{page}</span>}
+        </BookText>
+      )}
+
       <DateText>{createdDate}</DateText>
     </BookAndDateContainer>
     <MainContainer>
