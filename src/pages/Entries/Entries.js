@@ -36,7 +36,7 @@ const mapStateToProps = ({ entries }) => {
             const firstEntryDate = new Date(a.createdDate);
             const secondEntryDate = new Date(b.createdDate);
 
-            return firstEntryDate < secondEntryDate;
+            return secondEntryDate - firstEntryDate;
           })
         : []
     }
