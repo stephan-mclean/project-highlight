@@ -2,6 +2,7 @@ import React from "react";
 import { storiesOf } from "@storybook/react";
 import styled, { ThemeProvider } from "styled-components";
 import Theme from "../../theme/Theme";
+import StorybookContainer from "../StorybookContainer/StorybookContainer";
 
 import Button, {
   DEFAULT_TYPE as defaultButtonType,
@@ -28,153 +29,173 @@ const RowContainer = styled.div`
 const stories = storiesOf("Components", module);
 stories.add("Button", () => (
   <ThemeProvider theme={Theme.main}>
-    <StoryContainer>
-      <RowContainer>
-        <Button buttonType={defaultButtonType}>Button</Button>
-        <Button buttonType={defaultButtonType} buttonStyle={primaryButtonStyle}>
-          Button
-        </Button>
-        <Button buttonType={defaultButtonType} buttonStyle={accentButtonStyle}>
-          Button
-        </Button>
-        <Button buttonType={defaultButtonType} buttonStyle={dangerButtonStyle}>
-          Button
-        </Button>
-      </RowContainer>
+    <StorybookContainer>
+      <StoryContainer>
+        <RowContainer>
+          <Button buttonType={defaultButtonType}>Button</Button>
+          <Button
+            buttonType={defaultButtonType}
+            buttonStyle={primaryButtonStyle}
+          >
+            Button
+          </Button>
+          <Button
+            buttonType={defaultButtonType}
+            buttonStyle={accentButtonStyle}
+          >
+            Button
+          </Button>
+          <Button
+            buttonType={defaultButtonType}
+            buttonStyle={dangerButtonStyle}
+          >
+            Button
+          </Button>
+        </RowContainer>
 
-      <RowContainer>
-        <Button buttonType={defaultButtonType} disabled>
-          Button
-        </Button>
-        <Button
-          buttonType={defaultButtonType}
-          buttonStyle={primaryButtonStyle}
-          disabled
-        >
-          Button
-        </Button>
-        <Button
-          buttonType={defaultButtonType}
-          buttonStyle={accentButtonStyle}
-          disabled
-        >
-          Button
-        </Button>
-        <Button
-          buttonType={defaultButtonType}
-          buttonStyle={dangerButtonStyle}
-          disabled
-        >
-          Button
-        </Button>
-      </RowContainer>
+        <RowContainer>
+          <Button buttonType={defaultButtonType} disabled>
+            Button
+          </Button>
+          <Button
+            buttonType={defaultButtonType}
+            buttonStyle={primaryButtonStyle}
+            disabled
+          >
+            Button
+          </Button>
+          <Button
+            buttonType={defaultButtonType}
+            buttonStyle={accentButtonStyle}
+            disabled
+          >
+            Button
+          </Button>
+          <Button
+            buttonType={defaultButtonType}
+            buttonStyle={dangerButtonStyle}
+            disabled
+          >
+            Button
+          </Button>
+        </RowContainer>
 
-      <RowContainer>
-        <Button buttonType={outlineButtonType}>Button</Button>
-        <Button buttonType={outlineButtonType} buttonStyle={primaryButtonStyle}>
-          Button
-        </Button>
-        <Button buttonType={outlineButtonType} buttonStyle={accentButtonStyle}>
-          Button
-        </Button>
-        <Button buttonType={outlineButtonType} buttonStyle={dangerButtonStyle}>
-          Button
-        </Button>
-      </RowContainer>
+        <RowContainer>
+          <Button buttonType={outlineButtonType}>Button</Button>
+          <Button
+            buttonType={outlineButtonType}
+            buttonStyle={primaryButtonStyle}
+          >
+            Button
+          </Button>
+          <Button
+            buttonType={outlineButtonType}
+            buttonStyle={accentButtonStyle}
+          >
+            Button
+          </Button>
+          <Button
+            buttonType={outlineButtonType}
+            buttonStyle={dangerButtonStyle}
+          >
+            Button
+          </Button>
+        </RowContainer>
 
-      <RowContainer>
-        <Button buttonType={outlineButtonType} disabled>
-          Button
-        </Button>
-        <Button
-          buttonType={outlineButtonType}
-          buttonStyle={primaryButtonStyle}
-          disabled
-        >
-          Button
-        </Button>
-        <Button
-          buttonType={outlineButtonType}
-          buttonStyle={accentButtonStyle}
-          disabled
-        >
-          Button
-        </Button>
-        <Button
-          buttonType={outlineButtonType}
-          buttonStyle={dangerButtonStyle}
-          disabled
-        >
-          Button
-        </Button>
-      </RowContainer>
+        <RowContainer>
+          <Button buttonType={outlineButtonType} disabled>
+            Button
+          </Button>
+          <Button
+            buttonType={outlineButtonType}
+            buttonStyle={primaryButtonStyle}
+            disabled
+          >
+            Button
+          </Button>
+          <Button
+            buttonType={outlineButtonType}
+            buttonStyle={accentButtonStyle}
+            disabled
+          >
+            Button
+          </Button>
+          <Button
+            buttonType={outlineButtonType}
+            buttonStyle={dangerButtonStyle}
+            disabled
+          >
+            Button
+          </Button>
+        </RowContainer>
 
-      <RowContainer>
-        <Button buttonType={linkButtonType}>Button</Button>
-        <Button buttonType={linkButtonType} buttonStyle={primaryButtonStyle}>
-          Button
-        </Button>
-        <Button buttonType={linkButtonType} buttonStyle={accentButtonStyle}>
-          Button
-        </Button>
-        <Button buttonType={linkButtonType} buttonStyle={dangerButtonStyle}>
-          Button
-        </Button>
-      </RowContainer>
+        <RowContainer>
+          <Button buttonType={linkButtonType}>Button</Button>
+          <Button buttonType={linkButtonType} buttonStyle={primaryButtonStyle}>
+            Button
+          </Button>
+          <Button buttonType={linkButtonType} buttonStyle={accentButtonStyle}>
+            Button
+          </Button>
+          <Button buttonType={linkButtonType} buttonStyle={dangerButtonStyle}>
+            Button
+          </Button>
+        </RowContainer>
 
-      <RowContainer>
-        <Button buttonType={defaultButtonType} circle>
-          +
-        </Button>
-        <Button
-          buttonType={defaultButtonType}
-          buttonStyle={primaryButtonStyle}
-          circle
-        >
-          +
-        </Button>
-        <Button
-          buttonType={defaultButtonType}
-          buttonStyle={accentButtonStyle}
-          circle
-        >
-          +
-        </Button>
-        <Button
-          buttonType={defaultButtonType}
-          buttonStyle={dangerButtonStyle}
-          circle
-        >
-          +
-        </Button>
-      </RowContainer>
+        <RowContainer>
+          <Button buttonType={defaultButtonType} circle>
+            +
+          </Button>
+          <Button
+            buttonType={defaultButtonType}
+            buttonStyle={primaryButtonStyle}
+            circle
+          >
+            +
+          </Button>
+          <Button
+            buttonType={defaultButtonType}
+            buttonStyle={accentButtonStyle}
+            circle
+          >
+            +
+          </Button>
+          <Button
+            buttonType={defaultButtonType}
+            buttonStyle={dangerButtonStyle}
+            circle
+          >
+            +
+          </Button>
+        </RowContainer>
 
-      <RowContainer>
-        <Button buttonType={outlineButtonType} circle>
-          +
-        </Button>
-        <Button
-          buttonType={outlineButtonType}
-          buttonStyle={primaryButtonStyle}
-          circle
-        >
-          +
-        </Button>
-        <Button
-          buttonType={outlineButtonType}
-          buttonStyle={accentButtonStyle}
-          circle
-        >
-          +
-        </Button>
-        <Button
-          buttonType={outlineButtonType}
-          buttonStyle={dangerButtonStyle}
-          circle
-        >
-          +
-        </Button>
-      </RowContainer>
-    </StoryContainer>
+        <RowContainer>
+          <Button buttonType={outlineButtonType} circle>
+            +
+          </Button>
+          <Button
+            buttonType={outlineButtonType}
+            buttonStyle={primaryButtonStyle}
+            circle
+          >
+            +
+          </Button>
+          <Button
+            buttonType={outlineButtonType}
+            buttonStyle={accentButtonStyle}
+            circle
+          >
+            +
+          </Button>
+          <Button
+            buttonType={outlineButtonType}
+            buttonStyle={dangerButtonStyle}
+            circle
+          >
+            +
+          </Button>
+        </RowContainer>
+      </StoryContainer>
+    </StorybookContainer>
   </ThemeProvider>
 ));

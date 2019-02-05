@@ -7,6 +7,7 @@ import { ROUTES } from "./constants";
 import { PublicRoutes, PrivateRoutes } from "./components/routing";
 import { getCurrentUser } from "./actions";
 import "./initFaIcons";
+import { GlobalStyle } from "./theme/GlobalStyle";
 
 class App extends Component {
   componentWillMount() {
@@ -32,6 +33,8 @@ class App extends Component {
 
             <Route path={`/${ROUTES.PRIVATE}`} component={PrivateRoutes} />
             <Route path={`/${ROUTES.PUBLIC}`} component={PublicRoutes} />
+
+            <GlobalStyle />
           </Fragment>
         </ThemeProvider>
       </Router>

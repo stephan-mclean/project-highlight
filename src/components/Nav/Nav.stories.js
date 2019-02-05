@@ -11,6 +11,7 @@ import {
   BottomNav,
   NavItem
 } from "./";
+import StorybookContainer from "../StorybookContainer/StorybookContainer";
 
 const StoryContainer = styled.div`
   display: flex;
@@ -22,19 +23,21 @@ const StoryContainer = styled.div`
 const stories = storiesOf("Components", module);
 stories.add("Nav", () => (
   <ThemeProvider theme={Theme.main}>
-    <StoryContainer>
-      <TopNav>
-        <TopNavHeader>TopNav</TopNavHeader>
-        <TopNavRightNavItem icon="cog" />
-      </TopNav>
+    <StorybookContainer>
+      <StoryContainer>
+        <TopNav>
+          <TopNavHeader>TopNav</TopNavHeader>
+          <TopNavRightNavItem icon="cog" />
+        </TopNav>
 
-      <BottomNav>
-        <NavItem icon="book" label="Books" />
-        <Button buttonType={OUTLINE_TYPE} buttonStyle={PRIMARY_STYLE} circle>
-          <FontAwesomeIcon icon="plus" />
-        </Button>
-        <NavItem icon="sticky-note" label="Entries" />
-      </BottomNav>
-    </StoryContainer>
+        <BottomNav>
+          <NavItem icon="book" label="Books" />
+          <Button buttonType={OUTLINE_TYPE} buttonStyle={PRIMARY_STYLE} circle>
+            <FontAwesomeIcon icon="plus" />
+          </Button>
+          <NavItem icon="sticky-note" label="Entries" />
+        </BottomNav>
+      </StoryContainer>
+    </StorybookContainer>
   </ThemeProvider>
 ));

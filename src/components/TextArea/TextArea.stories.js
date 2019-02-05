@@ -4,6 +4,7 @@ import { State, Store } from "@sambego/storybook-state";
 import { ThemeProvider } from "styled-components";
 import Theme from "../../theme/Theme";
 import TextArea from "./TextArea";
+import StoryContainer from "../StorybookContainer/StorybookContainer";
 
 const store = new Store({
   inputOneVal: ""
@@ -15,15 +16,17 @@ stories.add("TextArea", () => {
 
   return (
     <ThemeProvider theme={Theme.main}>
-      <State store={store}>
-        {state => [
-          <TextArea
-            label="Text Area"
-            placeholder="Placeholder"
-            input={{ value: state.inputOneVal, onChange: onInputOneChange }}
-          />
-        ]}
-      </State>
+      <StoryContainer>
+        <State store={store}>
+          {state => [
+            <TextArea
+              label="Text Area"
+              placeholder="Placeholder"
+              input={{ value: state.inputOneVal, onChange: onInputOneChange }}
+            />
+          ]}
+        </State>
+      </StoryContainer>
     </ThemeProvider>
   );
 });

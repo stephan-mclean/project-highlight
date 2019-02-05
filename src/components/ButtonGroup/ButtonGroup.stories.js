@@ -4,11 +4,12 @@ import { ThemeProvider } from "styled-components";
 import Theme from "../../theme/Theme";
 import ButtonGroup from "./ButtonGroup";
 import Button from "../Button/Button";
+import StoryContainer from "../StorybookContainer/StorybookContainer";
 
 const stories = storiesOf("Components", module);
 stories.add("Button Group", () => (
   <ThemeProvider theme={Theme.main}>
-    <div>
+    <StoryContainer>
       <ButtonGroup right>
         <ButtonGroup.Item>
           <Button>Button</Button>
@@ -17,6 +18,6 @@ stories.add("Button Group", () => (
           <Button>Button</Button>
         </ButtonGroup.Item>
       </ButtonGroup>
-    </div>
+    </StoryContainer>
   </ThemeProvider>
 ));
