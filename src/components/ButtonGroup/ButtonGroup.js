@@ -5,6 +5,7 @@ const ButtonGroupItem = styled.div``;
 const ButtonGroup = styled.div`
   display: flex;
   justify-content: ${props => (props.left ? "flex-start" : "flex-end")};
+  margin-bottom: 1rem;
 
   ${ButtonGroupItem} {
     margin-right: 0.5rem;
