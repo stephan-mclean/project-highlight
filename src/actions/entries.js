@@ -1,12 +1,10 @@
 import { GET_ENTRIES, GET_ENTRIES_ERROR, GET_ENTRIES_LOADING } from "./types";
-import { authRef, dbRef } from "../firebase";
+import { authRef, entriesRef } from "../firebase";
 
 export const getEntries = () => dispatch => {
   dispatch({ type: GET_ENTRIES_LOADING });
 
   const currentUser = authRef.currentUser;
-  const entriesRef = dbRef.collection("entries");
-
   const query = entriesRef.where("creator", "==", currentUser.uid);
   query.onSnapshot(
     snapshot => {
@@ -32,4 +30,11 @@ export const getEntries = () => dispatch => {
       dispatch({ type: GET_ENTRIES_ERROR });
     }
   );
+};
+
+export const removeEntry = entry => () => {
+  entriesRef
+    .doc(entry.id)
+    .delete()
+    .then(() => console.log("entry deleted"));
 };

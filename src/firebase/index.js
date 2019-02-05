@@ -12,20 +12,16 @@ firebase.initializeApp({
 export const authRef = firebase.auth();
 export const dbRef = firebase.firestore();
 export const booksRef = dbRef.collection("books");
+export const entriesRef = dbRef.collection("entries");
 
-const storage = firebase.storage().ref();
 export const uploadFile = file => {
+  const storage = firebase.storage().ref();
   return new Promise(resolve => {
-    console.log("upload file");
     const currentUser = authRef.currentUser;
     const fileStorageRef = storage.child(`${currentUser.uid}/${file.name}`);
 
-    console.log("uploading to", `${currentUser.uid}/${file.name}`);
-
     fileStorageRef.put(file).then(() => {
-      console.log("uploaded, getting download url");
       fileStorageRef.getDownloadURL().then(url => {
-        console.log("download file: ", url);
         resolve(url);
       });
     });
