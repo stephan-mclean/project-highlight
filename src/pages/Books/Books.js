@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
-import { getBooks, getEntries } from "../../actions";
+import { getBooks, getEntries, removeBooksByID } from "../../actions";
 import BookTile, { BookTileGrid } from "../../components/BookTile/BookTile";
 import ContentLoader from "../../components/ContentLoader/ContentLoader";
 import ButtonGroup from "../../components/ButtonGroup/ButtonGroup";
@@ -50,7 +50,11 @@ class BooksComp extends Component {
   }
 
   onDeleteBooks() {
-    console.log("on delete books", this.state.booksToDelete);
+    this.props.removeBooksByID(this.state.booksToDelete);
+    this.setState({
+      editMode: false,
+      booksToDelete: []
+    });
   }
 
   markedForDeletion(book) {
@@ -166,5 +170,5 @@ const mapStateToProps = ({ books }) => {
 
 export const Books = connect(
   mapStateToProps,
-  { getBooks, getEntries }
+  { getBooks, getEntries, removeBooksByID }
 )(BooksComp);

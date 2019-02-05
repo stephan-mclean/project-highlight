@@ -28,3 +28,14 @@ export const getBooks = () => dispatch => {
     }
   );
 };
+
+export const removeBookByID = bookId => () => {
+  booksRef
+    .doc(bookId)
+    .delete()
+    .then(() => console.log(`Book ${bookId} deleted`));
+};
+
+export const removeBooksByID = bookIds => () => {
+  bookIds.forEach(bookId => removeBookByID(bookId)());
+};
