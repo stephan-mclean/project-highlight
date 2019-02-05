@@ -17,20 +17,15 @@ class ViewBookComp extends Component {
       <Fragment>
         <BookSummary {...this.props.book} />
         <EntriesHeader>Entries</EntriesHeader>
-        <EntryList entries={this.props.entries} />
+        <EntryList filterByBookID={this.props.match.params.bookId} />
       </Fragment>
     );
   }
 }
 
-const mapStateToProps = ({ books, entries }, ownProps) => {
+const mapStateToProps = ({ books }, ownProps) => {
   return {
-    book: books.list.find(book => book.id === ownProps.match.params.bookId),
-    entries: entries.list
-      ? entries.list.filter(
-          entry => entry.book.id === ownProps.match.params.bookId
-        )
-      : []
+    book: books.list.find(book => book.id === ownProps.match.params.bookId)
   };
 };
 

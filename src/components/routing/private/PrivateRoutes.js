@@ -13,14 +13,8 @@ import Button, { OUTLINE_TYPE, PRIMARY_STYLE } from "../../Button/Button";
 import AppContainer from "../../AppContainer/AppContainer";
 import PageContainer from "../../PageContainer/PageContainer";
 import { ROUTES } from "../../../constants";
-import {
-  Books,
-  NewBook,
-  ViewBook,
-  Entries,
-  NewEntry,
-  Settings
-} from "../../../pages";
+import { Books, NewBook, ViewBook, NewEntry, Settings } from "../../../pages";
+import EntryList from "../../EntryList/EntryList";
 import PrivateRoute from "./PrivateRoute";
 
 export default ({ location, history }) => (
@@ -48,7 +42,7 @@ export default ({ location, history }) => (
           path={`/${ROUTES.BOOKS}/:bookId`}
           component={ViewBook}
         />
-        <PrivateRoute exact path={`/${ROUTES.ENTRIES}`} component={Entries} />
+        <PrivateRoute exact path={`/${ROUTES.ENTRIES}`} component={EntryList} />
         <PrivateRoute
           exact
           path={`/${ROUTES.NEW_ENTRY}`}
