@@ -54,9 +54,10 @@ BookTile.propTypes = {
 };
 
 const StyledBookTileGrid = styled.div`
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-auto-rows: auto;
+  justify-items: center;
 `;
 
 export default BookTile;
