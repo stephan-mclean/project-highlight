@@ -2,7 +2,8 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Themes from "./theme/Theme";
 import { ROUTES } from "./constants";
 import { PublicRoutes, PrivateRoutes } from "./components/routing";
@@ -36,7 +37,7 @@ class App extends Component {
             <Route path={`/${ROUTES.PUBLIC}`} component={PublicRoutes} />
 
             <GlobalStyle />
-            <ToastContainer />
+            <ToastContainer position={toast.POSITION.BOTTOM_CENTER} />
           </Fragment>
         </ThemeProvider>
       </Router>

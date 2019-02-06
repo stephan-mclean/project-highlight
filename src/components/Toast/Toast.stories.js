@@ -5,14 +5,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Theme from "../../theme/Theme";
 import StoryContainer from "../StorybookContainer/StorybookContainer";
-import Button, { LINK_TYPE } from "../Button/Button";
-import toast from "./Toast";
-
-const UndoButton = ({ closeToast }) => (
-  <Button onClick={closeToast} buttonType={LINK_TYPE}>
-    Undo
-  </Button>
-);
+import Button from "../Button/Button";
+import toast, { UndoButton } from "./Toast";
 
 const stories = storiesOf("Components", module);
 stories.add("Toast", () => (
@@ -31,7 +25,7 @@ stories.add("Toast", () => (
       <Button
         onClick={() =>
           toast.danger("Danger", {
-            closeButton: <UndoButton />,
+            closeButton: <UndoButton onUndo={() => console.log("undo")} />,
             autoClose: false
           })
         }
