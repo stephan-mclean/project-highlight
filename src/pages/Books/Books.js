@@ -34,7 +34,6 @@ class BooksComp extends Component {
   }
 
   handleBookClick(book) {
-    console.log("book click", book);
     if (this.state.editMode) {
       this.toggleBookSelection(book);
     } else {
@@ -62,7 +61,6 @@ class BooksComp extends Component {
   }
 
   toggleBookSelection(book) {
-    console.log("toggle book", book);
     const { booksToDelete } = this.state;
     if (booksToDelete.includes(book.id)) {
       const indexOfBook = booksToDelete.indexOf(book.id);
