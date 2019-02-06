@@ -3,7 +3,7 @@ import { GlobalStyle } from "../../theme/GlobalStyle";
 
 export default ({ children }) => (
   <Fragment>
-    <GlobalStyle />
     {children}
+    <GlobalStyle />
   </Fragment>
 );

@@ -33,4 +33,57 @@ export const GlobalStyle = createGlobalStyle`
         margin-block-start: 0;
         margin-block-end: 0;
     }
+
+    .default-toast {
+        font-family: "Muli", sans-serif !important;
+        color: ${props =>
+          `${props.theme.colors.foreground.default} !important`};
+
+        button {
+            color: ${props =>
+              `${props.theme.colors.foreground.default} !important`};
+        }
+        align-items: center; 
+    }
+
+    .default-toast-progress {
+        background: ${props =>
+          `${props.theme.colors.background.tertiary} !important`};
+    }
+
+    .success-toast {
+        font-family: "Muli", sans-serif !important;
+        color: ${props => `${props.theme.colors.primary.verylight} !important`};
+        background: ${props =>
+          `${props.theme.colors.primary.default} !important`};
+        align-items: center; 
+
+        button {
+            color: ${props =>
+              `${props.theme.colors.primary.verylight} !important`};
+        }
+    }
+
+    .success-toast-progress {
+        background: ${props =>
+          `${props.theme.colors.primary.verylight} !important`};
+    }
+
+    .danger-toast {
+        font-family: "Muli", sans-serif !important;
+        color: ${props => `${props.theme.colors.danger.verylight} !important`};
+        background: ${props =>
+          `${props.theme.colors.danger.default} !important`};
+        align-items: center; 
+
+        button {
+            color: ${props =>
+              `${props.theme.colors.danger.verylight} !important`};
+        }
+    }
+
+    .danger-toast-progress {
+        background: ${props =>
+          `${props.theme.colors.danger.verylight} !important`};
+    }
 `;
