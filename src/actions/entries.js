@@ -1,5 +1,6 @@
 import { GET_ENTRIES, GET_ENTRIES_ERROR, GET_ENTRIES_LOADING } from "./types";
 import { authRef, entriesRef } from "../firebase";
+import toast from "../components/Toast/Toast";
 
 export const getEntries = () => dispatch => {
   dispatch({ type: GET_ENTRIES_LOADING });
@@ -36,5 +37,7 @@ export const removeEntry = entry => () => {
   entriesRef
     .doc(entry.id)
     .delete()
-    .then(() => console.log("entry deleted"));
+    .then(() => {
+      toast.success("Entry deleted");
+    });
 };
