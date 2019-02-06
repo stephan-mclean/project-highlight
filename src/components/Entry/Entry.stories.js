@@ -3,6 +3,7 @@ import { storiesOf } from "@storybook/react";
 import { ThemeProvider } from "styled-components";
 import Theme from "../../theme/Theme";
 import Entry from "./Entry";
+import StoryContainer from "../StorybookContainer/StorybookContainer";
 
 const mockEntry = {
   book: {
@@ -21,7 +22,7 @@ const mockEntry = {
 const stories = storiesOf("Components", module);
 stories.add("Entry", () => (
   <ThemeProvider theme={Theme.main}>
-    <div>
+    <StoryContainer>
       <Entry
         book={mockEntry.book}
         createdDate={mockEntry.createdDate}
@@ -30,6 +31,6 @@ stories.add("Entry", () => (
         onEdit={() => console.log("edit entry")}
         onDelete={() => console.log("delete entry")}
       />
-    </div>
+    </StoryContainer>
   </ThemeProvider>
 ));

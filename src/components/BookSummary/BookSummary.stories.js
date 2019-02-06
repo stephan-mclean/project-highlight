@@ -3,6 +3,7 @@ import { storiesOf } from "@storybook/react";
 import { ThemeProvider } from "styled-components";
 import Theme from "../../theme/Theme";
 import BookSummary from "./BookSummary";
+import StoryContainer from "../StorybookContainer/StorybookContainer";
 
 const mockBookSummary = {
   coverSrc: "https://via.placeholder.com/128x198",
@@ -15,13 +16,13 @@ const mockBookSummary = {
 const stories = storiesOf("Components", module);
 stories.add("Book Summary", () => (
   <ThemeProvider theme={Theme.main}>
-    <div>
+    <StoryContainer>
       <BookSummary
         coverSrc={mockBookSummary.coverSrc}
         title={mockBookSummary.title}
         subtitle={mockBookSummary.subtitle}
         description={mockBookSummary.description}
       />
-    </div>
+    </StoryContainer>
   </ThemeProvider>
 ));
