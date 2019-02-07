@@ -29,6 +29,7 @@ class BooksComp extends Component {
     this.toggleEditMode = this.toggleEditMode.bind(this);
     this.markedForDeletion = this.markedForDeletion.bind(this);
     this.onDeleteBooks = this.onDeleteBooks.bind(this);
+    this.hasBooksToDisplay = this.hasBooksToDisplay.bind(this);
 
     this.state = { editMode: false, booksToDelete: [] };
   }
@@ -74,38 +75,44 @@ class BooksComp extends Component {
     }
   }
 
+  hasBooksToDisplay() {
+    return this.props.books.list && this.props.books.list.length > 0;
+  }
+
   renderBooks() {
     return (
       <Fragment>
-        <ButtonGroup right>
-          {!this.state.editMode && (
-            <ButtonGroup.Item>
-              <Button buttonType={LINK_TYPE} onClick={this.toggleEditMode}>
-                Edit
-              </Button>
-            </ButtonGroup.Item>
-          )}
-          {this.state.editMode && (
-            <ButtonGroup.Item>
-              <Button buttonType={LINK_TYPE} onClick={this.toggleEditMode}>
-                Cancel
-              </Button>
-            </ButtonGroup.Item>
-          )}
-          {this.state.editMode && this.state.booksToDelete.length > 0 && (
-            <ButtonGroup.Item>
-              <Button
-                buttonType={LINK_TYPE}
-                buttonStyle={DANGER_STYLE}
-                onClick={this.onDeleteBooks}
-              >
-                Delete
-              </Button>
-            </ButtonGroup.Item>
-          )}
-        </ButtonGroup>
+        {this.hasBooksToDisplay() && (
+          <ButtonGroup right>
+            {!this.state.editMode && (
+              <ButtonGroup.Item>
+                <Button buttonType={LINK_TYPE} onClick={this.toggleEditMode}>
+                  Edit
+                </Button>
+              </ButtonGroup.Item>
+            )}
+            {this.state.editMode && (
+              <ButtonGroup.Item>
+                <Button buttonType={LINK_TYPE} onClick={this.toggleEditMode}>
+                  Cancel
+                </Button>
+              </ButtonGroup.Item>
+            )}
+            {this.state.editMode && this.state.booksToDelete.length > 0 && (
+              <ButtonGroup.Item>
+                <Button
+                  buttonType={LINK_TYPE}
+                  buttonStyle={DANGER_STYLE}
+                  onClick={this.onDeleteBooks}
+                >
+                  Delete
+                </Button>
+              </ButtonGroup.Item>
+            )}
+          </ButtonGroup>
+        )}
 
-        {this.props.books.list && this.props.books.list.length > 0 && (
+        {this.hasBooksToDisplay() && (
           <BookTileGrid>
             {this.props.books.list.map(book => (
               <BookTileContainer key={book.id}>
