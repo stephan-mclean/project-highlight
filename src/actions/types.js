@@ -17,3 +17,6 @@ export const NEW_BOOK_LOADING = "newbookloading";
 export const NEW_BOOK_PUBLISHED = "newbookpublished";
 export const NEW_BOOK_ERROR = "newbookerror";
 export const RESET_NEW_BOOK = "resetnewbook";
+export const EDIT_BOOK = "editbook";
+export const EDIT_BOOK_PUBLISHED = "editbookpublished";
+export const EDIT_BOOK_ERROR = "editbookerror";

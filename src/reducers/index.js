@@ -6,6 +6,7 @@ import entries from "./entries";
 import bookSearch from "./booksearch";
 import newEntry from "./newentry";
 import newBook from "./newbook";
+import editBook from "./editbook";
 
 export default combineReducers({
   auth,
@@ -14,5 +15,6 @@ export default combineReducers({
   bookSearch,
   newEntry,
   newBook,
+  editBook,
   form: formReducer
 });
