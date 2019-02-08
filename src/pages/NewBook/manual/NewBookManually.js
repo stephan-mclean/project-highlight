@@ -75,7 +75,7 @@ class NewBookManually extends Component {
               buttonType={OUTLINE_TYPE}
               onClick={this.props.cancelAddBook}
             >
-              Cancel
+              {this.props.cancelAddBookLabel()}
             </Button>
           </ButtonGroup.Item>
           <ButtonGroup.Item>
@@ -85,7 +85,7 @@ class NewBookManually extends Component {
               buttonStyle={ACCENT_STYLE}
               disabled={invalid || submitting || pristine}
             >
-              Add Book
+              {this.props.addBookLabel()}
             </Button>
           </ButtonGroup.Item>
         </ButtonGroup>
@@ -96,7 +96,14 @@ class NewBookManually extends Component {
 
 NewBookManually.propTypes = {
   onAddBook: PropTypes.func.isRequired,
-  cancelAddBook: PropTypes.func.isRequired
+  cancelAddBook: PropTypes.func.isRequired,
+  addBookLabel: PropTypes.func,
+  cancelAddBookLabel: PropTypes.func
+};
+
+NewBookManually.defaultProps = {
+  addBookLabel: () => "Add Book",
+  cancelAddBookLabel: () => "Cancel"
 };
 
 NewBookManually = reduxForm({

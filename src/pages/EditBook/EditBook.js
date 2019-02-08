@@ -21,12 +21,17 @@ class EditBookComp extends Component {
     );
   }
 
+  getEditBookBtnLabel() {
+    return "Edit Book";
+  }
+
   render() {
     return (
       <NewBookManually
         onAddBook={this.onEditBook}
         cancelAddBook={this.onCancelEditBook}
         initialValues={this.props.book}
+        addBookLabel={this.getEditBookBtnLabel}
       />
     );
   }
