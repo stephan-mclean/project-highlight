@@ -104,10 +104,10 @@ NewBookManually = reduxForm({
 })(NewBookManually);
 
 const selector = formValueSelector("addbookmanually");
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
   const coverImgFileValue = selector(state, "coverImgFile");
-
-  return { coverImgFileValue };
+  const { initialValues } = ownProps;
+  return { coverImgFileValue, initialValues };
 };
 
 export default connect(

@@ -29,7 +29,7 @@ class ViewBookComp extends Component {
   }
 
   onEditBook() {
-    console.log("on edit book");
+    this.props.history.push(`/${ROUTES.BOOKS}/${this.props.book.id}/edit`);
   }
 
   onDeleteBook() {
