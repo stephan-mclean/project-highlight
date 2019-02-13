@@ -22,3 +22,7 @@ export const getCurrentUser = () => dispatch => {
 export const doLogin = () => () => {
   authRef.signInAnonymously();
 };
+
+export const logOut = () => () => {
+  authRef.signOut();
+};
