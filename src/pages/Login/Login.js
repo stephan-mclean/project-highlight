@@ -13,7 +13,7 @@ import PublicPageContainer from "../../components/PublicPageContainer/PublicPage
 import { H4, Overline } from "../../components/Fonts/Fonts";
 
 const Heading = styled(H4)`
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
 `;
 
 const OrContainer = styled(Overline)`
@@ -27,6 +27,7 @@ class LoginComp extends Component {
     super(props);
 
     this.login = this.login.bind(this);
+    this.goToSignUp = this.goToSignUp.bind(this);
   }
 
   componentWillMount() {
@@ -43,6 +44,10 @@ class LoginComp extends Component {
 
   login() {
     this.props.doLogin();
+  }
+
+  goToSignUp() {
+    this.props.history.push(`/${ROUTES.SIGNUP}`);
   }
 
   render() {
@@ -84,7 +89,12 @@ class LoginComp extends Component {
 
         <OrContainer>Or</OrContainer>
 
-        <Button type="button" buttonType={LINK_TYPE} block>
+        <Button
+          type="button"
+          buttonType={LINK_TYPE}
+          block
+          onClick={this.goToSignUp}
+        >
           Sign up
         </Button>
       </PublicPageContainer>
