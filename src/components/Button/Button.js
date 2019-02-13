@@ -10,6 +10,7 @@ import {
   getHoverBackgroundColor,
   getHoverBorder,
   getHoverFontColor,
+  getWidth,
   ACCENT_STYLE,
   AVAILABLE_STYLES,
   AVAILABLE_TYPES,
@@ -23,7 +24,7 @@ import {
 
 const Button = styled.button`
   height: ${props => (props.circle ? "3rem" : "2rem")};
-  width: ${props => (props.circle ? "3rem" : "auto")};
+  width: ${props => getWidth(props)};
   border-radius: ${props =>
     props.circle ? "1.5rem" : props.theme.defaultBorderRadius};
   padding: ${props =>

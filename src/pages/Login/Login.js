@@ -1,11 +1,26 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
+import styled from "styled-components";
 import { connect } from "react-redux";
 import { ROUTES } from "../../constants";
 import { doLogin } from "../../actions";
 import Button, {
-  OUTLINE_TYPE,
-  PRIMARY_STYLE
+  PRIMARY_STYLE,
+  ACCENT_STYLE,
+  LINK_TYPE
 } from "../../components/Button/Button";
+import { VerticalButtonGroup } from "../../components/ButtonGroup/ButtonGroup";
+import PublicPageContainer from "../../components/PublicPageContainer/PublicPageContainer";
+import { H4, Overline } from "../../components/Fonts/Fonts";
+
+const Heading = styled(H4)`
+  margin-bottom: 0.5rem;
+`;
+
+const OrContainer = styled(Overline)`
+  display: block;
+  text-align: center;
+  margin-bottom: 1rem;
+`;
 
 class LoginComp extends Component {
   constructor(props) {
@@ -32,15 +47,47 @@ class LoginComp extends Component {
 
   render() {
     return (
-      <Fragment>
-        <Button
-          buttonType={OUTLINE_TYPE}
-          buttonStyle={PRIMARY_STYLE}
-          onClick={this.login}
-        >
-          Log in
+      <PublicPageContainer>
+        <Heading>Login</Heading>
+        <VerticalButtonGroup>
+          <VerticalButtonGroup.Item>
+            <Button
+              type="button"
+              buttonStyle={ACCENT_STYLE}
+              onClick={this.login}
+              block
+            >
+              Log in with email
+            </Button>
+          </VerticalButtonGroup.Item>
+          <VerticalButtonGroup.Item>
+            <Button
+              type="button"
+              buttonStyle={PRIMARY_STYLE}
+              onClick={this.login}
+              block
+            >
+              Log in with google
+            </Button>
+          </VerticalButtonGroup.Item>
+          <VerticalButtonGroup.Item>
+            <Button
+              type="button"
+              buttonStyle={PRIMARY_STYLE}
+              onClick={this.login}
+              block
+            >
+              Log in with facebook
+            </Button>
+          </VerticalButtonGroup.Item>
+        </VerticalButtonGroup>
+
+        <OrContainer>Or</OrContainer>
+
+        <Button type="button" buttonType={LINK_TYPE} block>
+          Sign up
         </Button>
-      </Fragment>
+      </PublicPageContainer>
     );
   }
 }

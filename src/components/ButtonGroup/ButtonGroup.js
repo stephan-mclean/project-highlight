@@ -16,6 +16,22 @@ const ButtonGroup = styled.div`
   }
 `;
 
+const VerticalBtnGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+
+  ${ButtonGroupItem} {
+    margin-bottom: 1rem;
+
+    :last-child {
+      margin-bottom: none;
+    }
+  }
+`;
+
 ButtonGroup.Item = ButtonGroupItem;
+VerticalBtnGroup.Item = ButtonGroupItem;
 
 export default ButtonGroup;
+export const VerticalButtonGroup = VerticalBtnGroup;

@@ -203,3 +203,13 @@ export const getHoverBorder = props => {
 
   return "none";
 };
+
+export const getWidth = props => {
+  if (props.circle) {
+    return "3rem";
+  } else if (props.block) {
+    return "100%";
+  }
+
+  return "auto";
+};
