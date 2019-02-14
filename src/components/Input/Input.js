@@ -26,10 +26,10 @@ const StyledInput = styled.input`
   }
 `;
 
-const Input = ({ label, placeholder, input }) => (
+const Input = ({ label, placeholder, input, type }) => (
   <Container>
     {label && <Label>{label}</Label>}
-    <StyledInput {...input} placeholder={placeholder} />
+    <StyledInput type={type} {...input} placeholder={placeholder} />
   </Container>
 );
 

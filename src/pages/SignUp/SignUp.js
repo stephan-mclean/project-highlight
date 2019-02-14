@@ -1,8 +1,7 @@
-import React, { Component } from "react";
-import styled from "styled-components";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { ROUTES } from "../../constants";
-import { doLogin } from "../../actions";
+import { signUpWithEmailAndPass } from "../../actions";
 import Button, {
   PRIMARY_STYLE,
   ACCENT_STYLE,
@@ -10,29 +9,20 @@ import Button, {
 } from "../../components/Button/Button";
 import { VerticalButtonGroup } from "../../components/ButtonGroup/ButtonGroup";
 import PublicPageContainer from "../../components/PublicPageContainer/PublicPageContainer";
-import { H4, H6, Overline } from "../../components/Fonts/Fonts";
-
-const Heading = styled(H4)`
-  margin-bottom: 0.5rem;
-`;
-
-const SubHeading = styled(H6)`
-  margin-bottom: 1rem;
-  color: ${props => props.theme.colors.foreground.tertiary};
-`;
-
-const OrContainer = styled(Overline)`
-  display: block;
-  text-align: center;
-  margin-bottom: 1rem;
-`;
+import { Heading, OrContainer, SubHeading } from "./styleHelper/styleHelper";
+import SignUpEmailForm from "./form/SignUpEmailForm";
 
 class SignUpComp extends Component {
   constructor(props) {
     super(props);
 
     this.signUp = this.signUp.bind(this);
+    this.renderSignUpForm = this.renderSignUpForm.bind(this);
+    this.toggleSignUpManually = this.toggleSignUpManually.bind(this);
+    this.renderSignUpButtons = this.renderSignUpButtons.bind(this);
     this.goToLogin = this.goToLogin.bind(this);
+
+    this.state = { isSigningUpManually: false };
   }
 
   componentWillMount() {
@@ -47,27 +37,38 @@ class SignUpComp extends Component {
     }
   }
 
-  signUp() {
-    console.log("sign up");
+  toggleSignUpManually() {
+    this.setState({ isSigningUpManually: !this.state.isSigningUpManually });
+  }
+
+  signUp(values) {
+    const { email, password } = values;
+    this.props.signUpWithEmailAndPass(email, password);
   }
 
   goToLogin() {
     this.props.history.push(`/${ROUTES.LOGIN}`);
   }
 
-  render() {
+  renderSignUpForm() {
     return (
-      <PublicPageContainer>
-        <Heading>Sign Up</Heading>
-        <SubHeading>
-          Start cataloging your digital notes for your physical books today
-        </SubHeading>
+      <SignUpEmailForm
+        onSubmit={this.signUp}
+        onCancel={this.toggleSignUpManually}
+        shouldConfirmPassword={true}
+      />
+    );
+  }
+
+  renderSignUpButtons() {
+    return (
+      <Fragment>
         <VerticalButtonGroup>
           <VerticalButtonGroup.Item>
             <Button
               type="button"
               buttonStyle={ACCENT_STYLE}
-              onClick={this.login}
+              onClick={this.toggleSignUpManually}
               block
             >
               Sign up with email
@@ -105,6 +106,21 @@ class SignUpComp extends Component {
         >
           Log In
         </Button>
+      </Fragment>
+    );
+  }
+
+  render() {
+    const { isSigningUpManually } = this.state;
+
+    return (
+      <PublicPageContainer>
+        <Heading>Sign Up</Heading>
+        <SubHeading>
+          Start cataloging your digital notes for your physical books today
+        </SubHeading>
+        {!isSigningUpManually && this.renderSignUpButtons()}
+        {isSigningUpManually && this.renderSignUpForm()}
       </PublicPageContainer>
     );
   }
@@ -118,5 +134,5 @@ const mapStateToProps = ({ auth }) => {
 
 export const SignUp = connect(
   mapStateToProps,
-  { doLogin }
+  { signUpWithEmailAndPass }
 )(SignUpComp);

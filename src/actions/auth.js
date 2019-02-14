@@ -26,3 +26,11 @@ export const doLogin = () => () => {
 export const logOut = () => () => {
   authRef.signOut();
 };
+
+export const signUpWithEmailAndPass = (email, password) => () => {
+  authRef.createUserWithEmailAndPassword(email, password);
+};
+
+export const logInWithEmailAndPass = (email, password) => () => {
+  authRef.signInWithEmailAndPassword(email, password);
+};
