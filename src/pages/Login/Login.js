@@ -2,7 +2,11 @@ import React, { Component, Fragment } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import { ROUTES } from "../../constants";
-import { logInWithEmailAndPass } from "../../actions";
+import {
+  logInWithEmailAndPass,
+  signInWithGoogle,
+  signInWithFacebook
+} from "../../actions";
 import Button, {
   PRIMARY_STYLE,
   ACCENT_STYLE,
@@ -52,10 +56,12 @@ class LoginComp extends Component {
 
   loginWithGoogle() {
     console.log("login with google");
+    this.props.signInWithGoogle();
   }
 
   loginWithFacebook() {
     console.log("login with facebook");
+    this.props.signInWithFacebook();
   }
 
   loginWithEmail(values) {
@@ -156,5 +162,5 @@ const mapStateToProps = ({ auth }) => {
 
 export const Login = connect(
   mapStateToProps,
-  { logInWithEmailAndPass }
+  { logInWithEmailAndPass, signInWithGoogle, signInWithFacebook }
 )(LoginComp);

@@ -1,7 +1,11 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { ROUTES } from "../../constants";
-import { signUpWithEmailAndPass } from "../../actions";
+import {
+  signUpWithEmailAndPass,
+  signInWithGoogle,
+  signInWithFacebook
+} from "../../actions";
 import Button, {
   PRIMARY_STYLE,
   ACCENT_STYLE,
@@ -21,6 +25,8 @@ class SignUpComp extends Component {
     this.toggleSignUpManually = this.toggleSignUpManually.bind(this);
     this.renderSignUpButtons = this.renderSignUpButtons.bind(this);
     this.goToLogin = this.goToLogin.bind(this);
+    this.loginWithGoogle = this.loginWithGoogle.bind(this);
+    this.loginWithFacebook = this.loginWithFacebook.bind(this);
 
     this.state = { isSigningUpManually: false };
   }
@@ -48,6 +54,16 @@ class SignUpComp extends Component {
 
   goToLogin() {
     this.props.history.push(`/${ROUTES.LOGIN}`);
+  }
+
+  loginWithGoogle() {
+    console.log("login with google");
+    this.props.signInWithGoogle();
+  }
+
+  loginWithFacebook() {
+    console.log("login with facebook");
+    this.props.signInWithFacebook();
   }
 
   renderSignUpForm() {
@@ -78,7 +94,7 @@ class SignUpComp extends Component {
             <Button
               type="button"
               buttonStyle={PRIMARY_STYLE}
-              onClick={this.login}
+              onClick={this.loginWithGoogle}
               block
             >
               Sign up with google
@@ -88,7 +104,7 @@ class SignUpComp extends Component {
             <Button
               type="button"
               buttonStyle={PRIMARY_STYLE}
-              onClick={this.login}
+              onClick={this.loginWithFacebook}
               block
             >
               Sign up with facebook
@@ -134,5 +150,5 @@ const mapStateToProps = ({ auth }) => {
 
 export const SignUp = connect(
   mapStateToProps,
-  { signUpWithEmailAndPass }
+  { signUpWithEmailAndPass, signInWithGoogle, signInWithFacebook }
 )(SignUpComp);
