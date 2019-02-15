@@ -76,7 +76,7 @@ const NEW_ENTRY = {
   title: "Add a new entry"
 };
 
-export const ROUTES = {
+const allRoutes = [
   HOME,
   PUBLIC,
   PRIVATE,
@@ -90,4 +90,30 @@ export const ROUTES = {
   SETTINGS,
   ENTRIES,
   NEW_ENTRY
+];
+
+const getTitleByPath = pathname => {
+  const matchingRoute = allRoutes.find(route => route.path === pathname);
+  if (matchingRoute) {
+    return matchingRoute.title;
+  }
+
+  return "";
+};
+
+export const ROUTES = {
+  HOME,
+  PUBLIC,
+  PRIVATE,
+  BOOKS,
+  VIEW_BOOK,
+  NEW_BOOK,
+  NEW_BOOK_FOR_ENTRY,
+  EDIT_BOOK,
+  LOGIN,
+  SIGNUP,
+  SETTINGS,
+  ENTRIES,
+  NEW_ENTRY,
+  getTitleByPath
 };

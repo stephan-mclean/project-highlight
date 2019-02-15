@@ -28,7 +28,9 @@ export default ({ location, history }) => (
   <AppContainer>
     <TopNav>
       <TopNavHeader>
-        <Link to={ROUTES.HOME.path}>TopNav</Link>
+        <Link to={ROUTES.HOME.path}>
+          {ROUTES.getTitleByPath(location.pathname)}
+        </Link>
       </TopNavHeader>
       <Link to={ROUTES.SETTINGS.path}>
         <TopNavRightNavItem icon="cog" />
