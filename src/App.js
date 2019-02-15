@@ -23,18 +23,18 @@ class App extends Component {
           <Fragment>
             <Route
               exact
-              path={`/${ROUTES.HOME}`}
+              path={ROUTES.HOME.path}
               render={() => {
                 return this.props.currentUser ? (
-                  <Redirect to={`/${ROUTES.PRIVATE}`} />
+                  <Redirect to={ROUTES.PRIVATE.path} />
                 ) : (
-                  <Redirect to={`/${ROUTES.PUBLIC}`} />
+                  <Redirect to={ROUTES.PUBLIC.path} />
                 );
               }}
             />
 
-            <Route path={`/${ROUTES.PRIVATE}`} component={PrivateRoutes} />
-            <Route path={`/${ROUTES.PUBLIC}`} component={PublicRoutes} />
+            <Route path={ROUTES.PRIVATE.path} component={PrivateRoutes} />
+            <Route path={ROUTES.PUBLIC.path} component={PublicRoutes} />
 
             <GlobalStyle />
             <ToastContainer position={toast.POSITION.BOTTOM_CENTER} />

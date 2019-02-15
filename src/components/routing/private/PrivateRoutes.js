@@ -28,46 +28,34 @@ export default ({ location, history }) => (
   <AppContainer>
     <TopNav>
       <TopNavHeader>
-        <Link to={`/${ROUTES.HOME}`}>TopNav</Link>
+        <Link to={ROUTES.HOME.path}>TopNav</Link>
       </TopNavHeader>
-      <Link to={`/${ROUTES.SETTINGS}`}>
+      <Link to={ROUTES.SETTINGS.path}>
         <TopNavRightNavItem icon="cog" />
       </Link>
     </TopNav>
 
     <PageContainer>
       <Switch>
-        <PrivateRoute exact path={`/${ROUTES.BOOKS}`} component={Books} />
-        <PrivateRoute exact path={`/${ROUTES.NEW_BOOK}`} component={NewBook} />
+        <PrivateRoute exact path={ROUTES.BOOKS.path} component={Books} />
+        <PrivateRoute exact path={ROUTES.NEW_BOOK.path} component={NewBook} />
         <PrivateRoute
           exact
-          path={`/${ROUTES.NEW_BOOK_FOR_ENTRY}`}
+          path={ROUTES.NEW_BOOK_FOR_ENTRY.path}
           component={NewBook}
         />
-        <PrivateRoute
-          exact
-          path={`/${ROUTES.VIEW_BOOK}`}
-          component={ViewBook}
-        />
-        <PrivateRoute
-          exact
-          path={`/${ROUTES.EDIT_BOOK}`}
-          component={EditBook}
-        />
-        <PrivateRoute exact path={`/${ROUTES.ENTRIES}`} component={EntryList} />
-        <PrivateRoute
-          exact
-          path={`/${ROUTES.NEW_ENTRY}`}
-          component={NewEntry}
-        />
-        <PrivateRoute exact path={`/${ROUTES.SETTINGS}`} component={Settings} />
+        <PrivateRoute exact path={ROUTES.VIEW_BOOK.path} component={ViewBook} />
+        <PrivateRoute exact path={ROUTES.EDIT_BOOK.path} component={EditBook} />
+        <PrivateRoute exact path={ROUTES.ENTRIES.path} component={EntryList} />
+        <PrivateRoute exact path={ROUTES.NEW_ENTRY.path} component={NewEntry} />
+        <PrivateRoute exact path={ROUTES.SETTINGS.path} component={Settings} />
 
-        <Redirect exact from={`/${ROUTES.PRIVATE}`} to={`/${ROUTES.BOOKS}`} />
+        <Redirect exact from={ROUTES.PRIVATE.path} to={ROUTES.BOOKS.path} />
       </Switch>
     </PageContainer>
 
     <BottomNav>
-      <Link to={`/${ROUTES.BOOKS}`}>
+      <Link to={ROUTES.BOOKS.path}>
         <NavItem icon="book" label="Books" />
       </Link>
       <Button
@@ -75,16 +63,16 @@ export default ({ location, history }) => (
         buttonStyle={PRIMARY_STYLE}
         circle
         onClick={() => {
-          if (location.pathname === `/${ROUTES.BOOKS}`) {
-            history.push(`/${ROUTES.NEW_BOOK}`);
-          } else if (location.pathname === `/${ROUTES.ENTRIES}`) {
-            history.push(`/${ROUTES.NEW_ENTRY}`);
+          if (location.pathname === ROUTES.BOOKS.path) {
+            history.push(ROUTES.NEW_BOOK.path);
+          } else if (location.pathname === ROUTES.ENTRIES.path) {
+            history.push(ROUTES.NEW_ENTRY.path);
           }
         }}
       >
         <FontAwesomeIcon icon="plus" />
       </Button>
-      <Link to={`/${ROUTES.ENTRIES}`}>
+      <Link to={ROUTES.ENTRIES.path}>
         <NavItem icon="sticky-note" label="Entries" />
       </Link>
     </BottomNav>

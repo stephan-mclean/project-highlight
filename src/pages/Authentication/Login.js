@@ -20,7 +20,7 @@ class LoginComp extends Component {
   }
 
   goToSignUp() {
-    this.props.history.push(`/${ROUTES.SIGNUP}`);
+    this.props.history.push(ROUTES.SIGNUP.path);
   }
 
   getEmailBtnLabel() {

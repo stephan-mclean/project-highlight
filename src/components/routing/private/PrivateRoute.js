@@ -11,7 +11,7 @@ const PrivateRoute = ({ component: Component, currentUser, ...rest }) => {
         currentUser !== null ? (
           <Component {...props} />
         ) : (
-          <Redirect to={`/${ROUTES.PUBLIC}`} />
+          <Redirect to={ROUTES.PUBLIC.path} />
         )
       }
     />

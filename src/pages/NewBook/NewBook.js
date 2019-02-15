@@ -19,7 +19,7 @@ class NewBookComp extends Component {
     this.goToHome = this.goToHome.bind(this);
 
     const isForEntry =
-      this.props.location.pathname === `/${ROUTES.NEW_BOOK_FOR_ENTRY}`;
+      this.props.location.pathname === ROUTES.NEW_BOOK_FOR_ENTRY.path;
 
     this.state = {
       isForEntry
@@ -59,7 +59,7 @@ class NewBookComp extends Component {
   }
 
   goToHome() {
-    this.props.history.push(`/${ROUTES.HOME}`);
+    this.props.history.push(ROUTES.HOME.path);
   }
 
   onAddBook(book) {
@@ -87,7 +87,7 @@ class NewBookComp extends Component {
       book
     });
 
-    this.props.history.push(`/${ROUTES.NEW_ENTRY}`);
+    this.props.history.push(ROUTES.NEW_ENTRY.path);
   }
 
   render() {

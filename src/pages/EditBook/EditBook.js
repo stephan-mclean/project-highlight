@@ -22,7 +22,7 @@ class EditBookComp extends Component {
 
   returnToViewBook() {
     this.props.history.push(
-      `/${ROUTES.BOOKS}/${this.props.match.params.bookId}`
+      `${ROUTES.BOOKS.path}/${this.props.match.params.bookId}`
     );
   }
 
