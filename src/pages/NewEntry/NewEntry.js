@@ -33,7 +33,7 @@ class NewEntryComp extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.newEntry.publishedEntry) {
       this.props.resetDraftEntry();
-      this.props.history.push(`/${ROUTES.ENTRIES}`);
+      this.props.history.push(ROUTES.ENTRIES.path);
     }
 
     if (
@@ -63,7 +63,7 @@ class NewEntryComp extends Component {
     newEntryVal.notes = this.props.notesFormVal;
 
     this.props.updateNewEntry(newEntryVal);
-    this.props.history.push(`/${ROUTES.NEW_BOOK_FOR_ENTRY}`);
+    this.props.history.push(ROUTES.NEW_BOOK_FOR_ENTRY.path);
   }
 
   renderNewEntryForm() {

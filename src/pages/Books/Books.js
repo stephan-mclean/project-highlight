@@ -38,7 +38,7 @@ class BooksComp extends Component {
     if (this.state.editMode) {
       this.toggleBookSelection(book);
     } else {
-      this.props.history.push(`/${ROUTES.BOOKS}/${book.id}`);
+      this.props.history.push(`${ROUTES.BOOKS.path}/${book.id}`);
     }
   }
 

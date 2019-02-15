@@ -29,13 +29,13 @@ class SignUpLogInHelper extends Component {
 
   componentWillMount() {
     if (this.props.currentUser) {
-      this.props.history.push(`/${ROUTES.PRIVATE}`);
+      this.props.history.push(ROUTES.PRIVATE.path);
     }
   }
 
   componentDidUpdate() {
     if (this.props.currentUser) {
-      this.props.history.push(`/${ROUTES.PRIVATE}`);
+      this.props.history.push(ROUTES.PRIVATE.path);
     }
   }
 

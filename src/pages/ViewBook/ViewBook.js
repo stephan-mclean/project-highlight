@@ -29,7 +29,7 @@ class ViewBookComp extends Component {
   }
 
   onEditBook() {
-    this.props.history.push(`/${ROUTES.BOOKS}/${this.props.book.id}/edit`);
+    this.props.history.push(`${ROUTES.BOOKS.path}/${this.props.book.id}/edit`);
   }
 
   onDeleteBook() {
@@ -39,7 +39,7 @@ class ViewBookComp extends Component {
   componentDidUpdate(prevProps) {
     if (prevProps.book && !this.props.book) {
       // Book deleted, redirect
-      this.props.history.push(`/${ROUTES.HOME}`);
+      this.props.history.push(ROUTES.HOME.path);
     }
   }
 
