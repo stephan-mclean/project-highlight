@@ -10,6 +10,7 @@ firebase.initializeApp({
 });
 
 export const authRef = firebase.auth();
+export const authVarRef = firebase.auth;
 export const dbRef = firebase.firestore();
 export const booksRef = dbRef.collection("books");
 export const entriesRef = dbRef.collection("entries");
