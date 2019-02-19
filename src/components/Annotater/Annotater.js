@@ -1,14 +1,19 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
+import Button, { LINK_TYPE } from "../Button/Button";
 
 const Popover = styled.div`
   height: 2rem;
-  width: 5rem;
-  background: black;
+  background-color: #ffffff;
+  border: ${props => `1px solid ${props.theme.colors.background.default}`};
+  border-radius: 0.25rem;
   position: absolute;
   top: ${props => `${props.top}px`};
   left: ${props => `${props.left}px`};
   display: ${props => props.display};
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 `;
 
 class Annotater extends Component {
@@ -17,10 +22,12 @@ class Annotater extends Component {
 
     this.handleTextSelection = this.handleTextSelection.bind(this);
     this.handleOnBlur = this.handleOnBlur.bind(this);
+    this.onAddAnnotation = this.onAddAnnotation.bind(this);
 
     this.state = { displayPopOver: "none" };
 
     this.contentRef = React.createRef();
+    this.popoverBtnRef = React.createRef();
   }
 
   componentDidMount() {
@@ -38,13 +45,14 @@ class Annotater extends Component {
     console.log(range);
   }
 
-  handleTextSelection(e) {
+  handleTextSelection() {
     console.log("handle text selection");
 
     const selection = window.getSelection();
     console.log(selection);
     if (selection.rangeCount) {
       const range = selection.getRangeAt(0).cloneRange();
+      const { startOffset, endOffset } = range;
       console.log(range);
 
       const rects = range.getClientRects();
@@ -59,22 +67,33 @@ class Annotater extends Component {
           this.setState({
             displayPopOver: "block",
             popoverTop: rect.top + rect.height,
-            popoverLeft: rect.left
+            popoverLeft: rect.left,
+            startOffset,
+            endOffset
           });
         } else {
           this.setState({
             displayPopOver: "block",
-            popoverTop: rect.top,
-            popoverLeft: rect.left
+            popoverTop: rect.top - 32,
+            popoverLeft: rect.left,
+            startOffset,
+            endOffset
           });
         }
       }
     }
   }
 
-  handleOnBlur() {
-    this.setState({ displayPopOver: "none" });
-    console.log("blur");
+  handleOnBlur(e) {
+    if (e && e.relatedTarget !== this.popoverBtnRef.current) {
+      this.setState({ displayPopOver: "none" });
+    }
+  }
+
+  onAddAnnotation() {
+    const { startOffset, endOffset } = this.state;
+    this.props.onAddAnnotation({ startOffset, endOffset });
+    this.handleOnBlur();
   }
 
   render() {
@@ -92,10 +111,23 @@ class Annotater extends Component {
           display={this.state.displayPopOver}
           top={this.state.popoverTop}
           left={this.state.popoverLeft}
-        />
+        >
+          <Button
+            buttonType={LINK_TYPE}
+            type="button"
+            onClick={this.onAddAnnotation}
+            ref={this.popoverBtnRef}
+          >
+            Annotate
+          </Button>
+        </Popover>
       </div>
     );
   }
 }
+
+Annotater.propTypes = {
+  onAddAnnotation: PropTypes.func.isRequired
+};
 
 export default Annotater;

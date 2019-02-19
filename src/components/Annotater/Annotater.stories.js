@@ -9,7 +9,9 @@ const stories = storiesOf("Components", module);
 stories.add("Annotater", () => (
   <ThemeProvider theme={Theme.main}>
     <StoryContainer>
-      <Annotater>
+      <Annotater
+        onAddAnnotation={annotation => console.log("added", annotation)}
+      >
         Some text to annotateSome text to annotateSome text to annotateSome text
         to annotateSome text to annotateSome text to annotateSome text to
         annotateSome text to annotate Some text to annotateSome text to
