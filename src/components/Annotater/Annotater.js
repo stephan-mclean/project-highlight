@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button, { LINK_TYPE } from "../Button/Button";
 
 const Popover = styled.div`
@@ -16,6 +17,16 @@ const Popover = styled.div`
   padding-right: 0.5rem;
 `;
 
+const CurrentAnnotation = styled.div`
+  position: absolute;
+  top: ${props => `${props.top}px`};
+  left: ${props => `${props.left}px`};
+  background-color: #ffffff;
+  border: ${props => `1px solid ${props.theme.colors.background.default}`};
+  border-radius: 0.25rem;
+  padding: 0.25rem;
+`;
+
 class Annotater extends Component {
   constructor(props) {
     super(props);
@@ -23,6 +34,7 @@ class Annotater extends Component {
     this.handleTextSelection = this.handleTextSelection.bind(this);
     this.handleOnBlur = this.handleOnBlur.bind(this);
     this.onAddAnnotation = this.onAddAnnotation.bind(this);
+    this.renderCurrentAnnotations = this.renderCurrentAnnotations.bind(this);
 
     this.state = { displayPopOver: "none" };
 
@@ -96,6 +108,32 @@ class Annotater extends Component {
     this.handleOnBlur();
   }
 
+  getAnnotationPosition(annotation) {
+    const range = document.createRange();
+    range.setStart(this.contentRef.current.firstChild, annotation.startOffset);
+    range.setEnd(this.contentRef.current.firstChild, annotation.endOffset);
+    const rects = range.getClientRects();
+
+    if (rects.length) {
+      const rect = rects[0];
+      const { left, top } = rect;
+      return { left, top };
+    }
+  }
+
+  renderCurrentAnnotations() {
+    console.log("rendering", this.props.currentAnnotations);
+    return this.props.currentAnnotations.map(annotation => {
+      const position = this.getAnnotationPosition(annotation);
+      console.log("position of annotation", position);
+      return (
+        <CurrentAnnotation {...position}>
+          <FontAwesomeIcon icon="comment" />
+        </CurrentAnnotation>
+      );
+    });
+  }
+
   render() {
     const { children } = this.props;
 
@@ -121,13 +159,16 @@ class Annotater extends Component {
             Annotate
           </Button>
         </Popover>
+
+        {this.renderCurrentAnnotations()}
       </div>
     );
   }
 }
 
 Annotater.propTypes = {
-  onAddAnnotation: PropTypes.func.isRequired
+  onAddAnnotation: PropTypes.func.isRequired,
+  currentAnnotations: PropTypes.array
 };
 
 export default Annotater;
