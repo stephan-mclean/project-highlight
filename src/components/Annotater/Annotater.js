@@ -42,6 +42,14 @@ class Annotater extends Component {
 
     const selection = window.getSelection();
 
+    /**
+     * The offset from the range will be incorrect,
+     * as it will not count text in the elements added
+     * to the text for highlighting.
+     *
+     * The code below will add to the offset from the range, accounting
+     * for the entire text, including the nested elements.
+     */
     let offsetToAdd = 0;
     if (selection.anchorNode.previousSibling) {
       let previousSibling = selection.anchorNode.previousSibling;
@@ -93,19 +101,6 @@ class Annotater extends Component {
     const { startOffset, endOffset } = this.state;
     this.props.onAddAnnotation({ startOffset, endOffset });
     this.handleOnBlur();
-  }
-
-  getAnnotationPosition(annotation) {
-    const range = document.createRange();
-    range.setStart(this.contentRef.current.firstChild, annotation.startOffset);
-    range.setEnd(this.contentRef.current.firstChild, annotation.endOffset);
-    const rects = range.getClientRects();
-
-    if (rects.length) {
-      const rect = rects[0];
-      const { left, top } = rect;
-      return { left, top };
-    }
   }
 
   renderAnnotatedText() {
