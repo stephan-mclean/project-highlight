@@ -28,7 +28,7 @@ const CurrentAnnotation = styled.div`
 `;
 
 const Mark = styled.mark`
-  background-color: ${props => props.theme.colors.primary.light};
+  background-color: ${props => props.theme.colors.primary.verylight};
   color: ${props => props.theme.colors.primary.dark};
 `;
 
@@ -52,40 +52,45 @@ class Annotater extends Component {
     console.log("handle text selection");
 
     const selection = window.getSelection();
-    const selectionTextTotalLength = selection.anchorNode.length;
-    console.log(selection);
+
+    let offsetToAdd = 0;
+    if (selection.anchorNode.previousSibling) {
+      let previousSibling = selection.anchorNode.previousSibling;
+
+      while (previousSibling) {
+        if (previousSibling.length) {
+          offsetToAdd += previousSibling.length;
+        } else if (previousSibling.innerText) {
+          offsetToAdd += previousSibling.innerText.length;
+        }
+
+        previousSibling = previousSibling.previousSibling;
+      }
+    }
+
     if (selection.rangeCount) {
       const range = selection.getRangeAt(0).cloneRange();
       const { startOffset, endOffset } = range;
-      console.log(range);
 
       const rects = range.getClientRects();
       if (rects.length) {
         const rect = rects[0];
-
-        console.log(rect);
-        console.log("x: ", rect.left);
-        console.log("y: ", rect.top);
 
         if (rect.top - 32 < 0) {
           this.setState({
             displayPopOver: "block",
             popoverTop: rect.top + rect.height,
             popoverLeft: rect.left,
-            startOffset:
-              startOffset + (this.props.text.length - selectionTextTotalLength),
-            endOffset:
-              endOffset + (this.props.text.length - selectionTextTotalLength)
+            startOffset: startOffset + offsetToAdd,
+            endOffset: endOffset + offsetToAdd
           });
         } else {
           this.setState({
             displayPopOver: "block",
             popoverTop: rect.top - 32,
             popoverLeft: rect.left,
-            startOffset:
-              startOffset + (this.props.text.length - selectionTextTotalLength),
-            endOffset:
-              endOffset + (this.props.text.length - selectionTextTotalLength)
+            startOffset: startOffset + offsetToAdd,
+            endOffset: endOffset + offsetToAdd
           });
         }
       }
@@ -135,29 +140,29 @@ class Annotater extends Component {
     let result = [text];
 
     let start = 0;
-    currentAnnotations.forEach(({ startOffset, endOffset }, index) => {
-      const markedText = text.substring(startOffset, endOffset);
-      console.log("marked text", startOffset, endOffset, markedText);
+    currentAnnotations
+      .sort((a, b) => a.startOffset - b.startOffset)
+      .forEach(({ startOffset, endOffset }, index) => {
+        const markedText = text.substring(startOffset, endOffset);
 
-      if (result.length > 1) {
-        result = [
-          ...result.slice(0, index * 2),
-          text.substring(start, startOffset),
-          <Mark>{markedText}</Mark>,
-          text.substring(endOffset, text.length)
-        ];
-      } else {
-        result = [
-          text.substring(0, startOffset),
-          <Mark>{markedText}</Mark>,
-          text.substring(endOffset, text.length)
-        ];
-      }
+        if (result.length > 1) {
+          result = [
+            ...result.slice(0, index * 2),
+            text.substring(start, startOffset),
+            <Mark>{markedText}</Mark>,
+            text.substring(endOffset, text.length)
+          ];
+        } else {
+          result = [
+            text.substring(0, startOffset),
+            <Mark>{markedText}</Mark>,
+            text.substring(endOffset, text.length)
+          ];
+        }
 
-      start = endOffset;
-    });
+        start = endOffset;
+      });
 
-    console.log(result);
     return result;
   }
 
