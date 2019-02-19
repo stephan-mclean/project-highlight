@@ -8,25 +8,16 @@ import Annotater from "./Annotater";
 const stories = storiesOf("Components", module);
 stories.add("Annotater", () => {
   const annotations = [];
+  const annotationText =
+    "Some text to annotateSome text to annotateSome text to annotateSometext to annotateSome text to annotateSome text to annotateSome text to";
   return (
     <ThemeProvider theme={Theme.main}>
       <StoryContainer>
         <Annotater
           onAddAnnotation={annotation => annotations.push(annotation)}
           currentAnnotations={annotations}
-        >
-          Some text to annotateSome text to annotateSome text to annotateSome
-          text to annotateSome text to annotateSome text to annotateSome text to
-          annotateSome text to annotate Some text to annotateSome text to
-          annotateSome text to annotateSome text to annotateSome text to
-          annotateSome text to annotateSome text to annotateSome text to
-          annotate Some text to annotateSome text to annotateSome text to
-          annotateSome text to annotateSome text to annotateSome text to
-          annotateSome text to annotateSome text to annotate Some text to
-          annotateSome text to annotateSome text to annotateSome text to
-          annotateSome text to annotateSome text to annotateSome text to
-          annotateSome text to annotate
-        </Annotater>
+          text={annotationText}
+        />
       </StoryContainer>
     </ThemeProvider>
   );

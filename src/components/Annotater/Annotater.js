@@ -27,6 +27,11 @@ const CurrentAnnotation = styled.div`
   padding: 0.25rem;
 `;
 
+const Mark = styled.mark`
+  background-color: ${props => props.theme.colors.primary.light};
+  color: ${props => props.theme.colors.primary.dark};
+`;
+
 class Annotater extends Component {
   constructor(props) {
     super(props);
@@ -35,26 +40,12 @@ class Annotater extends Component {
     this.handleOnBlur = this.handleOnBlur.bind(this);
     this.onAddAnnotation = this.onAddAnnotation.bind(this);
     this.renderCurrentAnnotations = this.renderCurrentAnnotations.bind(this);
+    this.renderAnnotatedText = this.renderAnnotatedText.bind(this);
 
     this.state = { displayPopOver: "none" };
 
     this.contentRef = React.createRef();
     this.popoverBtnRef = React.createRef();
-  }
-
-  componentDidMount() {
-    // TODO: Populate current annotations here
-    console.log(this.contentRef);
-
-    const range = document.createRange();
-    range.setStart(this.contentRef.current.firstChild, 435);
-    range.setEnd(this.contentRef.current.firstChild, 449);
-
-    const rects = range.getClientRects();
-
-    console.log(rects);
-
-    console.log(range);
   }
 
   handleTextSelection() {
@@ -134,9 +125,25 @@ class Annotater extends Component {
     });
   }
 
-  render() {
-    const { children } = this.props;
+  renderAnnotatedText() {
+    const { text, currentAnnotations } = this.props;
+    let result = text;
 
+    currentAnnotations.forEach(annotation => {
+      const { startOffset, endOffset } = annotation;
+      const markedText = result.substring(startOffset, endOffset);
+      result =
+        result.substring(0, startOffset) +
+        `<Mark>${markedText}</Mark>` +
+        result.substring(endOffset, result.length);
+    });
+
+    console.log("result", result);
+
+    return result;
+  }
+
+  render() {
     return (
       <div
         onMouseUp={this.handleTextSelection}
@@ -144,7 +151,10 @@ class Annotater extends Component {
         tabIndex={0}
         onBlur={this.handleOnBlur}
       >
-        <span ref={this.contentRef}>{children}</span>
+        <span
+          ref={this.contentRef}
+          dangerouslySetInnerHTML={{ __html: this.renderAnnotatedText() }}
+        />
         <Popover
           display={this.state.displayPopOver}
           top={this.state.popoverTop}
@@ -159,8 +169,6 @@ class Annotater extends Component {
             Annotate
           </Button>
         </Popover>
-
-        {this.renderCurrentAnnotations()}
       </div>
     );
   }
