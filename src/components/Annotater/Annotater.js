@@ -17,16 +17,6 @@ const Popover = styled.div`
   padding-right: 0.5rem;
 `;
 
-const CurrentAnnotation = styled.div`
-  position: absolute;
-  top: ${props => `${props.top}px`};
-  left: ${props => `${props.left}px`};
-  background-color: #ffffff;
-  border: ${props => `1px solid ${props.theme.colors.background.default}`};
-  border-radius: 0.25rem;
-  padding: 0.25rem;
-`;
-
 const Mark = styled.mark`
   background-color: ${props => props.theme.colors.primary.verylight};
   color: ${props => props.theme.colors.primary.dark};
@@ -39,7 +29,6 @@ class Annotater extends Component {
     this.handleTextSelection = this.handleTextSelection.bind(this);
     this.handleOnBlur = this.handleOnBlur.bind(this);
     this.onAddAnnotation = this.onAddAnnotation.bind(this);
-    this.renderCurrentAnnotations = this.renderCurrentAnnotations.bind(this);
     this.renderAnnotatedText = this.renderAnnotatedText.bind(this);
 
     this.state = { displayPopOver: "none" };
@@ -120,19 +109,6 @@ class Annotater extends Component {
       const { left, top } = rect;
       return { left, top };
     }
-  }
-
-  renderCurrentAnnotations() {
-    console.log("rendering", this.props.currentAnnotations);
-    return this.props.currentAnnotations.map(annotation => {
-      const position = this.getAnnotationPosition(annotation);
-      console.log("position of annotation", position);
-      return (
-        <CurrentAnnotation {...position}>
-          <FontAwesomeIcon icon="comment" />
-        </CurrentAnnotation>
-      );
-    });
   }
 
   renderAnnotatedText() {
