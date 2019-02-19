@@ -52,6 +52,7 @@ class Annotater extends Component {
     console.log("handle text selection");
 
     const selection = window.getSelection();
+    const selectionTextTotalLength = selection.anchorNode.length;
     console.log(selection);
     if (selection.rangeCount) {
       const range = selection.getRangeAt(0).cloneRange();
@@ -71,16 +72,20 @@ class Annotater extends Component {
             displayPopOver: "block",
             popoverTop: rect.top + rect.height,
             popoverLeft: rect.left,
-            startOffset,
-            endOffset
+            startOffset:
+              startOffset + (this.props.text.length - selectionTextTotalLength),
+            endOffset:
+              endOffset + (this.props.text.length - selectionTextTotalLength)
           });
         } else {
           this.setState({
             displayPopOver: "block",
             popoverTop: rect.top - 32,
             popoverLeft: rect.left,
-            startOffset,
-            endOffset
+            startOffset:
+              startOffset + (this.props.text.length - selectionTextTotalLength),
+            endOffset:
+              endOffset + (this.props.text.length - selectionTextTotalLength)
           });
         }
       }
@@ -127,19 +132,32 @@ class Annotater extends Component {
 
   renderAnnotatedText() {
     const { text, currentAnnotations } = this.props;
-    let result = text;
+    let result = [text];
 
-    currentAnnotations.forEach(annotation => {
-      const { startOffset, endOffset } = annotation;
-      const markedText = result.substring(startOffset, endOffset);
-      result =
-        result.substring(0, startOffset) +
-        `<Mark>${markedText}</Mark>` +
-        result.substring(endOffset, result.length);
+    let start = 0;
+    currentAnnotations.forEach(({ startOffset, endOffset }, index) => {
+      const markedText = text.substring(startOffset, endOffset);
+      console.log("marked text", startOffset, endOffset, markedText);
+
+      if (result.length > 1) {
+        result = [
+          ...result.slice(0, index * 2),
+          text.substring(start, startOffset),
+          <Mark>{markedText}</Mark>,
+          text.substring(endOffset, text.length)
+        ];
+      } else {
+        result = [
+          text.substring(0, startOffset),
+          <Mark>{markedText}</Mark>,
+          text.substring(endOffset, text.length)
+        ];
+      }
+
+      start = endOffset;
     });
 
-    console.log("result", result);
-
+    console.log(result);
     return result;
   }
 
@@ -151,10 +169,7 @@ class Annotater extends Component {
         tabIndex={0}
         onBlur={this.handleOnBlur}
       >
-        <span
-          ref={this.contentRef}
-          dangerouslySetInnerHTML={{ __html: this.renderAnnotatedText() }}
-        />
+        <span ref={this.contentRef}>{this.renderAnnotatedText()}</span>
         <Popover
           display={this.state.displayPopOver}
           top={this.state.popoverTop}
