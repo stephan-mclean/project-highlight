@@ -65,23 +65,20 @@ class Annotater extends Component {
       if (rects.length) {
         const rect = rects[0];
 
+        const newState = {
+          displayPopOver: "block",
+          popoverLeft: rect.left,
+          startOffset: startOffset + offsetToAdd,
+          endOffset: endOffset + offsetToAdd
+        };
+
         if (rect.top - 32 < 0) {
-          this.setState({
-            displayPopOver: "block",
-            popoverTop: rect.top + rect.height,
-            popoverLeft: rect.left,
-            startOffset: startOffset + offsetToAdd,
-            endOffset: endOffset + offsetToAdd
-          });
+          newState.popoverTop = rect.top + rect.height;
         } else {
-          this.setState({
-            displayPopOver: "block",
-            popoverTop: rect.top - 32,
-            popoverLeft: rect.left,
-            startOffset: startOffset + offsetToAdd,
-            endOffset: endOffset + offsetToAdd
-          });
+          newState.popoverTop = rect.top - 32;
         }
+
+        this.setState(newState);
       }
     }
   }
