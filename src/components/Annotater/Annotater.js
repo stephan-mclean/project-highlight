@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Button, { LINK_TYPE, DANGER_STYLE } from "../Button/Button";
 import ButtonGroup from "../ButtonGroup/ButtonGroup";
 import AnnotationForm from "./form/AnnotationForm";
+import TextHighlighter from "./text/TextHighlighter";
 
 const Popover = styled.div`
   height: 2rem;
@@ -17,11 +18,6 @@ const Popover = styled.div`
   padding-right: 0.5rem;
 `;
 
-const Mark = styled.mark`
-  background-color: ${props => props.theme.colors.primary.verylight};
-  color: ${props => props.theme.colors.primary.dark};
-`;
-
 class Annotater extends Component {
   constructor(props) {
     super(props);
@@ -29,7 +25,6 @@ class Annotater extends Component {
     this.handleTextSelection = this.handleTextSelection.bind(this);
     this.handleOnBlur = this.handleOnBlur.bind(this);
     this.onAddAnnotation = this.onAddAnnotation.bind(this);
-    this.renderAnnotatedText = this.renderAnnotatedText.bind(this);
     this.renderPopOver = this.renderPopOver.bind(this);
     this.renderPopOverButtons = this.renderPopOverButtons.bind(this);
     this.editCurrentlySelectedAnnotation = this.editCurrentlySelectedAnnotation.bind(
@@ -41,6 +36,7 @@ class Annotater extends Component {
     this.renderAnnotationForm = this.renderAnnotationForm.bind(this);
     this.onCompleteAnnotationForm = this.onCompleteAnnotationForm.bind(this);
     this.onCancelAnnotationForm = this.onCancelAnnotationForm.bind(this);
+    this.onAnnotationClick = this.onAnnotationClick.bind(this);
 
     this.state = {
       shouldDisplayPopover: false,
@@ -121,15 +117,14 @@ class Annotater extends Component {
 
   handleOnBlur(e) {
     const targetIsNotAnnotateBtnRef =
-      e && this.popoverBtnRef && e.relatedTarget !== this.popoverBtnRef.current;
+      !this.popoverBtnRef.current ||
+      (e && e.relatedTarget !== this.popoverBtnRef.current);
     const targetIsNotEditBtnRef =
-      e &&
-      this.popoverEditBtnRef &&
-      e.relatedTarget !== this.popoverEditBtnRef.current;
+      !this.popoverEditBtnRef.current ||
+      (e && e.relatedTarget !== this.popoverEditBtnRef.current);
     const targetIsNotDeleteBtnRef =
-      e &&
-      this.popoverDeleteBtnRef &&
-      e.relatedTarget !== this.popoverDeleteBtnRef.current;
+      !this.popoverDeleteBtnRef.current ||
+      (e && e.relatedTarget !== this.popoverDeleteBtnRef.current);
 
     if (
       (targetIsNotAnnotateBtnRef &&
@@ -155,43 +150,6 @@ class Annotater extends Component {
       renderPopoverForExistingAnnotation: true,
       currentlySelectedAnnotation: annotation
     });
-  }
-
-  renderAnnotatedText() {
-    const { text, currentAnnotations } = this.props;
-    let result = [text];
-
-    let start = 0;
-    currentAnnotations
-      .sort((a, b) => a.startOffset - b.startOffset)
-      .forEach((annotation, index) => {
-        const { startOffset, endOffset } = annotation;
-        const markedText = text.substring(startOffset, endOffset);
-        const mark = (
-          <Mark onClick={this.onAnnotationClick.bind(this, annotation)}>
-            {markedText}
-          </Mark>
-        );
-
-        if (result.length > 1) {
-          result = [
-            ...result.slice(0, index * 2),
-            text.substring(start, startOffset),
-            mark,
-            text.substring(endOffset, text.length)
-          ];
-        } else {
-          result = [
-            text.substring(0, startOffset),
-            mark,
-            text.substring(endOffset, text.length)
-          ];
-        }
-
-        start = endOffset;
-      });
-
-    return result;
   }
 
   onAddAnnotation() {
@@ -342,7 +300,12 @@ class Annotater extends Component {
         tabIndex={0}
         onBlur={this.handleOnBlur}
       >
-        <span ref={this.contentRef}>{this.renderAnnotatedText()}</span>
+        <TextHighlighter
+          text={this.props.text}
+          annotations={this.props.currentAnnotations}
+          textRef={this.contentRef}
+          onAnnotationClick={this.onAnnotationClick}
+        />
         {this.renderPopOver()}
       </div>
     );
