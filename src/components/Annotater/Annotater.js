@@ -30,6 +30,7 @@ class Annotater extends Component {
     this.handleOnBlur = this.handleOnBlur.bind(this);
     this.onAddAnnotation = this.onAddAnnotation.bind(this);
     this.renderAnnotatedText = this.renderAnnotatedText.bind(this);
+    this.onAnnotationClick = this.onAnnotationClick.bind(this);
 
     this.state = { displayPopOver: "none" };
 
@@ -37,8 +38,25 @@ class Annotater extends Component {
     this.popoverBtnRef = React.createRef();
   }
 
-  handleTextSelection() {
-    console.log("handle text selection");
+  getPopoverPosition(rect) {
+    const result = {
+      popoverLeft: rect.left
+    };
+
+    if (rect.top - 32 < 0) {
+      result.popoverTop = rect.top + rect.height;
+    } else {
+      result.popoverTop = rect.top - 32;
+    }
+
+    return result;
+  }
+
+  handleTextSelection(e) {
+    if (e.target !== this.contentRef.current) {
+      console.log("dont handle text selection");
+      return;
+    }
 
     const selection = window.getSelection();
 
@@ -72,27 +90,20 @@ class Annotater extends Component {
       const rects = range.getClientRects();
       if (rects.length) {
         const rect = rects[0];
+        const popoverPosition = this.getPopoverPosition(rect);
 
-        const newState = {
+        this.setState({
           displayPopOver: "block",
-          popoverLeft: rect.left,
           startOffset: startOffset + offsetToAdd,
-          endOffset: endOffset + offsetToAdd
-        };
-
-        if (rect.top - 32 < 0) {
-          newState.popoverTop = rect.top + rect.height;
-        } else {
-          newState.popoverTop = rect.top - 32;
-        }
-
-        this.setState(newState);
+          endOffset: endOffset + offsetToAdd,
+          ...popoverPosition
+        });
       }
     }
   }
 
   handleOnBlur(e) {
-    if (e && e.relatedTarget !== this.popoverBtnRef.current) {
+    if ((e && e.relatedTarget !== this.popoverBtnRef.current) || !e) {
       this.setState({ displayPopOver: "none" });
     }
   }
@@ -101,6 +112,23 @@ class Annotater extends Component {
     const { startOffset, endOffset } = this.state;
     this.props.onAddAnnotation({ startOffset, endOffset });
     this.handleOnBlur();
+  }
+
+  onAnnotationClick(e) {
+    console.log(
+      "annotation click",
+      e,
+      e.target,
+      e.target.getBoundingClientRect()
+    );
+
+    const rect = e.target.getBoundingClientRect();
+    const popoverPosition = this.getPopoverPosition(rect);
+
+    this.setState({
+      displayPopOver: "block",
+      ...popoverPosition
+    });
   }
 
   renderAnnotatedText() {
@@ -112,18 +140,19 @@ class Annotater extends Component {
       .sort((a, b) => a.startOffset - b.startOffset)
       .forEach(({ startOffset, endOffset }, index) => {
         const markedText = text.substring(startOffset, endOffset);
+        const mark = <Mark onClick={this.onAnnotationClick}>{markedText}</Mark>;
 
         if (result.length > 1) {
           result = [
             ...result.slice(0, index * 2),
             text.substring(start, startOffset),
-            <Mark>{markedText}</Mark>,
+            mark,
             text.substring(endOffset, text.length)
           ];
         } else {
           result = [
             text.substring(0, startOffset),
-            <Mark>{markedText}</Mark>,
+            mark,
             text.substring(endOffset, text.length)
           ];
         }
