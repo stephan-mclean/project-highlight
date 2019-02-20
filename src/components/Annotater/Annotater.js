@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Button, { LINK_TYPE } from "../Button/Button";
+import Button, { LINK_TYPE, DANGER_STYLE } from "../Button/Button";
+import ButtonGroup from "../ButtonGroup/ButtonGroup";
 
 const Popover = styled.div`
   height: 2rem;
@@ -31,6 +31,8 @@ class Annotater extends Component {
     this.onAddAnnotation = this.onAddAnnotation.bind(this);
     this.renderAnnotatedText = this.renderAnnotatedText.bind(this);
     this.onAnnotationClick = this.onAnnotationClick.bind(this);
+    this.renderPopOver = this.renderPopOver.bind(this);
+    this.renderPopOverButtons = this.renderPopOverButtons.bind(this);
 
     this.state = { displayPopOver: "none" };
 
@@ -53,7 +55,7 @@ class Annotater extends Component {
   }
 
   handleTextSelection(e) {
-    if (e.target !== this.contentRef.current) {
+    if (e.target !== this.contentRef.current || this.props.isReadOnly) {
       console.log("dont handle text selection");
       return;
     }
@@ -96,7 +98,8 @@ class Annotater extends Component {
           displayPopOver: "block",
           startOffset: startOffset + offsetToAdd,
           endOffset: endOffset + offsetToAdd,
-          ...popoverPosition
+          ...popoverPosition,
+          renderPopoverForExistingAnnotation: false
         });
       }
     }
@@ -122,12 +125,17 @@ class Annotater extends Component {
       e.target.getBoundingClientRect()
     );
 
+    if (this.props.isReadOnly) {
+      return;
+    }
+
     const rect = e.target.getBoundingClientRect();
     const popoverPosition = this.getPopoverPosition(rect);
 
     this.setState({
       displayPopOver: "block",
-      ...popoverPosition
+      ...popoverPosition,
+      renderPopoverForExistingAnnotation: true
     });
   }
 
@@ -163,6 +171,63 @@ class Annotater extends Component {
     return result;
   }
 
+  renderPopOverButtons() {
+    let buttons;
+    if (this.state.renderPopoverForExistingAnnotation) {
+      buttons = (
+        <ButtonGroup left>
+          <ButtonGroup.Item>
+            <Button type="button" buttonType={LINK_TYPE}>
+              Edit
+            </Button>
+          </ButtonGroup.Item>
+          <ButtonGroup.Item>
+            <Button
+              type="button"
+              buttonType={LINK_TYPE}
+              buttonStyle={DANGER_STYLE}
+            >
+              Delete
+            </Button>
+          </ButtonGroup.Item>
+        </ButtonGroup>
+      );
+    } else {
+      buttons = (
+        <ButtonGroup left>
+          <ButtonGroup.Item>
+            <Button
+              buttonType={LINK_TYPE}
+              type="button"
+              onClick={this.onAddAnnotation}
+              ref={this.popoverBtnRef}
+            >
+              Annotate
+            </Button>
+          </ButtonGroup.Item>
+        </ButtonGroup>
+      );
+    }
+
+    return buttons;
+  }
+
+  renderPopOver() {
+    if (this.props.isReadOnly) {
+      return null;
+    }
+
+    return (
+      <Popover
+        display={this.state.displayPopOver}
+        top={this.state.popoverTop}
+        left={this.state.popoverLeft}
+      >
+        {this.renderPopOverButtons()}
+      </Popover>
+    );
+  }
+
   render() {
     return (
       <div
@@ -172,20 +237,7 @@ class Annotater extends Component {
         onBlur={this.handleOnBlur}
       >
         <span ref={this.contentRef}>{this.renderAnnotatedText()}</span>
-        <Popover
-          display={this.state.displayPopOver}
-          top={this.state.popoverTop}
-          left={this.state.popoverLeft}
-        >
-          <Button
-            buttonType={LINK_TYPE}
-            type="button"
-            onClick={this.onAddAnnotation}
-            ref={this.popoverBtnRef}
-          >
-            Annotate
-          </Button>
-        </Popover>
+        {this.renderPopOver()}
       </div>
     );
   }
@@ -193,7 +245,13 @@ class Annotater extends Component {
 
 Annotater.propTypes = {
   onAddAnnotation: PropTypes.func.isRequired,
-  currentAnnotations: PropTypes.array
+  currentAnnotations: PropTypes.array,
+  text: PropTypes.string,
+  isReadOnly: PropTypes.bool
+};
+
+Annotater.defaultProps = {
+  isReadOnly: false
 };
 
 export default Annotater;

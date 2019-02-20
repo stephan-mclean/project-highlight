@@ -8,8 +8,7 @@ import {
   faCheck,
   faCheckCircle,
   faSpinner,
-  faTimes,
-  faComment
+  faTimes
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -21,6 +20,5 @@ library.add(
   faCheck,
   faCheckCircle,
   faSpinner,
-  faTimes,
-  faComment
+  faTimes
 );
