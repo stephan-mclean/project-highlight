@@ -66,7 +66,6 @@ class Annotater extends Component {
 
   handleTextSelection(e) {
     if (e.target !== this.contentRef.current || this.props.isReadOnly) {
-      console.log("dont handle text selection");
       return;
     }
 
@@ -138,14 +137,6 @@ class Annotater extends Component {
   }
 
   onAnnotationClick(annotation, e) {
-    console.log(
-      "annotation click",
-      annotation,
-      e,
-      e.target,
-      e.target.getBoundingClientRect()
-    );
-
     if (this.props.isReadOnly) {
       return;
     }
@@ -210,7 +201,6 @@ class Annotater extends Component {
 
   editCurrentlySelectedAnnotation() {
     const { currentlySelectedAnnotation } = this.state;
-    console.log("edit", currentlySelectedAnnotation);
     this.handleOnBlur();
   }
 
@@ -297,7 +287,6 @@ class Annotater extends Component {
   }
 
   render() {
-    console.log(this.props.currentAnnotations);
     return (
       <div
         onMouseUp={this.handleTextSelection}
