@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import Button, { LINK_TYPE, DANGER_STYLE } from "../Button/Button";
 import ButtonGroup from "../ButtonGroup/ButtonGroup";
+import AnnotationForm from "./form/AnnotationForm";
 
 const Popover = styled.div`
   height: 2rem;
@@ -37,11 +38,15 @@ class Annotater extends Component {
     this.deleteCurrentlySelectedAnnotation = this.deleteCurrentlySelectedAnnotation.bind(
       this
     );
+    this.renderAnnotationForm = this.renderAnnotationForm.bind(this);
+    this.onCompleteAnnotationForm = this.onCompleteAnnotationForm.bind(this);
+    this.onCancelAnnotationForm = this.onCancelAnnotationForm.bind(this);
 
     this.state = {
       shouldDisplayPopover: false,
       renderPopoverForExistingAnnotation: false,
-      currentlySelectedAnnotation: null
+      currentlySelectedAnnotation: null,
+      showAnnotationForm: false
     };
 
     this.contentRef = React.createRef();
@@ -190,17 +195,19 @@ class Annotater extends Component {
   }
 
   onAddAnnotation() {
-    const { currentAnnotations } = this.props;
     const { startOffset, endOffset } = this.state;
-    this.props.updateAnnotations([
-      ...currentAnnotations,
-      { startOffset, endOffset }
-    ]);
+    this.setState({
+      currentlySelectedAnnotation: { startOffset, endOffset },
+      showAnnotationForm: true
+    });
+
     this.handleOnBlur();
   }
 
   editCurrentlySelectedAnnotation() {
-    const { currentlySelectedAnnotation } = this.state;
+    this.setState({
+      showAnnotationForm: true
+    });
     this.handleOnBlur();
   }
 
@@ -286,7 +293,48 @@ class Annotater extends Component {
     );
   }
 
+  onCompleteAnnotationForm(annotation) {
+    console.log("finished annotating", annotation);
+
+    const { currentAnnotations } = this.props;
+    if (currentAnnotations.includes(annotation)) {
+      console.log("edited annotation");
+    } else {
+      console.log("newly added annotation");
+
+      this.props.updateAnnotations([...currentAnnotations, annotation]);
+    }
+
+    this.setState({
+      currentlySelectedAnnotation: null,
+      showAnnotationForm: false
+    });
+  }
+
+  onCancelAnnotationForm() {
+    console.log("cancelled annotating");
+    this.setState({
+      currentlySelectedAnnotation: null,
+      showAnnotationForm: false
+    });
+  }
+
+  renderAnnotationForm() {
+    const { currentlySelectedAnnotation } = this.state;
+    return (
+      <AnnotationForm
+        annotation={currentlySelectedAnnotation}
+        onComplete={this.onCompleteAnnotationForm}
+        onCancel={this.onCancelAnnotationForm}
+      />
+    );
+  }
+
   render() {
+    if (this.state.showAnnotationForm) {
+      return this.renderAnnotationForm();
+    }
+
     return (
       <div
         onMouseUp={this.handleTextSelection}
