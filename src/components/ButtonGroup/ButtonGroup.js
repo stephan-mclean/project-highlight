@@ -11,7 +11,7 @@ const ButtonGroup = styled.div`
     margin-right: 0.5rem;
 
     :last-child {
-      margin-right: ${props => (props.right ? 0 : "0.5rem")};
+      margin-right: 0;
     }
   }
 `;
