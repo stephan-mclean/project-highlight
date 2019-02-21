@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import AnnotationForm from "./form/AnnotationForm";
 import TextHighlighter from "./text/TextHighlighter";
 import Popover from "./popover/Popover";
+import * as uuid from "uuid";
 
 const getPopoverPosition = rect => {
   const result = {
@@ -209,16 +210,25 @@ class Annotater extends Component {
   }
 
   onCompleteAnnotationForm(annotation) {
-    console.log("finished annotating", annotation);
-
     const { currentAnnotations } = this.props;
-    if (currentAnnotations.includes(annotation)) {
-      console.log("edited annotation");
+    const updatedAnnotations = [...currentAnnotations];
+    if (annotation.id) {
+      const indexOfExistingAnnotation = updatedAnnotations.findIndex(
+        current => current.id === annotation.id
+      );
+      if (indexOfExistingAnnotation > -1) {
+        updatedAnnotations.splice(indexOfExistingAnnotation, 1);
+        updatedAnnotations.push(annotation);
+      }
     } else {
-      console.log("newly added annotation");
-
-      this.props.updateAnnotations([...currentAnnotations, annotation]);
+      const newlyAddedAnnotation = {
+        ...annotation,
+        id: uuid()
+      };
+      updatedAnnotations.push(newlyAddedAnnotation);
     }
+
+    this.props.updateAnnotations(updatedAnnotations);
 
     this.setState({
       currentlySelectedAnnotation: null,
@@ -227,7 +237,6 @@ class Annotater extends Component {
   }
 
   onCancelAnnotationForm() {
-    console.log("cancelled annotating");
     this.setState({
       currentlySelectedAnnotation: null,
       showAnnotationForm: false
