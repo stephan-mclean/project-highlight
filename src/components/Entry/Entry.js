@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import Button, { LINK_TYPE, DANGER_STYLE } from "../Button/Button";
 import { Overline, S1, B1, B2 } from "../Fonts/Fonts";
+import TextHighlighter from "../Annotater/text/TextHighlighter";
 
 const Container = styled.div`
   border: ${props => `1px solid ${props.theme.colors.background.default}`};
@@ -73,7 +74,12 @@ const Entry = ({
       <DateText>{createdDate}</DateText>
     </BookAndDateContainer>
     <MainContainer>
-      {passage && <PassageText>"{passage.text}"</PassageText>}
+      {passage && (
+        <TextHighlighter
+          text={passage.text}
+          annotations={passage.annotations}
+        />
+      )}
       <NotesTitle>Notes</NotesTitle>
       <NotesText>{notes}</NotesText>
 

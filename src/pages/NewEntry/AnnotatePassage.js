@@ -7,6 +7,7 @@ import Button, {
   OUTLINE_TYPE,
   ACCENT_STYLE
 } from "../../components/Button/Button";
+import Annotater from "../../components/Annotater/Annotater";
 
 const Tesseract = window.Tesseract;
 
@@ -16,6 +17,7 @@ class AnnotatePassage extends Component {
 
     this.parsePassageText = this.parsePassageText.bind(this);
     this.renderPassage = this.renderPassage.bind(this);
+    this.onUpdateAnnotations = this.onUpdateAnnotations.bind(this);
 
     // Parse image here
     this.state = { loadingPassageText: true, loadingPassageError: false };
@@ -30,16 +32,32 @@ class AnnotatePassage extends Component {
       this.setState({
         loadingPassageText: false,
         passage: {
-          text: result.text
+          text: result.text,
+          annotations: []
         }
       });
     });
   }
 
+  onUpdateAnnotations(annotations) {
+    const { passage } = this.state;
+    this.setState({
+      passage: {
+        ...passage,
+        annotations
+      }
+    });
+  }
+
   renderPassage() {
+    const { passage } = this.state;
     return (
       <Fragment>
-        <B1>{this.state.passage.text}</B1>
+        <Annotater
+          text={passage.text}
+          currentAnnotations={passage.annotations}
+          updateAnnotations={this.onUpdateAnnotations}
+        />
         <ButtonGroup right>
           <ButtonGroup.Item>
             <Button buttonType={OUTLINE_TYPE}>Cancel</Button>

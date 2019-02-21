@@ -52,8 +52,12 @@ class TextHighlighter extends Component {
 TextHighlighter.propTypes = {
   text: PropTypes.string,
   annotations: PropTypes.array.isRequired,
-  textRef: PropTypes.func.isRequired,
-  onAnnotationClick: PropTypes.func.isRequired
+  textRef: PropTypes.func,
+  onAnnotationClick: PropTypes.func
+};
+
+TextHighlighter.defaultProps = {
+  onAnnotationClick: () => {}
 };
 
 export default TextHighlighter;
