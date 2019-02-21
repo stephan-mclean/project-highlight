@@ -1,22 +1,22 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import styled from "styled-components";
-import Button, { LINK_TYPE, DANGER_STYLE } from "../Button/Button";
-import ButtonGroup from "../ButtonGroup/ButtonGroup";
 import AnnotationForm from "./form/AnnotationForm";
 import TextHighlighter from "./text/TextHighlighter";
+import Popover from "./popover/Popover";
 
-const Popover = styled.div`
-  height: 2rem;
-  background-color: #ffffff;
-  border: ${props => `1px solid ${props.theme.colors.background.default}`};
-  border-radius: 0.25rem;
-  position: absolute;
-  top: ${props => `${props.top}px`};
-  left: ${props => `${props.left}px`};
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-`;
+const getPopoverPosition = rect => {
+  const result = {
+    popoverLeft: rect.left
+  };
+
+  if (rect.top - 32 < 0) {
+    result.popoverTop = rect.top + rect.height;
+  } else {
+    result.popoverTop = rect.top - 32;
+  }
+
+  return result;
+};
 
 class Annotater extends Component {
   constructor(props) {
@@ -24,19 +24,21 @@ class Annotater extends Component {
 
     this.handleTextSelection = this.handleTextSelection.bind(this);
     this.handleOnBlur = this.handleOnBlur.bind(this);
-    this.onAddAnnotation = this.onAddAnnotation.bind(this);
     this.renderPopOver = this.renderPopOver.bind(this);
-    this.renderPopOverButtons = this.renderPopOverButtons.bind(this);
+
+    this.onAddAnnotation = this.onAddAnnotation.bind(this);
+
+    this.onAnnotationClick = this.onAnnotationClick.bind(this);
     this.editCurrentlySelectedAnnotation = this.editCurrentlySelectedAnnotation.bind(
       this
     );
     this.deleteCurrentlySelectedAnnotation = this.deleteCurrentlySelectedAnnotation.bind(
       this
     );
+
     this.renderAnnotationForm = this.renderAnnotationForm.bind(this);
     this.onCompleteAnnotationForm = this.onCompleteAnnotationForm.bind(this);
     this.onCancelAnnotationForm = this.onCancelAnnotationForm.bind(this);
-    this.onAnnotationClick = this.onAnnotationClick.bind(this);
 
     this.state = {
       shouldDisplayPopover: false,
@@ -51,22 +53,8 @@ class Annotater extends Component {
     this.popoverDeleteBtnRef = React.createRef();
   }
 
-  getPopoverPosition(rect) {
-    const result = {
-      popoverLeft: rect.left
-    };
-
-    if (rect.top - 32 < 0) {
-      result.popoverTop = rect.top + rect.height;
-    } else {
-      result.popoverTop = rect.top - 32;
-    }
-
-    return result;
-  }
-
   handleTextSelection(e) {
-    if (e.target !== this.contentRef.current || this.props.isReadOnly) {
+    if (e.target !== this.contentRef.current) {
       return;
     }
 
@@ -102,7 +90,7 @@ class Annotater extends Component {
       const rects = range.getClientRects();
       if (rects.length) {
         const rect = rects[0];
-        const popoverPosition = this.getPopoverPosition(rect);
+        const popoverPosition = getPopoverPosition(rect);
 
         this.setState({
           shouldDisplayPopover: true,
@@ -137,12 +125,8 @@ class Annotater extends Component {
   }
 
   onAnnotationClick(annotation, e) {
-    if (this.props.isReadOnly) {
-      return;
-    }
-
     const rect = e.target.getBoundingClientRect();
-    const popoverPosition = this.getPopoverPosition(rect);
+    const popoverPosition = getPopoverPosition(rect);
 
     this.setState({
       shouldDisplayPopover: true,
@@ -150,16 +134,6 @@ class Annotater extends Component {
       renderPopoverForExistingAnnotation: true,
       currentlySelectedAnnotation: annotation
     });
-  }
-
-  onAddAnnotation() {
-    const { startOffset, endOffset } = this.state;
-    this.setState({
-      currentlySelectedAnnotation: { startOffset, endOffset },
-      showAnnotationForm: true
-    });
-
-    this.handleOnBlur();
   }
 
   editCurrentlySelectedAnnotation() {
@@ -187,67 +161,50 @@ class Annotater extends Component {
     this.handleOnBlur();
   }
 
-  renderPopOverButtons() {
-    let buttons;
-    if (this.state.renderPopoverForExistingAnnotation) {
-      buttons = (
-        <ButtonGroup left>
-          <ButtonGroup.Item>
-            <Button
-              type="button"
-              buttonType={LINK_TYPE}
-              ref={this.popoverEditBtnRef}
-              onClick={this.editCurrentlySelectedAnnotation}
-            >
-              Edit
-            </Button>
-          </ButtonGroup.Item>
-          <ButtonGroup.Item>
-            <Button
-              type="button"
-              buttonType={LINK_TYPE}
-              buttonStyle={DANGER_STYLE}
-              ref={this.popoverDeleteBtnRef}
-              onClick={this.deleteCurrentlySelectedAnnotation}
-            >
-              Delete
-            </Button>
-          </ButtonGroup.Item>
-        </ButtonGroup>
-      );
-    } else {
-      buttons = (
-        <ButtonGroup left>
-          <ButtonGroup.Item>
-            <Button
-              buttonType={LINK_TYPE}
-              type="button"
-              onClick={this.onAddAnnotation}
-              ref={this.popoverBtnRef}
-            >
-              Annotate
-            </Button>
-          </ButtonGroup.Item>
-        </ButtonGroup>
-      );
-    }
-
-    return buttons;
-  }
-
   renderPopOver() {
-    if (this.props.isReadOnly || !this.state.shouldDisplayPopover) {
+    if (!this.state.shouldDisplayPopover) {
       return null;
     }
 
+    const {
+      renderPopoverForExistingAnnotation,
+      popoverLeft,
+      popoverTop
+    } = this.state;
+
     return (
       <Popover
-        display={this.state.displayPopOver}
-        top={this.state.popoverTop}
-        left={this.state.popoverLeft}
-      >
-        {this.renderPopOverButtons()}
-      </Popover>
+        shouldRenderEditButtons={renderPopoverForExistingAnnotation}
+        onEdit={this.editCurrentlySelectedAnnotation}
+        onDelete={this.deleteCurrentlySelectedAnnotation}
+        onAnnotate={this.onAddAnnotation}
+        editBtnRef={this.popoverEditBtnRef}
+        deleteBtnRef={this.popoverDeleteBtnRef}
+        annotateBtnRef={this.popoverBtnRef}
+        top={popoverTop}
+        left={popoverLeft}
+      />
+    );
+  }
+
+  onAddAnnotation() {
+    const { startOffset, endOffset } = this.state;
+    this.setState({
+      currentlySelectedAnnotation: { startOffset, endOffset },
+      showAnnotationForm: true
+    });
+
+    this.handleOnBlur();
+  }
+
+  renderAnnotationForm() {
+    const { currentlySelectedAnnotation } = this.state;
+    return (
+      <AnnotationForm
+        annotation={currentlySelectedAnnotation}
+        onComplete={this.onCompleteAnnotationForm}
+        onCancel={this.onCancelAnnotationForm}
+      />
     );
   }
 
@@ -277,17 +234,6 @@ class Annotater extends Component {
     });
   }
 
-  renderAnnotationForm() {
-    const { currentlySelectedAnnotation } = this.state;
-    return (
-      <AnnotationForm
-        annotation={currentlySelectedAnnotation}
-        onComplete={this.onCompleteAnnotationForm}
-        onCancel={this.onCancelAnnotationForm}
-      />
-    );
-  }
-
   render() {
     if (this.state.showAnnotationForm) {
       return this.renderAnnotationForm();
@@ -315,12 +261,7 @@ class Annotater extends Component {
 Annotater.propTypes = {
   updateAnnotations: PropTypes.func.isRequired,
   currentAnnotations: PropTypes.array,
-  text: PropTypes.string,
-  isReadOnly: PropTypes.bool
-};
-
-Annotater.defaultProps = {
-  isReadOnly: false
+  text: PropTypes.string
 };
 
 export default Annotater;
