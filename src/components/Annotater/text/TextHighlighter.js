@@ -3,10 +3,6 @@ import PropTypes from "prop-types";
 import Mark from "../../Mark/Mark";
 
 class TextHighlighter extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   onAnnotationClick(annotation, e) {
     this.props.onAnnotationClick(annotation, e);
   }
@@ -22,7 +18,10 @@ class TextHighlighter extends Component {
         const { startOffset, endOffset } = annotation;
         const markedText = text.substring(startOffset, endOffset);
         const mark = (
-          <Mark onClick={this.onAnnotationClick.bind(this, annotation)}>
+          <Mark
+            key={annotation.id}
+            onClick={this.onAnnotationClick.bind(this, annotation)}
+          >
             {markedText}
           </Mark>
         );
@@ -45,15 +44,21 @@ class TextHighlighter extends Component {
         start = endOffset;
       });
 
-    return <span ref={this.props.textRef}>{result}</span>;
+    return this.props.renderTextBy(this.props.textRef, result);
   }
 }
 
 TextHighlighter.propTypes = {
   text: PropTypes.string,
+  renderTextBy: PropTypes.func,
   annotations: PropTypes.array.isRequired,
-  textRef: PropTypes.func.isRequired,
-  onAnnotationClick: PropTypes.func.isRequired
+  textRef: PropTypes.func,
+  onAnnotationClick: PropTypes.func
+};
+
+TextHighlighter.defaultProps = {
+  onAnnotationClick: () => {},
+  renderTextBy: (ref, text) => <span ref={ref}>{text}</span>
 };
 
 export default TextHighlighter;
