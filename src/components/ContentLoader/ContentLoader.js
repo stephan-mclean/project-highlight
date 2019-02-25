@@ -1,5 +1,12 @@
 import React, { Component, Fragment } from "react";
+import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PropTypes from "prop-types";
+
+const LoadingContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 
 class ContentLoader extends Component {
   render() {
@@ -10,7 +17,11 @@ class ContentLoader extends Component {
 
     if (this.props.loading) {
       console.log("content loader loading");
-      return <Fragment>LOADING</Fragment>;
+      return (
+        <LoadingContainer>
+          <FontAwesomeIcon icon="spinner" spin />
+        </LoadingContainer>
+      );
     } else if (this.props.error) {
       console.log("content loader error");
       return this.props.onError();
