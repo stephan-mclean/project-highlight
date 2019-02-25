@@ -24,6 +24,7 @@ class NewEntryComp extends Component {
     this.renderNewEntryForm = this.renderNewEntryForm.bind(this);
     this.renderAnnotatePassage = this.renderAnnotatePassage.bind(this);
     this.onAddPassage = this.onAddPassage.bind(this);
+    this.onCancelNewEntry = this.onCancelNewEntry.bind(this);
 
     this.state = {
       shouldAnnotatePassage: false
@@ -66,6 +67,11 @@ class NewEntryComp extends Component {
     this.props.history.push(ROUTES.NEW_BOOK_FOR_ENTRY.path);
   }
 
+  onCancelNewEntry() {
+    this.props.resetDraftEntry();
+    this.props.history.push(ROUTES.ENTRIES.path);
+  }
+
   renderNewEntryForm() {
     const { handleSubmit } = this.props;
     return (
@@ -98,7 +104,11 @@ class NewEntryComp extends Component {
 
         <ButtonGroup>
           <ButtonGroup.Item>
-            <Button buttonType={OUTLINE_TYPE} type="button">
+            <Button
+              buttonType={OUTLINE_TYPE}
+              type="button"
+              onClick={this.onCancelNewEntry}
+            >
               Cancel
             </Button>
           </ButtonGroup.Item>
