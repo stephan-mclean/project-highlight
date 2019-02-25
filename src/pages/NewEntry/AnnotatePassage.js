@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import ContentLoader from "../../components/ContentLoader/ContentLoader";
-import { B1 } from "../../components/Fonts/Fonts";
 import ButtonGroup from "../../components/ButtonGroup/ButtonGroup";
 import Button, {
   OUTLINE_TYPE,

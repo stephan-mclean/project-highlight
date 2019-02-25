@@ -77,6 +77,9 @@ const Entry = ({
       {passage && (
         <TextHighlighter
           text={passage.text}
+          renderTextBy={(ref, text) => (
+            <PassageText ref={ref}>{text}</PassageText>
+          )}
           annotations={passage.annotations}
         />
       )}
