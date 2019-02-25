@@ -32,9 +32,11 @@ export default ({ location, history }) => (
           {ROUTES.getTitleByPath(location.pathname)}
         </Link>
       </TopNavHeader>
-      <Link to={ROUTES.SETTINGS.path}>
-        <TopNavRightNavItem icon="cog" />
-      </Link>
+
+      <TopNavRightNavItem
+        icon="cog"
+        onClick={() => history.push(ROUTES.SETTINGS.path)}
+      />
     </TopNav>
 
     <PageContainer>
