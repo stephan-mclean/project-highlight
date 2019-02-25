@@ -74,7 +74,7 @@ const Entry = ({
       <DateText>{createdDate}</DateText>
     </BookAndDateContainer>
     <MainContainer>
-      {passage && (
+      {passage && passage.text && (
         <TextHighlighter
           text={passage.text}
           renderTextBy={(ref, text) => (
