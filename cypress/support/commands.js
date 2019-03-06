@@ -1,7 +1,5 @@
-import { ROUTES } from "../../src/constants";
-
 Cypress.Commands.add("login", () => {
-  cy.visit(ROUTES.LOGIN.path);
+  cy.visit("/public/login");
 
   cy.get("[data-cy=auth-email-btn]").click();
   cy.get("[data-cy=auth-email]").type("cy@test.com");
