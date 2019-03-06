@@ -61,7 +61,7 @@ class TabSet extends Component {
           return (
             <TabHeadingContainer
               onClick={this.onTabClick.bind(this, idx)}
-              data-cy={`tab-${child.props.header}`}
+              {...child.props}
             >
               <TabHeading active={this.state.activeTab === idx}>
                 {child.props.header}

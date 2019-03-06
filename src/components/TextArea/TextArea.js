@@ -25,10 +25,15 @@ const StyledTextArea = styled.textarea`
   }
 `;
 
-const TextArea = ({ label, placeholder, input, rows }) => (
+const TextArea = ({ label, placeholder, input, rows, ...otherProps }) => (
   <Container>
     {label && <Label>{label}</Label>}
-    <StyledTextArea rows={rows} {...input} placeholder={placeholder} />
+    <StyledTextArea
+      rows={rows}
+      {...input}
+      placeholder={placeholder}
+      {...otherProps}
+    />
   </Container>
 );
 

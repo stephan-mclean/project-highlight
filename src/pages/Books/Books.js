@@ -124,7 +124,7 @@ class BooksComp extends Component {
         {this.hasBooksToDisplay() && (
           <BookTileGrid>
             {this.props.books.list.map((book, index) => (
-              <BookTileContainer key={book.id}>
+              <BookTileContainer key={book.id} data-cy={`books-tile-${index}`}>
                 <BookTile
                   {...book}
                   onClick={this.handleBookClick.bind(this, book)}

@@ -64,6 +64,7 @@ class ViewBookComp extends Component {
               buttonType={LINK_TYPE}
               buttonStyle={DANGER_STYLE}
               onClick={this.onDeleteBook}
+              data-cy="view-book-delete-btn"
             >
               Delete
             </Button>
