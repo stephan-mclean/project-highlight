@@ -51,8 +51,8 @@ const Input = styled.input`
   }
 `;
 
-export default ({ label, input }) => (
-  <Container>
+export default ({ label, input, ...otherProps }) => (
+  <Container {...otherProps}>
     <Label>{label}</Label>
     <Input type="checkbox" {...input} />
     <CheckboxContainer>

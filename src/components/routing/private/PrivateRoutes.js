@@ -35,6 +35,7 @@ export default ({ location, history }) => (
 
       <TopNavRightNavItem
         icon="cog"
+        data-cy="nav-settings-btn"
         onClick={() => history.push(ROUTES.SETTINGS.path)}
       />
     </TopNav>
@@ -60,12 +61,13 @@ export default ({ location, history }) => (
 
     <BottomNav>
       <Link to={ROUTES.BOOKS.path}>
-        <NavItem icon="book" label="Books" />
+        <NavItem data-cy="nav-books-btn" icon="book" label="Books" />
       </Link>
       <Button
         buttonType={OUTLINE_TYPE}
         buttonStyle={PRIMARY_STYLE}
         circle
+        data-cy="nav-plus-btn"
         onClick={() => {
           if (location.pathname === ROUTES.BOOKS.path) {
             history.push(ROUTES.NEW_BOOK.path);
@@ -77,7 +79,7 @@ export default ({ location, history }) => (
         <FontAwesomeIcon icon="plus" />
       </Button>
       <Link to={ROUTES.ENTRIES.path}>
-        <NavItem icon="sticky-note" label="Entries" />
+        <NavItem data-cy="nav-entries-btn" icon="sticky-note" label="Entries" />
       </Link>
     </BottomNav>
   </AppContainer>
