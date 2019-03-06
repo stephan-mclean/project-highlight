@@ -43,6 +43,12 @@ jobs:
             - package.json
             - firebase.json
             - .firebaserc
+            - cypress
+            - cypress.json
+            - docker-compose.yml
+            - Dockerfile-e2e
+            - Dockerfile-web
+            - nginx.conf
           key: v1-build-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
   deploy:
     docker:
@@ -56,12 +62,38 @@ jobs:
       - run:
           name: "Deploy to Firebase Hosting"
           command: "./node_modules/.bin/firebase deploy --token=$FIREBASE_TOKEN --project project-highlight"
+  e2e:
+    docker:
+      - image: circleci/node:10.15.0
+    working_directory: ~/repo
+    steps:
+      - restore_cache:
+          key: v1-build-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+      - setup_remote_docker
+      - run:
+          name: "List"
+          command: "ls -a"
+      - run:
+          name: "Start Containers"
+          command: "docker-compose up -d --build"
+      - run:
+          name: "Run Tests"
+          command: "docker-compose run --name project-highlight-cypress-run cypress ./node_modules/.bin/cypress run"
+      - run:
+          name: "Collect artifacts"
+          command: "docker cp project-highlight-cypress-run:/usr/src/app/cypress $(pwd)/cypress"
+      - store_artifacts:
+          path: cypress/
+          when: always
 
 workflows:
   version: 2
   -deploy:
     jobs:
       - build
+      - e2e:
+          requires:
+            - build
       - deploy:
           requires:
             - build
