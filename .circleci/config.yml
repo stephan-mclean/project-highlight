@@ -77,6 +77,9 @@ jobs:
           name: "Start Containers"
           command: "docker-compose up -d --build"
       - run:
+          name: "Kill Xvfb"
+          command: "docker-compose run cypress ps -ef | grep Xvfb | grep -v grep | awk '{print $2}' | xargs kill -9"
+      - run:
           name: "Run Tests"
           command: "docker-compose run --name project-highlight-cypress-run cypress ./node_modules/.bin/cypress run"
       - run:
@@ -85,6 +88,9 @@ jobs:
       - store_artifacts:
           path: cypress/
           when: always
+      - run:
+          name: "Stop Containers"
+          command: "docker-compose down"
 
 workflows:
   version: 2
