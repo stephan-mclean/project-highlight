@@ -90,12 +90,14 @@ class NewEntryComp extends Component {
           placeholder="Add any additional notes you have here.."
           rows="4"
           component={TextArea}
+          data-cy="new-entry-notes"
         />
 
         <Picker
           label="Book"
           onClick={this.onBookPickerClick}
           value={this.props.newEntry.book.title}
+          data-cy="new-entry-book-picker"
         />
 
         {this.props.newEntry.book.title && (
@@ -117,6 +119,7 @@ class NewEntryComp extends Component {
               type="submit"
               buttonType={OUTLINE_TYPE}
               buttonStyle={ACCENT_STYLE}
+              data-cy="new-entry-submit-btn"
             >
               {this.props.newEntry.publishLoading && (
                 <FontAwesomeIcon icon="spinner" spin />

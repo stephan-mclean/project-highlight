@@ -94,6 +94,7 @@ const Entry = ({
           onClick={onDelete}
           buttonType={LINK_TYPE}
           buttonStyle={DANGER_STYLE}
+          data-cy="entry-delete-btn"
         >
           Delete
         </StyledEntryButton>
