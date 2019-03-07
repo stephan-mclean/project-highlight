@@ -75,6 +75,10 @@ workflows:
             - build
           start: npm run start
           wait-on: "http://localhost:3000"
+          store_artifacts: true
+          post-steps:
+            - store_test_results:
+                path: cypress/results
       - deploy:
           requires:
             - cypress/run
