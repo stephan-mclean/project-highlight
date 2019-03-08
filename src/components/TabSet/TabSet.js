@@ -59,7 +59,10 @@ class TabSet extends Component {
       <HeadingsContainer>
         {React.Children.map(this.props.children, (child, idx) => {
           return (
-            <TabHeadingContainer onClick={this.onTabClick.bind(this, idx)}>
+            <TabHeadingContainer
+              onClick={this.onTabClick.bind(this, idx)}
+              {...child.props}
+            >
               <TabHeading active={this.state.activeTab === idx}>
                 {child.props.header}
               </TabHeading>

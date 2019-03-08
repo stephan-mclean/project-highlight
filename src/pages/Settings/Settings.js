@@ -17,7 +17,12 @@ class SettingsComp extends Component {
   render() {
     return (
       <Fragment>
-        <Button type="button" buttonStyle={DANGER_STYLE} onClick={this.logOut}>
+        <Button
+          type="button"
+          buttonStyle={DANGER_STYLE}
+          onClick={this.logOut}
+          data-cy="settings-logout-btn"
+        >
           Log Out
         </Button>
       </Fragment>

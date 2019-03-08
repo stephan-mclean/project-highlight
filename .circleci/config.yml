@@ -2,7 +2,7 @@
 #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
-version: 2
+version: 2.1
 jobs:
   build:
     docker:
@@ -57,14 +57,25 @@ jobs:
           name: "Deploy to Firebase Hosting"
           command: "./node_modules/.bin/firebase deploy --token=$FIREBASE_TOKEN --project project-highlight"
 
+orbs:
+  cypress: cypress-io/cypress@1
 workflows:
   version: 2
   -deploy:
     jobs:
       - build
-      - deploy:
+      - cypress/run:
           requires:
             - build
+          start: npm run start
+          wait-on: "http://localhost:3000"
+          store_artifacts: true
+          post-steps:
+            - store_test_results:
+                path: cypress/results
+      - deploy:
+          requires:
+            - cypress/run
           filters:
             branches:
               only: master

@@ -51,10 +51,11 @@ class NewBookSearchResults extends Component {
     if (search.results && search.results.length) {
       return (
         <Fragment>
-          {search.results.map(result => {
+          {search.results.map((result, index) => {
             return (
               <SearchResultContainer
                 key={result.gBooksID || result.id}
+                data-cy={`new-book-search-result-${index}`}
                 onClick={this.viewIndividualResult.bind(this, result)}
               >
                 <BookSummary {...result} showDescription={false} />
@@ -116,6 +117,7 @@ class NewBookSearchResults extends Component {
               buttonType={OUTLINE_TYPE}
               buttonStyle={ACCENT_STYLE}
               onClick={() => this.props.onAddBook(this.state.individualResult)}
+              data-cy="new-book-search-result-individual-result-add-btn"
             >
               Add Book
             </Button>

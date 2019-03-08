@@ -58,6 +58,7 @@ class NewBookManually extends Component {
           name="title"
           label="Title"
           type="text"
+          data-cy="new-book-manually-title"
           component={Input}
         />
         <Field name="subtitle" label="Subtitle" type="text" component={Input} />
@@ -65,6 +66,7 @@ class NewBookManually extends Component {
           name="description"
           rows="4"
           label="Description"
+          data-cy="new-book-manually-description"
           component={TextArea}
         />
 
@@ -84,6 +86,7 @@ class NewBookManually extends Component {
               buttonType={OUTLINE_TYPE}
               buttonStyle={ACCENT_STYLE}
               disabled={invalid || submitting || pristine}
+              data-cy="new-book-manually-submit-btn"
             >
               {this.props.addBookLabel()}
             </Button>

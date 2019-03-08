@@ -1,0 +1,13 @@
+FROM cypress/base:10
+
+RUN mkdir /usr/src/app
+WORKDIR /usr/src/app
+
+RUN npm install cypress
+
+COPY cypress /usr/src/app/cypress
+COPY cypress.json /usr/src/app/cypress.json
+
+RUN DEBUG=cypress:cli
+
+RUN ./node_modules/.bin/cypress verify

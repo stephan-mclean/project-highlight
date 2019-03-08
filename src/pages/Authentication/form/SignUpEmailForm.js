@@ -26,6 +26,7 @@ class SignUpEmailForm extends Component {
           label="Email"
           component={Input}
           validate={required}
+          data-cy="auth-email"
         />
         <Field
           name="password"
@@ -33,6 +34,7 @@ class SignUpEmailForm extends Component {
           type="password"
           component={Input}
           validate={required}
+          data-cy="auth-pass"
         />
 
         {shouldConfirmPassword && (
@@ -52,6 +54,7 @@ class SignUpEmailForm extends Component {
               buttonStyle={ACCENT_STYLE}
               block
               disabled={invalid || submitting || pristine}
+              data-cy="auth-submit-email"
             >
               {this.props.submitBtnLabel()}
             </Button>

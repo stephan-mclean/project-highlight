@@ -28,9 +28,12 @@ class EntryList extends Component {
     if (entries && entries.length) {
       return (
         <Fragment>
-          {entries.map(entry => {
+          {entries.map((entry, index) => {
             return (
-              <EntryContainer key={entry.id}>
+              <EntryContainer
+                key={entry.id}
+                data-cy={`entry-list-entry-${index}`}
+              >
                 <Entry {...entry} onDelete={() => this.onDeleteEntry(entry)} />
               </EntryContainer>
             );

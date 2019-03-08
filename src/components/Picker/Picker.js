@@ -30,10 +30,10 @@ const ValueContainer = styled.div`
   border: ${props => `1px solid ${props.theme.colors.background.default}`};
 `;
 
-const Picker = ({ label, value, onClick }) => (
+const Picker = ({ label, value, onClick, ...otherProps }) => (
   <Container>
     {label && <PickerLabel>{label}</PickerLabel>}
-    <ValueContainer onClick={onClick}>
+    <ValueContainer onClick={onClick} {...otherProps}>
       <ValueLabel>{value}</ValueLabel>
       <ValueIcon icon="chevron-right" />
     </ValueContainer>

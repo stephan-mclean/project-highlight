@@ -13,9 +13,27 @@ class NewBookSearchForm extends Component {
     const { handleSubmit, invalid, submitting, pristine } = this.props;
     return (
       <form onSubmit={handleSubmit(this.props.onSearchSubmit)}>
-        <Field name="title" label="Title" type="text" component={Input} />
-        <Field name="author" label="Author" type="text" component={Input} />
-        <Field name="isbn" label="ISBN" type="text" component={Input} />
+        <Field
+          name="title"
+          label="Title"
+          type="text"
+          component={Input}
+          data-cy="book-search-title"
+        />
+        <Field
+          name="author"
+          label="Author"
+          type="text"
+          component={Input}
+          data-cy="book-search-author"
+        />
+        <Field
+          name="isbn"
+          label="ISBN"
+          type="text"
+          component={Input}
+          data-cy="book-search-isbn"
+        />
         <ButtonGroup right>
           <ButtonGroup.Item>
             <Button
@@ -32,6 +50,7 @@ class NewBookSearchForm extends Component {
               buttonType={OUTLINE_TYPE}
               buttonStyle={ACCENT_STYLE}
               type="submit"
+              data-cy="book-search-submit"
               disabled={invalid || submitting || pristine}
             >
               Search

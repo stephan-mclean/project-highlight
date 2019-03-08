@@ -1,0 +1,16 @@
+version: "2"
+
+services:
+  react:
+    build:
+      context: .
+      dockerfile: Dockerfile-web
+    ports:
+      - "3000:80"
+  cypress:
+    build:
+      context: .
+      dockerfile: Dockerfile-e2e
+    depends_on:
+      - react
+    network_mode: "host"

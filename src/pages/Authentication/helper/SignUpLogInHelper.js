@@ -70,6 +70,7 @@ class SignUpLogInHelper extends Component {
               type="button"
               buttonStyle={ACCENT_STYLE}
               onClick={this.toggleEmailForm}
+              data-cy="auth-email-btn"
               block
             >
               {this.props.renderEmailBtnLabel()}

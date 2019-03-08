@@ -94,17 +94,37 @@ class NewBookComp extends Component {
     if (this.state.isForEntry) {
       return (
         <TabSet>
-          <Tab render={this.renderLibraryTab} header="My Books" />
-          <Tab render={this.renderBookSearchTab} header="Search" />
-          <Tab render={this.renderAddManuallyTab} header="Add manually" />
+          <Tab
+            render={this.renderLibraryTab}
+            header="My Books"
+            data-cy="tab-my-books"
+          />
+          <Tab
+            render={this.renderBookSearchTab}
+            header="Search"
+            data-cy="tab-search"
+          />
+          <Tab
+            render={this.renderAddManuallyTab}
+            header="Add manually"
+            data-cy="tab-add-manually"
+          />
         </TabSet>
       );
     }
 
     return (
       <TabSet>
-        <Tab render={this.renderBookSearchTab} header="Search" />
-        <Tab render={this.renderAddManuallyTab} header="Add manually" />
+        <Tab
+          render={this.renderBookSearchTab}
+          header="Search"
+          data-cy="tab-search"
+        />
+        <Tab
+          render={this.renderAddManuallyTab}
+          header="Add manually"
+          data-cy="tab-add-manually"
+        />
       </TabSet>
     );
   }

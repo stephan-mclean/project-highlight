@@ -86,14 +86,22 @@ class BooksComp extends Component {
           <ButtonGroup right>
             {!this.state.editMode && (
               <ButtonGroup.Item>
-                <Button buttonType={LINK_TYPE} onClick={this.toggleEditMode}>
+                <Button
+                  buttonType={LINK_TYPE}
+                  onClick={this.toggleEditMode}
+                  data-cy="books-edit-btn"
+                >
                   Edit
                 </Button>
               </ButtonGroup.Item>
             )}
             {this.state.editMode && (
               <ButtonGroup.Item>
-                <Button buttonType={LINK_TYPE} onClick={this.toggleEditMode}>
+                <Button
+                  buttonType={LINK_TYPE}
+                  onClick={this.toggleEditMode}
+                  data-cy="books-cancel-edit-btn"
+                >
                   Cancel
                 </Button>
               </ButtonGroup.Item>
@@ -104,6 +112,7 @@ class BooksComp extends Component {
                   buttonType={LINK_TYPE}
                   buttonStyle={DANGER_STYLE}
                   onClick={this.onDeleteBooks}
+                  data-cy="books-delete-btn"
                 >
                   Delete
                 </Button>
@@ -114,8 +123,8 @@ class BooksComp extends Component {
 
         {this.hasBooksToDisplay() && (
           <BookTileGrid>
-            {this.props.books.list.map(book => (
-              <BookTileContainer key={book.id}>
+            {this.props.books.list.map((book, index) => (
+              <BookTileContainer key={book.id} data-cy={`books-tile-${index}`}>
                 <BookTile
                   {...book}
                   onClick={this.handleBookClick.bind(this, book)}
@@ -124,6 +133,7 @@ class BooksComp extends Component {
                 {this.state.editMode && (
                   <Checkbox
                     label="Select"
+                    data-cy={`books-select-${index}`}
                     input={{
                       checked: this.markedForDeletion(book),
                       onChange: this.toggleBookSelection.bind(this, book)
