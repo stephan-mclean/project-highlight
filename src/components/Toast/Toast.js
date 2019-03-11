@@ -20,6 +20,20 @@ export const UndoButton = ({ closeToast, onUndo }) => {
   );
 };
 
+export const UNDO_CATEGORIES = {
+  entryRemoved: {
+    type: "ENTRY_REMOVED",
+    multiDisplayName: "entries deleted."
+  },
+  bookRemoved: {
+    type: "BOOK_REMOVED",
+    multiDisplayName: "books deleted."
+  }
+};
+
+// Category -> {toastId, onUndo}
+const undoCallbacks = new Map();
+
 export default {
   POSITION: toast.POSITION,
   basic(content, options) {
@@ -47,5 +61,36 @@ export default {
       closeButton: <DefaultCloseButton />,
       ...options
     });
+  },
+  undo(content, options, category, onUndo) {
+    if (undoCallbacks.has(category.type)) {
+      const undoCallbacksWithCategory = undoCallbacks.get(category.type);
+      const { toastId } = undoCallbacksWithCategory[0];
+      undoCallbacksWithCategory.push({ onUndo, toastId });
+
+      toast.update(toastId, {
+        render: `${undoCallbacksWithCategory.length} ${
+          category.multiDisplayName
+        }`
+      });
+
+      return toastId;
+    } else {
+      const undo = () => {
+        undoCallbacks.get(category.type).forEach(cb => cb.onUndo());
+        undoCallbacks.delete(category.type);
+      };
+
+      const toastId = toast.success(content, {
+        className: "success-toast",
+        progressClassName: "success-toast-progress",
+        closeButton: <UndoButton onUndo={undo} />,
+        ...options
+      });
+
+      undoCallbacks.set(category.type, [{ onUndo, toastId }]);
+
+      return toastId;
+    }
   }
 };
