@@ -1,8 +1,7 @@
-import React from "react";
 import { GET_ENTRIES, GET_ENTRIES_ERROR, GET_ENTRIES_LOADING } from "./types";
 import { publishEntry } from "./newentry";
 import { authRef, entriesRef } from "../firebase";
-import toast, { UndoButton } from "../components/Toast/Toast";
+import toast, { UNDO_CATEGORIES } from "../components/Toast/Toast";
 
 export const getEntries = () => dispatch => {
   dispatch({ type: GET_ENTRIES_LOADING });
@@ -47,8 +46,6 @@ export const removeEntry = entry => dispatch => {
     .doc(entry.id)
     .delete()
     .then(() => {
-      toast.success("Entry deleted", {
-        closeButton: <UndoButton onUndo={onUndo} />
-      });
+      toast.undo("Entry deleted", {}, UNDO_CATEGORIES.entryRemoved, onUndo);
     });
 };

@@ -9,7 +9,7 @@ import Button, {
   LINK_TYPE,
   DANGER_STYLE
 } from "../../components/Button/Button";
-import { removeBookByID } from "../../actions";
+import { removeBook } from "../../actions";
 import { ROUTES } from "../../constants";
 
 const EntriesHeader = styled(H6)`
@@ -33,7 +33,7 @@ class ViewBookComp extends Component {
   }
 
   onDeleteBook() {
-    this.props.removeBookByID(this.props.book.id);
+    this.props.removeBook(this.props.book);
   }
 
   componentDidUpdate(prevProps) {
@@ -87,5 +87,5 @@ const mapStateToProps = ({ books }, ownProps) => {
 
 export const ViewBook = connect(
   mapStateToProps,
-  { removeBookByID }
+  { removeBook }
 )(ViewBookComp);

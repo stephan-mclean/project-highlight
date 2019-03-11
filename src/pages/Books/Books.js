@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
-import { getBooks, getEntries, removeBooksByID } from "../../actions";
+import { getBooks, getEntries, removeBooks } from "../../actions";
 import BookTile, { BookTileGrid } from "../../components/BookTile/BookTile";
 import ContentLoader from "../../components/ContentLoader/ContentLoader";
 import ButtonGroup from "../../components/ButtonGroup/ButtonGroup";
@@ -50,7 +50,7 @@ class BooksComp extends Component {
   }
 
   onDeleteBooks() {
-    this.props.removeBooksByID(this.state.booksToDelete);
+    this.props.removeBooks(this.state.booksToDelete);
     this.setState({
       editMode: false,
       booksToDelete: []
@@ -58,19 +58,27 @@ class BooksComp extends Component {
   }
 
   markedForDeletion(book) {
-    return this.state.booksToDelete.includes(book.id);
+    const { booksToDelete } = this.state;
+    return (
+      booksToDelete.findIndex(
+        markedForDeletion => markedForDeletion.id === book.id
+      ) > -1
+    );
   }
 
   toggleBookSelection(book) {
     const { booksToDelete } = this.state;
-    if (booksToDelete.includes(book.id)) {
-      const indexOfBook = booksToDelete.indexOf(book.id);
+
+    const indexOfBook = booksToDelete.findIndex(
+      markedForDeletion => markedForDeletion.id === book.id
+    );
+    if (indexOfBook > -1) {
       this.setState({
         booksToDelete: booksToDelete.filter((item, i) => indexOfBook !== i)
       });
     } else {
       this.setState({
-        booksToDelete: [...booksToDelete, book.id]
+        booksToDelete: [...booksToDelete, book]
       });
     }
   }
@@ -185,5 +193,5 @@ const mapStateToProps = ({ books }) => {
 
 export const Books = connect(
   mapStateToProps,
-  { getBooks, getEntries, removeBooksByID }
+  { getBooks, getEntries, removeBooks }
 )(BooksComp);
