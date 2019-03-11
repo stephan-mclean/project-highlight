@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import Jimp from "jimp/es";
 import PropTypes from "prop-types";
 import ContentLoader from "../../components/ContentLoader/ContentLoader";
 import ButtonGroup from "../../components/ButtonGroup/ButtonGroup";
@@ -26,15 +27,42 @@ class AnnotatePassage extends Component {
 
   parsePassageText() {
     console.log("parse passage text");
-    Tesseract.recognize(this.props.passageFile).then(result => {
-      console.log("tess result", result);
-      this.setState({
-        loadingPassageText: false,
-        passage: {
-          text: result.text,
-          annotations: []
-        }
-      });
+
+    console.log("first compressing img", this.props.passageFile);
+
+    const toRead = URL.createObjectURL(this.props.passageFile);
+
+    Jimp.read(toRead, (error, image) => {
+      if (error) {
+        console.error(error);
+      }
+
+      image
+        .resize(512, Jimp.AUTO)
+        .quality(50)
+        .greyscale()
+        .getBuffer(this.props.passageFile.type, (err, buff) => {
+          if (err) {
+            console.error(err);
+          }
+
+          console.log("got buff", buff);
+
+          const base64Image = buff.toString("base64");
+          const imgSrcString =
+            "data:" + this.props.passageFile.type + ";base64, " + base64Image;
+
+          Tesseract.recognize(imgSrcString).then(result => {
+            console.log("tess result", result);
+            this.setState({
+              loadingPassageText: false,
+              passage: {
+                text: result.text,
+                annotations: []
+              }
+            });
+          });
+        });
     });
   }
 
