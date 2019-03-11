@@ -1,4 +1,3 @@
-import React from "react";
 import { GET_ENTRIES, GET_ENTRIES_ERROR, GET_ENTRIES_LOADING } from "./types";
 import { publishEntry } from "./newentry";
 import { authRef, entriesRef } from "../firebase";
@@ -37,7 +36,6 @@ export const getEntries = () => dispatch => {
 
 export const removeEntry = entry => dispatch => {
   const onUndo = () => {
-    console.log("ON UNDO", entry);
     const entryToAdd = { ...entry };
     delete entryToAdd.id;
 

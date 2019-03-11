@@ -1,5 +1,7 @@
 import { GET_BOOKS, GET_BOOKS_LOADING, GET_BOOKS_FAILED } from "./types";
 import { authRef, booksRef } from "../firebase";
+import toast, { UNDO_CATEGORIES } from "../components/Toast/Toast";
+import { addBook } from "./";
 
 export const getBooks = () => dispatch => {
   dispatch({ type: GET_BOOKS_LOADING });
@@ -29,13 +31,21 @@ export const getBooks = () => dispatch => {
   );
 };
 
-export const removeBookByID = bookId => () => {
+export const removeBook = book => dispatch => {
+  const onUndo = () => {
+    const bookToAdd = { ...book };
+    delete bookToAdd.id;
+    dispatch(addBook(bookToAdd));
+  };
+
   booksRef
-    .doc(bookId)
+    .doc(book.id)
     .delete()
-    .then(() => console.log(`Book ${bookId} deleted`));
+    .then(() =>
+      toast.undo("Book deleted", {}, UNDO_CATEGORIES.bookRemoved, onUndo)
+    );
 };
 
-export const removeBooksByID = bookIds => () => {
-  bookIds.forEach(bookId => removeBookByID(bookId)());
+export const removeBooks = books => dispatch => {
+  books.forEach(book => dispatch(removeBook(book)));
 };
