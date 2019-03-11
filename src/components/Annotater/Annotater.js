@@ -1,9 +1,10 @@
 import React, { Component } from "react";
+import * as uuid from "uuid";
 import PropTypes from "prop-types";
 import AnnotationForm from "./form/AnnotationForm";
 import TextHighlighter from "./text/TextHighlighter";
 import Popover from "./popover/Popover";
-import * as uuid from "uuid";
+import { B1 } from "../Fonts/Secondary";
 
 const getPopoverPosition = rect => {
   const result = {
@@ -260,6 +261,7 @@ class Annotater extends Component {
           annotations={this.props.currentAnnotations}
           textRef={this.contentRef}
           onAnnotationClick={this.onAnnotationClick}
+          renderTextBy={(ref, text) => <B1 ref={ref}>{text}</B1>}
         />
         {this.renderPopOver()}
       </div>

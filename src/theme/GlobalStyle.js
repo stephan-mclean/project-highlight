@@ -1,7 +1,8 @@
 import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
-    @import url("https://fonts.googleapis.com/css?family=Muli:300,400,600");
+    @import url("https://fonts.googleapis.com/css?family=Muli:400,500,600");
+    @import url("https://fonts.googleapis.com/css?family=Cormorant+Infant:400,500,600");
 
     html,
     body,

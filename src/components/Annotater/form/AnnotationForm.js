@@ -12,7 +12,7 @@ class AnnotationForm extends Component {
     this.finishAnnotating = this.finishAnnotating.bind(this);
 
     this.state = {
-      notes: this.props.annotation.notes
+      notes: this.props.annotation.notes || ""
     };
   }
 

@@ -56,6 +56,8 @@ class NewEntryComp extends Component {
       passage: this.state.passage || {}
     };
 
+    console.log("entry to publish", toPublish);
+
     this.props.publishEntry(toPublish);
   }
 
