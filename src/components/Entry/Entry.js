@@ -2,7 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import Button, { LINK_TYPE, DANGER_STYLE } from "../Button/Button";
-import { Overline, S1, B1, B2 } from "../Fonts/Fonts";
+import { Overline, S1, B2 } from "../Fonts/Fonts";
+import { B1 } from "../Fonts/Secondary";
 import TextHighlighter from "../Annotater/text/TextHighlighter";
 
 const Container = styled.div`
