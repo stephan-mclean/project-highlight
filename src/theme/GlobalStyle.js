@@ -87,4 +87,8 @@ export const GlobalStyle = createGlobalStyle`
         background: ${props =>
           `${props.theme.colors.danger.verylight} !important`};
     }
+
+    .ReactCrop__image {
+      max-height: none !important; 
+    }
 `;
