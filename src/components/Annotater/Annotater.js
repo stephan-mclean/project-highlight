@@ -8,14 +8,9 @@ import { B1 } from "../Fonts/Secondary";
 
 const getPopoverPosition = rect => {
   const result = {
-    popoverLeft: rect.left
+    popoverLeft: rect.left,
+    popoverTop: rect.top + rect.height
   };
-
-  if (rect.top - 32 < 0) {
-    result.popoverTop = rect.top + rect.height;
-  } else {
-    result.popoverTop = rect.top - 32;
-  }
 
   return result;
 };
