@@ -3,7 +3,7 @@ import Jimp from "jimp/es";
 import PropTypes from "prop-types";
 import ContentLoader from "../../components/ContentLoader/ContentLoader";
 import ImgCropper from "../../components/ImageCropper/ImgCropper";
-import CanvasDraw from "react-canvas-draw";
+import ImgHighlighter from "../../components/ImageHighlighter/ImageHighlighter";
 
 class AnnotatePassage extends Component {
   constructor(props) {
@@ -47,25 +47,10 @@ class AnnotatePassage extends Component {
 
   renderImageHighlighter = () => {
     const { croppedImg, croppedImgDimensions } = this.state;
-    const clientWidth = this.mainContainerRef.current.clientWidth;
-
-    let canvasWidth = croppedImgDimensions.width;
-    let canvasHeight = croppedImgDimensions.height;
-
-    if (clientWidth < croppedImgDimensions.width) {
-      const scale = croppedImgDimensions.width / clientWidth;
-
-      canvasWidth = clientWidth;
-      canvasHeight = croppedImgDimensions.height / scale;
-    }
-
     return (
-      <CanvasDraw
-        canvasWidth={canvasWidth}
-        canvasHeight={canvasHeight}
+      <ImgHighlighter
         imgSrc={croppedImg}
-        brushColor="rgba(167, 68, 130, 0.5)"
-        brushRadius={4}
+        imgDimensions={croppedImgDimensions}
       />
     );
   };
