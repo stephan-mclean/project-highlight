@@ -1,23 +1,13 @@
-import React, { Component, Fragment } from "react";
-import styled from "styled-components";
+import React, { Component } from "react";
 import Jimp from "jimp/es";
 import PropTypes from "prop-types";
 import ContentLoader from "../../components/ContentLoader/ContentLoader";
-import ButtonGroup from "../../components/ButtonGroup/ButtonGroup";
-import Button, {
-  OUTLINE_TYPE,
-  ACCENT_STYLE
-} from "../../components/Button/Button";
 import ImgCropper from "../../components/ImageCropper/ImgCropper";
 import CanvasDraw from "react-canvas-draw";
 
 class AnnotatePassage extends Component {
   constructor(props) {
     super(props);
-
-    this.onUpdateAnnotations = this.onUpdateAnnotations.bind(this);
-    this.getImageReadyForCrop = this.getImageReadyForCrop.bind(this);
-    this.renderMain = this.renderMain.bind(this);
 
     this.canvasRef = React.createRef();
     this.mainContainerRef = React.createRef();
@@ -32,7 +22,7 @@ class AnnotatePassage extends Component {
     this.getImageReadyForCrop();
   }
 
-  getImageReadyForCrop() {
+  getImageReadyForCrop = () => {
     const toRead = URL.createObjectURL(this.props.passageFile);
 
     Jimp.read(toRead, (error, image) => {
@@ -46,8 +36,6 @@ class AnnotatePassage extends Component {
           this.setState({ imageReadinessFailed: true, imageLoading: false });
         }
 
-        console.log("got buff", buff);
-
         const base64Image = buff.toString("base64");
         const imgSrcString =
           "data:" + this.props.passageFile.type + ";base64, " + base64Image;
@@ -55,62 +43,34 @@ class AnnotatePassage extends Component {
         this.setState({ passageImgSrc: imgSrcString, imageLoading: false });
       });
     });
-  }
-
-  onUpdateAnnotations(annotations) {
-    const { passage } = this.state;
-    this.setState({
-      passage: {
-        ...passage,
-        annotations
-      }
-    });
-  }
-
-  renderImageHighlighter = () => {
-    const { croppedImg, croppedImgDimensions, canvasRef } = this.state;
-
-    console.log(canvasRef);
-
-    const canvas = canvasRef;
-    if (canvas) {
-      const ctx = canvas.getContext("2d");
-
-      const img = new Image();
-      img.src = croppedImg;
-
-      img.onload = () => {
-        ctx.drawImage(
-          img,
-          0,
-          0,
-          croppedImgDimensions.width,
-          croppedImgDimensions.height,
-          0,
-          0,
-          this.mainContainerRef.current.clientWidth,
-          window.innerHeight
-        );
-      };
-    }
   };
 
-  renderCanvas = () => {
+  renderImageHighlighter = () => {
+    const { croppedImg, croppedImgDimensions } = this.state;
+    const clientWidth = this.mainContainerRef.current.clientWidth;
+
+    let canvasWidth = croppedImgDimensions.width;
+    let canvasHeight = croppedImgDimensions.height;
+
+    if (clientWidth < croppedImgDimensions.width) {
+      const scale = croppedImgDimensions.width / clientWidth;
+
+      canvasWidth = clientWidth;
+      canvasHeight = croppedImgDimensions.height / scale;
+    }
+
     return (
-      <canvas
-        width={this.mainContainerRef.current.clientWidth}
-        height={window.innerHeight}
-        ref={canvas => {
-          if (canvas && !this.state.canvasRef) {
-            this.setState({ canvasRef: canvas });
-          }
-        }}
+      <CanvasDraw
+        canvasWidth={canvasWidth}
+        canvasHeight={canvasHeight}
+        imgSrc={croppedImg}
+        brushColor="rgba(167, 68, 130, 0.5)"
+        brushRadius={4}
       />
     );
   };
 
   onCrop = (croppedImage, dimensions) => {
-    console.log("on crop", croppedImage);
     this.setState({
       cropComplete: true,
       croppedImg: croppedImage,
@@ -130,16 +90,15 @@ class AnnotatePassage extends Component {
     );
   };
 
-  renderMain() {
-    const { cropComplete, canvasRef } = this.state;
+  renderMain = () => {
+    const { cropComplete } = this.state;
     return (
       <div ref={this.mainContainerRef}>
-        {cropComplete && this.renderCanvas()}
         {!cropComplete && this.renderImageCropper()}
-        {canvasRef && this.renderImageHighlighter()}
+        {cropComplete && this.renderImageHighlighter()}
       </div>
     );
-  }
+  };
 
   render() {
     return (
