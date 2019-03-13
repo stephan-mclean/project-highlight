@@ -30,6 +30,8 @@ class AnnotatePassage extends Component {
         console.error(error);
       }
 
+      console.log("read image", image);
+
       image.greyscale().getBuffer(this.props.passageFile.type, (err, buff) => {
         if (err) {
           console.error(err);
@@ -40,9 +42,25 @@ class AnnotatePassage extends Component {
         const imgSrcString =
           "data:" + this.props.passageFile.type + ";base64, " + base64Image;
 
-        this.setState({ passageImgSrc: imgSrcString, imageLoading: false });
+        this.setState({
+          passageImgSrc: imgSrcString,
+          imageLoading: false
+        });
       });
     });
+  };
+
+  onImageHighlighted = highlights => {
+    console.log("image highlighted", highlights);
+
+    const { updatedPassageFile, croppedImgDimensions } = this.state;
+    const passageToAdd = {
+      file: updatedPassageFile,
+      fileDimensions: croppedImgDimensions,
+      highlights
+    };
+
+    this.props.onAddPassage(passageToAdd);
   };
 
   renderImageHighlighter = () => {
@@ -51,15 +69,31 @@ class AnnotatePassage extends Component {
       <ImgHighlighter
         imgSrc={croppedImg}
         imgDimensions={croppedImgDimensions}
+        onFinishHighlight={this.onImageHighlighted}
       />
     );
   };
 
   onCrop = (croppedImage, dimensions) => {
-    this.setState({
-      cropComplete: true,
-      croppedImg: croppedImage,
-      croppedImgDimensions: dimensions
+    const urltoFile = (url, filename, mimeType) => {
+      return fetch(url)
+        .then(res => res.arrayBuffer())
+        .then(buf => new File([buf], filename, { type: mimeType }));
+    };
+
+    const { passageFile } = this.props;
+
+    this.setState({ imageLoading: true });
+
+    urltoFile(croppedImage, passageFile.name, passageFile.type).then(file => {
+      console.log("got updated passage file", file);
+      this.setState({
+        cropComplete: true,
+        croppedImg: croppedImage,
+        croppedImgDimensions: dimensions,
+        updatedPassageFile: file,
+        imageLoading: false
+      });
     });
   };
 

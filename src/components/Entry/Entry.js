@@ -3,8 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import Button, { LINK_TYPE, DANGER_STYLE } from "../Button/Button";
 import { Overline, S1, B2 } from "../Fonts/Fonts";
-import { B1 } from "../Fonts/Secondary";
-import TextHighlighter from "../Annotater/text/TextHighlighter";
+import ImageHighlighter from "../ImageHighlighter/ImageHighlighter";
 
 const Container = styled.div`
   border: ${props => `1px solid ${props.theme.colors.background.default}`};
@@ -41,10 +40,6 @@ const StyledEntryButton = styled(Button)`
   flex: 1;
 `;
 
-const PassageText = styled(B1)`
-  margin-bottom: 0.5rem;
-`;
-
 const NotesTitle = styled(S1)`
   margin-bottom: 0.25rem;
 `;
@@ -75,13 +70,12 @@ const Entry = ({
       <DateText>{createdDate}</DateText>
     </BookAndDateContainer>
     <MainContainer>
-      {passage && passage.text && (
-        <TextHighlighter
-          text={passage.text}
-          renderTextBy={(ref, text) => (
-            <PassageText ref={ref}>{text}</PassageText>
-          )}
-          annotations={passage.annotations}
+      {passage && passage.file && (
+        <ImageHighlighter
+          imgSrc={passage.file}
+          imgDimensions={passage.fileDimensions}
+          disabled={true}
+          highlights={passage.highlights}
         />
       )}
       <NotesTitle>Notes</NotesTitle>

@@ -13,6 +13,7 @@ const Canvas = styled.canvas`
 const CropContainer = styled.div`
   max-width: 70%;
   margin: auto;
+  margin-bottom: 1rem;
 `;
 
 class ImgCropper extends Component {
