@@ -1,35 +1,28 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import Jimp from "jimp/es";
 import PropTypes from "prop-types";
 import ContentLoader from "../../components/ContentLoader/ContentLoader";
-import ButtonGroup from "../../components/ButtonGroup/ButtonGroup";
-import Button, {
-  OUTLINE_TYPE,
-  ACCENT_STYLE
-} from "../../components/Button/Button";
-import Annotater from "../../components/Annotater/Annotater";
-
-const Tesseract = window.Tesseract;
+import ImgCropper from "../../components/ImageCropper/ImgCropper";
+import ImgHighlighter from "../../components/ImageHighlighter/ImageHighlighter";
 
 class AnnotatePassage extends Component {
   constructor(props) {
     super(props);
 
-    this.parsePassageText = this.parsePassageText.bind(this);
-    this.renderPassage = this.renderPassage.bind(this);
-    this.onUpdateAnnotations = this.onUpdateAnnotations.bind(this);
+    this.canvasRef = React.createRef();
+    this.mainContainerRef = React.createRef();
 
-    // Parse image here
-    this.state = { loadingPassageText: true, loadingPassageError: false };
-    console.log("annotate passage", this.props);
-    this.parsePassageText();
+    this.state = {
+      imageLoading: true,
+      imageReadinessFailed: false
+    };
   }
 
-  parsePassageText() {
-    console.log("parse passage text");
+  componentDidMount() {
+    this.getImageReadyForCrop();
+  }
 
-    console.log("first compressing img", this.props.passageFile);
-
+  getImageReadyForCrop = () => {
     const toRead = URL.createObjectURL(this.props.passageFile);
 
     Jimp.read(toRead, (error, image) => {
@@ -37,79 +30,100 @@ class AnnotatePassage extends Component {
         console.error(error);
       }
 
-      image
-        .resize(512, Jimp.AUTO)
-        .quality(50)
-        .greyscale()
-        .getBuffer(this.props.passageFile.type, (err, buff) => {
-          if (err) {
-            console.error(err);
-          }
+      image.greyscale().getBuffer(this.props.passageFile.type, (err, buff) => {
+        if (err) {
+          console.error(err);
+          this.setState({ imageReadinessFailed: true, imageLoading: false });
+        }
 
-          console.log("got buff", buff);
+        const base64Image = buff.toString("base64");
+        const imgSrcString =
+          "data:" + this.props.passageFile.type + ";base64, " + base64Image;
 
-          const base64Image = buff.toString("base64");
-          const imgSrcString =
-            "data:" + this.props.passageFile.type + ";base64, " + base64Image;
-
-          Tesseract.recognize(imgSrcString).then(result => {
-            console.log("tess result", result);
-            this.setState({
-              loadingPassageText: false,
-              passage: {
-                text: result.text,
-                annotations: []
-              }
-            });
-          });
+        this.setState({
+          passageImgSrc: imgSrcString,
+          imageLoading: false
         });
+      });
     });
-  }
+  };
 
-  onUpdateAnnotations(annotations) {
-    const { passage } = this.state;
-    this.setState({
-      passage: {
-        ...passage,
-        annotations
-      }
-    });
-  }
+  onImageHighlighted = highlights => {
+    const { updatedPassageFile, croppedImgDimensions } = this.state;
+    const passageToAdd = {
+      file: updatedPassageFile,
+      fileDimensions: croppedImgDimensions,
+      highlights
+    };
 
-  renderPassage() {
-    const { passage } = this.state;
+    this.props.onAddPassage(passageToAdd);
+  };
+
+  renderImageHighlighter = () => {
+    const { croppedImg, croppedImgDimensions } = this.state;
+    const { onCancel } = this.props;
     return (
-      <Fragment>
-        <Annotater
-          text={passage.text}
-          currentAnnotations={passage.annotations}
-          updateAnnotations={this.onUpdateAnnotations}
-        />
-        <ButtonGroup right>
-          <ButtonGroup.Item>
-            <Button buttonType={OUTLINE_TYPE}>Cancel</Button>
-          </ButtonGroup.Item>
-
-          <ButtonGroup.Item>
-            <Button
-              buttonType={OUTLINE_TYPE}
-              buttonStyle={ACCENT_STYLE}
-              onClick={() => this.props.onAddPassage(this.state.passage)}
-            >
-              Done
-            </Button>
-          </ButtonGroup.Item>
-        </ButtonGroup>
-      </Fragment>
+      <ImgHighlighter
+        imgSrc={croppedImg}
+        imgDimensions={croppedImgDimensions}
+        onFinishHighlight={this.onImageHighlighted}
+        onCancel={onCancel}
+      />
     );
-  }
+  };
+
+  onCrop = (croppedImage, dimensions) => {
+    const urltoFile = (url, filename, mimeType) => {
+      return fetch(url)
+        .then(res => res.arrayBuffer())
+        .then(buf => new File([buf], filename, { type: mimeType }));
+    };
+
+    const { passageFile } = this.props;
+
+    this.setState({ imageLoading: true });
+
+    urltoFile(croppedImage, passageFile.name, passageFile.type).then(file => {
+      console.log("got updated passage file", file);
+      this.setState({
+        cropComplete: true,
+        croppedImg: croppedImage,
+        croppedImgDimensions: dimensions,
+        updatedPassageFile: file,
+        imageLoading: false
+      });
+    });
+  };
+
+  renderImageCropper = () => {
+    const { passageImgSrc } = this.state;
+    const { passageFile, onCancel } = this.props;
+    return (
+      <ImgCropper
+        imgSrc={passageImgSrc}
+        imgType={passageFile.type}
+        onCropFinish={this.onCrop}
+        onCancel={onCancel}
+      />
+    );
+  };
+
+  renderMain = () => {
+    const { cropComplete } = this.state;
+    return (
+      <div ref={this.mainContainerRef}>
+        {!cropComplete && this.renderImageCropper()}
+        {cropComplete && this.renderImageHighlighter()}
+      </div>
+    );
+  };
 
   render() {
     return (
       <ContentLoader
-        loading={this.state.loadingPassageText}
-        error={this.state.loadingPassageError}
-        onLoad={this.renderPassage}
+        loading={this.state.imageLoading}
+        error={this.state.imageReadinessFailed}
+        onLoad={this.renderMain}
       />
     );
   }
@@ -117,7 +131,8 @@ class AnnotatePassage extends Component {
 
 AnnotatePassage.propTypes = {
   passageFile: PropTypes.object,
-  onAddPassage: PropTypes.func
+  onAddPassage: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired
 };
 
 export default AnnotatePassage;

@@ -6,6 +6,7 @@ import TextArea from "../../components/TextArea/TextArea";
 import Input from "../../components/Input/Input";
 import FileInput from "../../components/FileInput/FileInput";
 import Picker from "../../components/Picker/Picker";
+import ContentLoader from "../../components/ContentLoader/ContentLoader";
 import Button, {
   ACCENT_STYLE,
   OUTLINE_TYPE
@@ -13,6 +14,7 @@ import Button, {
 import ButtonGroup from "../../components/ButtonGroup/ButtonGroup";
 import AnnotatePassage from "./AnnotatePassage";
 import { updateNewEntry, publishEntry, resetDraftEntry } from "../../actions";
+import { uploadFile } from "../../firebase";
 import { ROUTES } from "../../constants";
 
 class NewEntryComp extends Component {
@@ -25,9 +27,12 @@ class NewEntryComp extends Component {
     this.renderAnnotatePassage = this.renderAnnotatePassage.bind(this);
     this.onAddPassage = this.onAddPassage.bind(this);
     this.onCancelNewEntry = this.onCancelNewEntry.bind(this);
+    this.cancelAnnotatePassage = this.cancelAnnotatePassage.bind(this);
 
     this.state = {
-      shouldAnnotatePassage: false
+      shouldAnnotatePassage: false,
+      isLoading: false,
+      loadingFailed: false
     };
   }
 
@@ -53,19 +58,20 @@ class NewEntryComp extends Component {
       ...this.props.newEntry,
       notes: notes || "",
       page: page || "",
-      passage: this.state.passage || {}
+      passage: this.state.passage || this.props.newEntry.passage || {}
     };
-
-    console.log("entry to publish", toPublish);
 
     this.props.publishEntry(toPublish);
   }
 
   onBookPickerClick() {
     const newEntryVal = this.props.newEntry;
-    newEntryVal.notes = this.props.notesFormVal;
 
-    this.props.updateNewEntry(newEntryVal);
+    this.props.updateNewEntry({
+      ...newEntryVal,
+      notes: this.props.notesFormVal,
+      passage: this.state.passage
+    });
     this.props.history.push(ROUTES.NEW_BOOK_FOR_ENTRY.path);
   }
 
@@ -134,11 +140,24 @@ class NewEntryComp extends Component {
     );
   }
 
-  onAddPassage(passage) {
-    this.setState({
-      passage,
-      shouldAnnotatePassage: false
+  onAddPassage(addedPassage) {
+    this.setState({ isLoading: true }, () => {
+      uploadFile(addedPassage.file).then(url => {
+        this.setState({
+          passage: {
+            file: url,
+            fileDimensions: addedPassage.fileDimensions,
+            highlights: addedPassage.highlights
+          },
+          isLoading: false,
+          shouldAnnotatePassage: false
+        });
+      });
     });
+  }
+
+  cancelAnnotatePassage() {
+    this.setState({ shouldAnnotatePassage: false });
   }
 
   renderAnnotatePassage() {
@@ -146,16 +165,27 @@ class NewEntryComp extends Component {
       <AnnotatePassage
         passageFile={this.props.passageFileVal}
         onAddPassage={this.onAddPassage}
+        onCancel={this.cancelAnnotatePassage}
       />
     );
   }
 
-  render() {
+  renderMain = () => {
     if (this.state.shouldAnnotatePassage) {
       return this.renderAnnotatePassage();
     }
 
     return this.renderNewEntryForm();
+  };
+
+  render() {
+    return (
+      <ContentLoader
+        loading={this.state.isLoading}
+        error={this.state.loadingFailed}
+        onLoad={this.renderMain}
+      />
+    );
   }
 }
 
@@ -167,6 +197,7 @@ const selector = formValueSelector("newentry");
 const mapStateToProps = state => {
   const notesVal = selector(state, "notes");
   const passageFileVal = selector(state, "passageFile");
+
   return {
     notesFormVal: notesVal,
     passageFileVal,
