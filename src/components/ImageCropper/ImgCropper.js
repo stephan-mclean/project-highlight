@@ -20,7 +20,12 @@ class ImgCropper extends Component {
   static propTypes = {
     imgSrc: PropTypes.string,
     imgType: PropTypes.string,
-    onCropFinish: PropTypes.func
+    onCropFinish: PropTypes.func,
+    onCancel: PropTypes.func
+  };
+
+  static defaultProps = {
+    onCancel: () => {}
   };
 
   canvasRef = React.createRef();
@@ -75,7 +80,7 @@ class ImgCropper extends Component {
   };
 
   render() {
-    const { imgSrc } = this.props;
+    const { imgSrc, onCancel } = this.props;
     const { crop } = this.state;
 
     return (
@@ -93,7 +98,9 @@ class ImgCropper extends Component {
 
         <ButtonGroup right>
           <ButtonGroup.Item>
-            <Button buttonType={OUTLINE_TYPE}>Cancel</Button>
+            <Button buttonType={OUTLINE_TYPE} onClick={onCancel}>
+              Cancel
+            </Button>
           </ButtonGroup.Item>
 
           <ButtonGroup.Item>

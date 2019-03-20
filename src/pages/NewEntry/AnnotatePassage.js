@@ -30,8 +30,6 @@ class AnnotatePassage extends Component {
         console.error(error);
       }
 
-      console.log("read image", image);
-
       image.greyscale().getBuffer(this.props.passageFile.type, (err, buff) => {
         if (err) {
           console.error(err);
@@ -51,8 +49,6 @@ class AnnotatePassage extends Component {
   };
 
   onImageHighlighted = highlights => {
-    console.log("image highlighted", highlights);
-
     const { updatedPassageFile, croppedImgDimensions } = this.state;
     const passageToAdd = {
       file: updatedPassageFile,
@@ -65,11 +61,13 @@ class AnnotatePassage extends Component {
 
   renderImageHighlighter = () => {
     const { croppedImg, croppedImgDimensions } = this.state;
+    const { onCancel } = this.props;
     return (
       <ImgHighlighter
         imgSrc={croppedImg}
         imgDimensions={croppedImgDimensions}
         onFinishHighlight={this.onImageHighlighted}
+        onCancel={onCancel}
       />
     );
   };
@@ -99,12 +97,13 @@ class AnnotatePassage extends Component {
 
   renderImageCropper = () => {
     const { passageImgSrc } = this.state;
-    const { passageFile } = this.props;
+    const { passageFile, onCancel } = this.props;
     return (
       <ImgCropper
         imgSrc={passageImgSrc}
         imgType={passageFile.type}
         onCropFinish={this.onCrop}
+        onCancel={onCancel}
       />
     );
   };
@@ -132,7 +131,8 @@ class AnnotatePassage extends Component {
 
 AnnotatePassage.propTypes = {
   passageFile: PropTypes.object,
-  onAddPassage: PropTypes.func
+  onAddPassage: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired
 };
 
 export default AnnotatePassage;

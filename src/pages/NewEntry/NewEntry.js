@@ -27,6 +27,7 @@ class NewEntryComp extends Component {
     this.renderAnnotatePassage = this.renderAnnotatePassage.bind(this);
     this.onAddPassage = this.onAddPassage.bind(this);
     this.onCancelNewEntry = this.onCancelNewEntry.bind(this);
+    this.cancelAnnotatePassage = this.cancelAnnotatePassage.bind(this);
 
     this.state = {
       shouldAnnotatePassage: false,
@@ -45,8 +46,6 @@ class NewEntryComp extends Component {
       this.props.passageFileVal &&
       this.props.passageFileVal !== prevProps.passageFileVal
     ) {
-      console.log("original pass file", this.props.passageFileVal);
-
       this.setState({
         shouldAnnotatePassage: true
       });
@@ -61,8 +60,6 @@ class NewEntryComp extends Component {
       page: page || "",
       passage: this.state.passage || this.props.newEntry.passage || {}
     };
-
-    console.log("entry to publish", toPublish);
 
     this.props.publishEntry(toPublish);
   }
@@ -146,8 +143,6 @@ class NewEntryComp extends Component {
   onAddPassage(addedPassage) {
     this.setState({ isLoading: true }, () => {
       uploadFile(addedPassage.file).then(url => {
-        console.log("uploaded passage file", url);
-
         this.setState({
           passage: {
             file: url,
@@ -159,7 +154,10 @@ class NewEntryComp extends Component {
         });
       });
     });
-    console.log("on add passage", addedPassage);
+  }
+
+  cancelAnnotatePassage() {
+    this.setState({ shouldAnnotatePassage: false });
   }
 
   renderAnnotatePassage() {
@@ -167,6 +165,7 @@ class NewEntryComp extends Component {
       <AnnotatePassage
         passageFile={this.props.passageFileVal}
         onAddPassage={this.onAddPassage}
+        onCancel={this.cancelAnnotatePassage}
       />
     );
   }

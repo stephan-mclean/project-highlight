@@ -20,12 +20,14 @@ class ImageHighlighter extends Component {
     }).isRequired,
     onFinishHighlight: PropTypes.func,
     highlights: PropTypes.string,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    onCancel: PropTypes.func
   };
 
   static defaultProps = {
     highlights: "",
-    disabled: false
+    disabled: false,
+    onCancel: () => {}
   };
 
   state = { clientWidth: null };
@@ -97,7 +99,7 @@ class ImageHighlighter extends Component {
   };
 
   render() {
-    const { disabled } = this.props;
+    const { disabled, onCancel } = this.props;
     return (
       <div ref={this.containerRef}>
         <HighlighterContainer>{this.renderHighlighter()}</HighlighterContainer>
@@ -105,7 +107,9 @@ class ImageHighlighter extends Component {
         {!disabled && (
           <ButtonGroup right>
             <ButtonGroup.Item>
-              <Button buttonType={OUTLINE_TYPE}>Cancel</Button>
+              <Button buttonType={OUTLINE_TYPE} onClick={onCancel}>
+                Cancel
+              </Button>
             </ButtonGroup.Item>
 
             <ButtonGroup.Item>
