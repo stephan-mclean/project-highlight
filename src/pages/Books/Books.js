@@ -161,11 +161,13 @@ class BooksComp extends Component {
   }
 
   render() {
+    const { getBooks } = this.props;
     return (
       <ContentLoader
         loading={this.props.books.loading}
         error={this.props.books.error}
         onLoad={this.renderBooks}
+        onRetry={getBooks}
       />
     );
   }

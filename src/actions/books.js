@@ -4,12 +4,13 @@ import toast, { UNDO_CATEGORIES } from "../components/Toast/Toast";
 import { addBook } from "./";
 
 export const getBooks = () => dispatch => {
+  console.log("get books");
   dispatch({ type: GET_BOOKS_LOADING });
 
   const currentUser = authRef.currentUser;
 
   const query = booksRef.where("creator", "==", currentUser.uid);
-  query.onSnapshot(
+  query.get().then(
     snapshot => {
       const result = [];
       snapshot.forEach(doc => {
