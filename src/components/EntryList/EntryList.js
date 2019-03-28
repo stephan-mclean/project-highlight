@@ -46,11 +46,13 @@ class EntryList extends Component {
   }
 
   render() {
+    const { entries, getEntries } = this.props;
     return (
       <ContentLoader
-        loading={this.props.entries.loading}
-        error={this.props.entries.error}
+        loading={entries.loading}
+        error={entries.error}
         onLoad={this.renderEntries}
+        onRetry={getEntries}
       />
     );
   }
