@@ -8,7 +8,7 @@ export const getEntries = () => dispatch => {
 
   const currentUser = authRef.currentUser;
   const query = entriesRef.where("creator", "==", currentUser.uid);
-  query.get().then(
+  query.onSnapshot(
     snapshot => {
       const result = [];
       snapshot.forEach(doc => {
