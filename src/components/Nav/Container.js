@@ -16,4 +16,5 @@ export default styled.div`
   background-color: ${props => props.theme.colors.background.light};
   border-bottom: ${props => (props.top ? getNavBorder(props) : "none")};
   border-top: ${props => (props.bottom ? getNavBorder(props) : "none")};
+  z-index: 9999999;
 `;
