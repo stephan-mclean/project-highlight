@@ -35,6 +35,10 @@ export const RETRY_CATEGORIES = {
   bookRemovalFailed: {
     type: "BOOK_REMOVAL_FAILED",
     multiDisplayName: "books failed to delete."
+  },
+  entryRemovalFailed: {
+    type: "ENTRY_REMOVAL_FAILED",
+    multiDisplayName: "entries failed to delete."
   }
 };
 
