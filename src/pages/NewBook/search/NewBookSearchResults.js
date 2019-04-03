@@ -85,12 +85,14 @@ class NewBookSearchResults extends Component {
   }
 
   renderAllResults() {
+    const { retrySearch } = this.props;
     return (
       <Fragment>
         <ContentLoader
           loading={this.props.search.loading}
           error={this.props.search.error}
           onLoad={this.renderSearchResultsList}
+          onRetry={retrySearch}
         />
       </Fragment>
     );
@@ -139,7 +141,8 @@ NewBookSearchResults.propTypes = {
   search: PropTypes.object.isRequired,
   backToSearch: PropTypes.func,
   hideBackToSearch: PropTypes.bool,
-  onAddBook: PropTypes.func.isRequired
+  onAddBook: PropTypes.func.isRequired,
+  retrySearch: PropTypes.func.isRequired
 };
 
 NewBookSearchResults.defaultProps = {

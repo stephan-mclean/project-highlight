@@ -22,8 +22,10 @@ class NewBookSearch extends Component {
   }
 
   onSearchSubmit(values) {
+    console.log("search submit", values);
     this.props.searchBooks(values);
-    this.setState({ shouldShowSearchForm: false });
+    // Store the search values to allow the request to be retried.
+    this.setState({ shouldShowSearchForm: false, currentSearchValues: values });
   }
 
   renderSearchForm() {
@@ -40,11 +42,16 @@ class NewBookSearch extends Component {
   }
 
   renderSearchResults() {
+    const retrySearch = this.onSearchSubmit.bind(
+      this,
+      this.state.currentSearchValues
+    );
     return (
       <NewBookSearchResults
         search={this.props.bookSearch}
         backToSearch={this.backToSearch}
         onAddBook={this.props.onAddBook}
+        retrySearch={retrySearch}
       />
     );
   }
