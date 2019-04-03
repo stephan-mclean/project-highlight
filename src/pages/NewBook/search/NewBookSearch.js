@@ -22,7 +22,6 @@ class NewBookSearch extends Component {
   }
 
   onSearchSubmit(values) {
-    console.log("search submit", values);
     this.props.searchBooks(values);
     // Store the search values to allow the request to be retried.
     this.setState({ shouldShowSearchForm: false, currentSearchValues: values });

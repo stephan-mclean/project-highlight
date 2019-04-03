@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import { connect } from "react-redux";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PropTypes from "prop-types";
@@ -99,6 +100,7 @@ class NewBookSearchResults extends Component {
   }
 
   renderIndividualResult() {
+    const { newBookLoading } = this.props.newBook;
     return (
       <Fragment>
         <BookSummary {...this.state.individualResult} />
@@ -121,7 +123,8 @@ class NewBookSearchResults extends Component {
               onClick={() => this.props.onAddBook(this.state.individualResult)}
               data-cy="new-book-search-result-individual-result-add-btn"
             >
-              Add Book
+              {newBookLoading && <FontAwesomeIcon icon="spinner" spin />}
+              {!newBookLoading && "Add Book"}
             </Button>
           </ButtonGroup.Item>
         </ButtonGroup>
@@ -149,5 +152,14 @@ NewBookSearchResults.defaultProps = {
   hideBackToSearch: false,
   backToSearch: () => {}
 };
+
+const mapStateToProps = ({ newBook }) => {
+  return { newBook };
+};
+
+NewBookSearchResults = connect(
+  mapStateToProps,
+  null
+)(NewBookSearchResults);
 
 export default NewBookSearchResults;
