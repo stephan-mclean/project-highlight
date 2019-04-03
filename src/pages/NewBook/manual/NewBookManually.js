@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Field, reduxForm, formValueSelector } from "redux-form";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { uploadFile } from "../../../firebase";
 import { required } from "../../../form/validations";
 import Input from "../../../components/Input/Input";
@@ -43,7 +44,13 @@ class NewBookManually extends Component {
   }
 
   render() {
-    const { handleSubmit, invalid, submitting, pristine } = this.props;
+    const {
+      handleSubmit,
+      invalid,
+      submitting,
+      pristine,
+      isAddLoading
+    } = this.props;
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
         <Field
@@ -88,7 +95,8 @@ class NewBookManually extends Component {
               disabled={invalid || submitting || pristine}
               data-cy="new-book-manually-submit-btn"
             >
-              {this.props.addBookLabel()}
+              {isAddLoading && <FontAwesomeIcon icon="spinner" spin />}
+              {!isAddLoading && this.props.addBookLabel()}
             </Button>
           </ButtonGroup.Item>
         </ButtonGroup>
@@ -101,7 +109,8 @@ NewBookManually.propTypes = {
   onAddBook: PropTypes.func.isRequired,
   cancelAddBook: PropTypes.func.isRequired,
   addBookLabel: PropTypes.func,
-  cancelAddBookLabel: PropTypes.func
+  cancelAddBookLabel: PropTypes.func,
+  isAddLoading: PropTypes.bool
 };
 
 NewBookManually.defaultProps = {

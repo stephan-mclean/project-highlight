@@ -5,6 +5,7 @@ import {
   NEW_BOOK_ERROR,
   RESET_NEW_BOOK
 } from "./types";
+import toast from "../components/Toast/Toast";
 
 export const addBook = book => dispatch => {
   dispatch({ type: NEW_BOOK_LOADING });
@@ -25,6 +26,7 @@ export const addBook = book => dispatch => {
     .catch(err => {
       console.error(err);
       dispatch({ type: NEW_BOOK_ERROR });
+      toast.danger("Failed to add the book. Please retry.");
     });
 };
 

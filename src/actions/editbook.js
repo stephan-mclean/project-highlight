@@ -1,5 +1,6 @@
 import { booksRef } from "../firebase";
 import { EDIT_BOOK, EDIT_BOOK_PUBLISHED, EDIT_BOOK_ERROR } from "./types";
+import toast from "../components/Toast/Toast";
 
 export const editBook = book => dispatch => {
   dispatch({ type: EDIT_BOOK });
@@ -15,5 +16,6 @@ export const editBook = book => dispatch => {
     .catch(error => {
       console.error(error);
       dispatch({ type: EDIT_BOOK_ERROR });
+      toast.danger("Failed to edit book. Please retry.");
     });
 };

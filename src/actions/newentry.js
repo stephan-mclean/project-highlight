@@ -5,6 +5,7 @@ import {
   PUBLISH_NEW_ENTRY_ERROR,
   RESET_DRAFT_ENTRY
 } from "./types";
+import toast from "../components/Toast/Toast";
 import { authRef, dbRef } from "../firebase";
 
 export const updateNewEntry = entryData => dispatch => {
@@ -27,7 +28,10 @@ export const publishEntry = entry => dispatch => {
       createdDate: entry.createdDate ? new Date(entry.createdDate) : new Date()
     })
     .then(() => dispatch({ type: PUBLISH_NEW_ENTRY }))
-    .catch(() => dispatch({ type: PUBLISH_NEW_ENTRY_ERROR }));
+    .catch(() => {
+      dispatch({ type: PUBLISH_NEW_ENTRY_ERROR });
+      toast.danger("Failed to add entry. Please retry.");
+    });
 };
 
 export const resetDraftEntry = () => dispatch => {

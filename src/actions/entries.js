@@ -1,7 +1,10 @@
 import { GET_ENTRIES, GET_ENTRIES_ERROR, GET_ENTRIES_LOADING } from "./types";
 import { publishEntry } from "./newentry";
 import { authRef, entriesRef } from "../firebase";
-import toast, { UNDO_CATEGORIES } from "../components/Toast/Toast";
+import toast, {
+  UNDO_CATEGORIES,
+  RETRY_CATEGORIES
+} from "../components/Toast/Toast";
 
 export const getEntries = () => dispatch => {
   dispatch({ type: GET_ENTRIES_LOADING });
@@ -42,10 +45,25 @@ export const removeEntry = entry => dispatch => {
     dispatch(publishEntry(entryToAdd));
   };
 
-  entriesRef
-    .doc(entry.id)
-    .delete()
-    .then(() => {
-      toast.undo("Entry deleted", {}, UNDO_CATEGORIES.entryRemoved, onUndo);
-    });
+  const doDelete = () => {
+    entriesRef
+      .doc(entry.id)
+      .delete()
+      .then(
+        () => {
+          toast.undo("Entry deleted", {}, UNDO_CATEGORIES.entryRemoved, onUndo);
+        },
+        error => {
+          console.error(error);
+          toast.retry(
+            "Failed to remove entry.",
+            {},
+            RETRY_CATEGORIES.entryRemovalFailed,
+            doDelete
+          );
+        }
+      );
+  };
+
+  doDelete();
 };

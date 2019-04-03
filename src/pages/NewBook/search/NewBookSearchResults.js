@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import { connect } from "react-redux";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PropTypes from "prop-types";
@@ -85,18 +86,21 @@ class NewBookSearchResults extends Component {
   }
 
   renderAllResults() {
+    const { retrySearch } = this.props;
     return (
       <Fragment>
         <ContentLoader
           loading={this.props.search.loading}
           error={this.props.search.error}
           onLoad={this.renderSearchResultsList}
+          onRetry={retrySearch}
         />
       </Fragment>
     );
   }
 
   renderIndividualResult() {
+    const { newBookLoading } = this.props.newBook;
     return (
       <Fragment>
         <BookSummary {...this.state.individualResult} />
@@ -119,7 +123,8 @@ class NewBookSearchResults extends Component {
               onClick={() => this.props.onAddBook(this.state.individualResult)}
               data-cy="new-book-search-result-individual-result-add-btn"
             >
-              Add Book
+              {newBookLoading && <FontAwesomeIcon icon="spinner" spin />}
+              {!newBookLoading && "Add Book"}
             </Button>
           </ButtonGroup.Item>
         </ButtonGroup>
@@ -139,12 +144,22 @@ NewBookSearchResults.propTypes = {
   search: PropTypes.object.isRequired,
   backToSearch: PropTypes.func,
   hideBackToSearch: PropTypes.bool,
-  onAddBook: PropTypes.func.isRequired
+  onAddBook: PropTypes.func.isRequired,
+  retrySearch: PropTypes.func.isRequired
 };
 
 NewBookSearchResults.defaultProps = {
   hideBackToSearch: false,
   backToSearch: () => {}
 };
+
+const mapStateToProps = ({ newBook }) => {
+  return { newBook };
+};
+
+NewBookSearchResults = connect(
+  mapStateToProps,
+  null
+)(NewBookSearchResults);
 
 export default NewBookSearchResults;

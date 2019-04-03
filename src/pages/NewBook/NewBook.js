@@ -33,10 +33,12 @@ class NewBookComp extends Component {
   }
 
   renderAddManuallyTab() {
+    const { newBook } = this.props;
     return (
       <NewBookManually
         onAddBook={this.onAddBook}
         cancelAddBook={this.goToHome}
+        isAddLoading={newBook.newBookLoading}
       />
     );
   }
@@ -46,8 +48,6 @@ class NewBookComp extends Component {
       ...this.props.books,
       results: this.props.books.list // search results comp expects results as list name
     };
-
-    console.log("going to render", books);
 
     return (
       <NewBookSearchResults

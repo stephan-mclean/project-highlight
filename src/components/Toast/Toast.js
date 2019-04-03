@@ -7,15 +7,15 @@ const DefaultCloseButton = ({ closeToast }) => (
   <FontAwesomeIcon icon="times" onClick={closeToast} />
 );
 
-export const UndoButton = ({ closeToast, onUndo }) => {
+const CallbackButton = ({ closeToast, onCallback, label }) => {
   const handleClick = () => {
-    onUndo();
+    onCallback();
     closeToast();
   };
 
   return (
     <Button type="button" buttonType={LINK_TYPE} onClick={handleClick}>
-      Undo
+      {label}
     </Button>
   );
 };
@@ -31,8 +31,20 @@ export const UNDO_CATEGORIES = {
   }
 };
 
+export const RETRY_CATEGORIES = {
+  bookRemovalFailed: {
+    type: "BOOK_REMOVAL_FAILED",
+    multiDisplayName: "books failed to delete."
+  },
+  entryRemovalFailed: {
+    type: "ENTRY_REMOVAL_FAILED",
+    multiDisplayName: "entries failed to delete."
+  }
+};
+
 // Category -> {toastId, onUndo}
 const undoCallbacks = new Map();
+const retryCallbacks = new Map();
 
 export default {
   POSITION: toast.POSITION,
@@ -62,35 +74,65 @@ export default {
       ...options
     });
   },
-  undo(content, options, category, onUndo) {
-    if (undoCallbacks.has(category.type)) {
-      const undoCallbacksWithCategory = undoCallbacks.get(category.type);
-      const { toastId } = undoCallbacksWithCategory[0];
-      undoCallbacksWithCategory.push({ onUndo, toastId });
+  aggregateWithCallback(
+    content,
+    options,
+    callbacks,
+    callbackCategory,
+    doCallback,
+    toastFn,
+    callbackBtnLabel
+  ) {
+    if (callbacks.has(callbackCategory.type)) {
+      const callbacksWithCategory = callbacks.get(callbackCategory.type);
+      const { toastId } = callbacksWithCategory[0];
+      callbacksWithCategory.push({ doCallback, toastId });
 
       toast.update(toastId, {
-        render: `${undoCallbacksWithCategory.length} ${
-          category.multiDisplayName
+        render: `${callbacksWithCategory.length} ${
+          callbackCategory.multiDisplayName
         }`
       });
 
       return toastId;
     } else {
-      const undo = () => {
-        undoCallbacks.get(category.type).forEach(cb => cb.onUndo());
-        undoCallbacks.delete(category.type);
+      const callback = () => {
+        callbacks.get(callbackCategory.type).forEach(cb => cb.doCallback());
+        callbacks.delete(callbackCategory.type);
       };
 
-      const toastId = toast.success(content, {
-        className: "success-toast",
-        progressClassName: "success-toast-progress",
-        closeButton: <UndoButton onUndo={undo} />,
+      const toastId = toastFn(content, {
+        closeButton: (
+          <CallbackButton onCallback={callback} label={callbackBtnLabel} />
+        ),
         ...options
       });
 
-      undoCallbacks.set(category.type, [{ onUndo, toastId }]);
+      callbacks.set(callbackCategory.type, [{ doCallback, toastId }]);
 
       return toastId;
     }
+  },
+  undo(content, options, category, onUndo) {
+    return this.aggregateWithCallback(
+      content,
+      options,
+      undoCallbacks,
+      category,
+      onUndo,
+      this.success,
+      "Undo"
+    );
+  },
+  retry(content, options, category, onRetry) {
+    return this.aggregateWithCallback(
+      content,
+      options,
+      retryCallbacks,
+      category,
+      onRetry,
+      this.danger,
+      "Retry"
+    );
   }
 };
